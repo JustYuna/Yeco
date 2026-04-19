@@ -1,11 +1,23 @@
 const { GetTopAsync } = require('../../DataStorage/Datastore');
 const { EmbedBuilder } = require('discord.js');
 const colors = require('../../stats/colors');
+const ConfigManager = require("../../Core/configManager");
+const configManager = require('../../Core/configManager');
 
+const activeTheme = configManager.getActiveTheme()
 const CONFIG = {
   REFRESH_COOLDOWN: 300000, // 5 min
   MAX_TOP_USERS: 10,
-  VALID_TYPES: ["candy", "total_candy", "gambled"]
+  VALID_TYPES: ["candy", "total_candy", "gambled"],
+  NAME_MAP: {
+    "main_currency": `${activeTheme.CURRENCY.MAIN.NAME}`,
+    "total_main_currency": `Total ${activeTheme.CURRENCY.MAIN.NAME}`,
+    "second_currency": `${activeTheme.CURRENCY.SECONDARY.NAME}`,
+    "total_second_currency": `Total ${activeTheme.CURRENCY.SECONDARY.NAME}`,
+
+    "gambled": "Gambled",
+    "robbed": "Robbed"
+  }
 };
 
 const MAP_pulls = new Map();
@@ -13,6 +25,7 @@ const MAP_pulls = new Map();
 async function leaderboard(interaction, client, type) {
   const now = Date.now();
   let currentPull = MAP_pulls.get(type);
+  const convertedName = CONFIG.NAME_MAP[type] || type.toUpperCase();
 
   if (!currentPull || (now - currentPull.date > CONFIG.REFRESH_COOLDOWN)) {
     let topUsers = await GetTopAsync(type.toUpperCase(), CONFIG.MAX_TOP_USERS);
@@ -39,7 +52,7 @@ async function leaderboard(interaction, client, type) {
 
   const embed = new EmbedBuilder()
     .setColor(colors.green)
-    .setTitle(`${type.toUpperCase()} Leaderboard`)
+    .setTitle(`${convertedName} Leaderboard`)
     .setDescription(lines.join("\n"))
     .setFooter({ text: `• Last refresh: ${Math.floor((now - currentPull.date)/1000)}s ago`, iconURL: client.user.displayAvatarURL() });
 

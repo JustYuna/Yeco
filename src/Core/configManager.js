@@ -50,6 +50,14 @@ const configManager = {
     },
 
     /**
+     * Returns the current active theme path
+     */
+    getActiveTheme: () => {
+        const activeKey = config.CORE.THEMES.ACTIVE;
+        return config.CORE.THEMES[activeKey];
+    },
+
+    /**
      * Get a message from the config path and parse it
      */
     getMsg: (path, vars = {}) => {

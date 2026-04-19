@@ -1,6 +1,7 @@
 const { editCooldown } = require('../../Utils/Cooldown');
 const { GetAsync, SetAsync, AddToAsync } = require('../../DataStorage/Datastore');
 const ConfigManager = require("../../Core/configManager");
+const CommandHelper = require("../../helpers/commandHelper")
 
 const GIFT = ConfigManager.raw.ECONOMY.GIFT;
 const { MIN, MAX, EXCLUDE, MESSAGES } = GIFT;
@@ -8,6 +9,8 @@ const { MIN, MAX, EXCLUDE, MESSAGES } = GIFT;
 async function gift(interaction, client, user, amount) {
     const userId = interaction.user.id;
     const giftUserId = user.id;
+
+    const userBalance = await GetAsync(interaction.user.id, "MAIN_CURRENCY")
 
     // Sanity check: prevent gifting to bots
     if (user.bot) {
@@ -27,32 +30,8 @@ async function gift(interaction, client, user, amount) {
         });
     }
 
-    // Min/max checks
-    if (amount < MIN) {
-        editCooldown(interaction, "gift", 10);
-        return interaction.editReply({ 
-            content: MESSAGES.MIN_CANDY_REQUIRED({ amount: MIN }),
-            flags: 64
-        });
-    }
-
-    if (amount > MAX) {
-        editCooldown(interaction, "gift", 10);
-        return interaction.editReply({ 
-            content: MESSAGES.MAX_CANDY_ALLOWED({ amount: MAX }),
-            flags: 64
-        });
-    }
-
-    // Check sender balance
-    const candy = await GetAsync(userId, "MAIN_CURRENCY") || 0;
-    if (amount > candy) {
-        editCooldown(interaction, "gift", 10);
-        return interaction.editReply({ 
-            content: MESSAGES.NOT_ENOUGH_CANDY,
-            flags: 64
-        });
-    }
+    // Finalize validation
+    CommandHelper.VALIDATE_CURRENCY(interaction, amount, { min: MIN, max: MAX, userBalance: userBalance, command: "gift" });
 
     // Execute gift
     await AddToAsync(userId, { MAIN_CURRENCY: -amount });

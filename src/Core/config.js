@@ -3,8 +3,6 @@
 require("dotenv").config();
 const { EmbedBuilder } = require("discord.js");
 
-// const RAW_URL = process.env.CONFIG_RAW_URL?.trim();
-
 module.exports = {
     CORE: {
         SETTINGS: {

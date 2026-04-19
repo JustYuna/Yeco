@@ -48,7 +48,7 @@ const client = new Client({
         GatewayIntentBits.MessageContent,
     ],
     makeCache: Options.cacheWithLimits({
-        MessageManager: 50,       // keep your messages small
+        MessageManager: 50,       // keep messages small
         UserManager: 1000,        // max 1000 users in cache
         GuildMemberManager: 500,  // max 500 members per guild
         ThreadManager: 0,        // limit threads per channel

@@ -48,5 +48,13 @@ module.exports = {
         formatted = parseFloat(formatted).toString();
 
         return formatted + suffixes[suffixNum];
-    }
+    },
+
+    PLURALIZE(string, number) {
+        if (number > 1) {
+            return string + "s";
+        }
+
+        return string;
+    },
 };

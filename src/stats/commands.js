@@ -86,7 +86,9 @@ const commands = [
                 required: true,
                 choices: [
                     { name: 'Main Currency', value: 'main_currency' },
+                    { name: 'Total Currency', value: 'total_main_currency' },
                     { name: 'Second Currency', value: 'second_currency' },
+                    { name: 'Total Second Currency', value: 'total_second_currency' },
                     { name: 'Gambled', value: 'gambled' },
                     { name: 'Robbed', value: 'robbed' },
                 ],
