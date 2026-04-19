@@ -59,121 +59,6 @@ const commandsMap = {
         }
     },
 
-    get_logs: async (message, args) => {
-        const steps = [
-            "Connecting to server",
-            "Fetching data",
-            "Parsing logs",
-            "Decrypting entries",
-            "Finalizing"
-        ];
-
-        const bars = steps.map(() => 0);
-
-        const msg = await message.channel.send({
-            embeds: [{
-                title: "Collecting Logs...",
-                description: steps.map((step, i) => `${step}: [${"░".repeat(10)}] 0%`).join("\n"),
-                color: colors.orange
-            }]
-        });
-
-        for (let stepIndex = 0; stepIndex < steps.length; stepIndex++) {
-
-            while (bars[stepIndex] < 100) {
-                await new Promise(res => setTimeout(res, 300 + Math.random() * 200));
-
-                bars[stepIndex] = Math.min(
-                    100,
-                    bars[stepIndex] + Math.floor(Math.random() * 15) + 5
-                );
-
-                const desc = steps.map((step, idx) => {
-                    const filled = Math.floor(bars[idx] / 10);
-                    const bar = "█".repeat(filled) + "░".repeat(10 - filled);
-                    return `${step}: [${bar}] ${bars[idx]}%`;
-                }).join("\n");
-
-                await msg.edit({
-                    embeds: [{
-                        title: "Collecting Logs...",
-                        description: desc,
-                        color: colors.orange
-                    }]
-                });
-            }
-        }
-
-        const files = Math.floor(Math.random() * 500);
-        await new Promise(res => setTimeout(res, 800));
-
-        await msg.edit({
-            embeds: [{
-                title: "Logs Collected",
-                description: `✅ Completed\n\n📁 Files found: **${files}... saving to json...**`,
-                color: colors.green
-            }]
-        });
-    },
-
-    get_server_logs: async (message, args) => {
-        const steps = [
-            "Connecting to server",
-            "Scanning channels",
-            "Fetching data",
-            "Parsing logs",
-            "Decrypting entries",
-            "Finalizing"
-        ];
-
-        const bars = steps.map(() => 0);
-
-        const msg = await message.channel.send({
-            embeds: [{
-                title: "Collecting Logs...",
-                description: steps.map((step, i) => `${step}: [${"░".repeat(10)}] 0%`).join("\n"),
-                color: colors.orange
-            }]
-        });
-
-        for (let stepIndex = 0; stepIndex < steps.length; stepIndex++) {
-
-            while (bars[stepIndex] < 100) {
-                await new Promise(res => setTimeout(res, 300 + Math.random() * 200));
-
-                bars[stepIndex] = Math.min(
-                    100,
-                    bars[stepIndex] + Math.floor(Math.random() * 15) + 5
-                );
-
-                const desc = steps.map((step, idx) => {
-                    const filled = Math.floor(bars[idx] / 10);
-                    const bar = "█".repeat(filled) + "░".repeat(10 - filled);
-                    return `${step}: [${bar}] ${bars[idx]}%`;
-                }).join("\n");
-
-                await msg.edit({
-                    embeds: [{
-                        title: "Collecting Logs...",
-                        description: desc,
-                        color: colors.orange
-                    }]
-                });
-            }
-        }
-
-        const files = Math.floor(Math.random() * 5_000);
-        await new Promise(res => setTimeout(res, 800));
-
-        await msg.edit({
-            embeds: [{
-                title: "Logs Collected",
-                description: `✅ Completed\n\n📁 Files found: **${files}... saving to json...**`,
-                color: colors.green
-            }]
-        });
-    },
-
     restore: async (message, args) => {
         const backupName = args[0];
         if (!backupName) return sendEmbed(message, 'Error', `${emojis.UI_Warn} Please provide the backup name to restore.`, colors.red);
@@ -261,6 +146,75 @@ const commandsMap = {
         await message.reply({ embeds: [embed] });
     },
 
+    test: async (message, args) => {
+        const os = require("os");
+
+        const start = Date.now();
+
+        // 🌐 Ping check (roundtrip)
+        const tempMsg = await message.reply("🏓 Testing...");
+        const roundtrip = Date.now() - start;
+
+        // 📡 WS Ping
+        const wsPing = message.client.ws.ping;
+
+        // 💾 Memory
+        const mem = process.memoryUsage();
+        const rss = (mem.rss / 1024 / 1024).toFixed(2);
+        const heapUsed = (mem.heapUsed / 1024 / 1024).toFixed(2);
+        const heapTotal = (mem.heapTotal / 1024 / 1024).toFixed(2);
+
+        // 🖥 System
+        const totalMem = (os.totalmem() / 1024 / 1024).toFixed(0);
+        const freeMem = (os.freemem() / 1024 / 1024).toFixed(0);
+        const load = os.loadavg();
+
+        // 🧵 CPU info (shortened)
+        const cpu = os.cpus()[0]?.model || "Unknown CPU";
+
+        // 😀 Emoji test (dynamic from config)
+        const emojiResults = [];
+
+        for (const [key, value] of Object.entries(Config.CORE.EMOJIS || {})) {
+            const ok = typeof value === "string" && value.includes(":") && value.includes(">");
+            
+            emojiResults.push({
+                name: key,
+                status: ok ? "✅" : "❌",
+                value: ok ? value : "INVALID"
+            });
+        }
+
+        const emojiTest = emojiResults
+            .map(e => `${e.status} **${e.name}** → ${e.value}`)
+            .join("\n") || "No emojis found";
+
+        // 📦 Cache test
+        const cacheSize = CacheMaid?.store?.size || "Unknown";
+
+        // ⚙️ Config sanity
+        const theme = Config?.CORE?.THEMES?.ACTIVE || "Unknown";
+
+        const embed = new EmbedBuilder()
+            .setColor(colors.blue)
+            .setTitle("🧪 Dev Diagnostics")
+            .addFields(
+                { name: "📡 Ping", value: `WS: **${wsPing}ms**\nRTT: **${roundtrip}ms**`, inline: true },
+                { name: "💾 Memory", value: `RSS: **${rss} MB**\nHeap: **${heapUsed}/${heapTotal} MB**`, inline: true },
+                { name: "🖥 System", value: `Free: **${freeMem} MB**\nTotal: **${totalMem} MB**`, inline: true },
+
+                { name: "📊 Load", value: `${load[0].toFixed(2)} / ${load[1].toFixed(2)} / ${load[2].toFixed(2)}`, inline: false },
+                { name: "🧠 CPU", value: cpu, inline: false },
+
+                { name: "😀 Emoji Check", value: emojiTest, inline: false },
+                { name: "📦 Cache", value: `Entries: **${cacheSize}**`, inline: true },
+                { name: "🎨 Active Theme", value: `**${theme}**`, inline: true },
+            )
+            .setFooter({ text: "Dev Mode • Live Diagnostics" });
+
+        await tempMsg.edit({ content: null, embeds: [embed] });
+    },
+
     config: async (message, args) => {
         // Determine which part of the config to show
         let current = Config;
@@ -296,92 +250,6 @@ const commandsMap = {
         }
     },
 
-    shuffle_nicknames: async (message, args, { client }) => {
-        const mainGuildID = "1231008556346773514";
-        const guild = await client.guilds.fetch(mainGuildID).catch(() => null);
-        
-        if (!guild) return message.reply("❌ Server not found.");
-
-        const storage = new Map();
-        let changed = 0;
-        let failed = 0;
-
-        // Initial UI
-        const embed = new EmbedBuilder()
-            .setTitle("🎭 Nickname Scramble in Progress")
-            .setColor(colors.orange)
-            .setDescription(`${emojis.UI_Loading || '⏳'} Fetching members...`)
-            .setFooter({ text: "Please wait, applying rate-limit protection (1s/user)" });
-
-        const statusMsg = await message.reply({ embeds: [embed] });
-
-        const allMembers = await guild.members.fetch();
-        const total = allMembers.filter(m => !m.user.bot).size;
-
-        for (const [id, member] of allMembers) {
-            if (member.user.bot) continue;
-
-            storage.set(id, member.nickname || null);
-            const randomizedNick = `Subject-${Math.floor(Math.random() * 9000) + 1000}`;
-
-            try {
-                await member.setNickname(randomizedNick);
-                changed++;
-            } catch (err) {
-                storage.delete(id); // Don't try to revert if we couldn't change it
-                failed++;
-            }
-
-            // Update UI every 3 members to avoid spamming the "Edit" rate limit
-            if ((changed + failed) % 3 === 0 || (changed + failed) === total) {
-                const percent = Math.floor(((changed + failed) / total) * 100);
-                const filled = Math.floor(percent / 10);
-                const bar = "🟩".repeat(filled) + "⬜".repeat(10 - filled);
-
-                embed.setDescription(
-                    `**Progress:** [${bar}] ${percent}%\n` +
-                    `✅ **Scrambled:** ${changed}\n` +
-                    `🚫 **Skipped (Higher Role):** ${failed}\n` +
-                    `👥 **Total Target:** ${total}`
-                );
-                await statusMsg.edit({ embeds: [embed] }).catch(() => null);
-            }
-
-            await new Promise(r => setTimeout(r, 1000));
-        }
-
-        // Finish Phase
-        embed.setTitle("✅ Scramble Complete")
-            .setColor(colors.green)
-            .setDescription(`All done! Reverting everyone back in **25 seconds**.\nOriginal names are safely stored in memory.`);
-        await statusMsg.edit({ embeds: [embed] });
-
-        // Revert Phase
-        setTimeout(async () => {
-            embed.setTitle("🔄 Reverting Nicknames...")
-                .setColor(colors.blue)
-                .setDescription(`Restoring original identities...`);
-            await statusMsg.edit({ embeds: [embed] });
-
-            let reverted = 0;
-            for (const [userId, oldName] of storage) {
-                const member = await guild.members.fetch(userId).catch(() => null);
-                if (member) {
-                    await member.setNickname(oldName).catch(() => null);
-                    reverted++;
-                }
-                await new Promise(r => setTimeout(r, 1000));
-            }
-
-            embed.setTitle("✨ Server Restored")
-                .setColor(colors.green)
-                .setDescription(`Successfully reverted **${reverted}** members to their original names.`);
-            await statusMsg.edit({ embeds: [embed] });
-
-            storage.clear();
-        }, 25000);
-    },
-
     help: async (message) => {
         const embed = new EmbedBuilder()
             .setColor(colors.blue)
@@ -393,6 +261,7 @@ const commandsMap = {
                 { name: '`!bot restart`', value: 'Restart the bot safely.', inline: false },
                 { name: '`!bot refresh`', value: 'Reload all slash (/) commands.', inline: false },
                 { name: '`!bot stats`', value: 'Show bot statistics (RAM, total users).', inline: false },
+                { name: '`!bot test`', value: 'Returns test results for a couple of things...', inline: false },
                 { name: '`!bot backup <name>`', value: 'Create a backup of the database.', inline: false },
                 { name: '`!bot restore <name>`', value: 'Restore a backup by name.', inline: false },
                 { name: '`!bot config <path>`', value: 'Show the bots config file.', inline: false },
