@@ -21,15 +21,6 @@ async function gift(interaction, client, user, amount) {
         });
     }
 
-    // Check excluded users from config
-    if (EXCLUDE.includes(giftUserId)) {
-        editCooldown(interaction, "gift", 10);
-        return interaction.editReply({ 
-            content: MESSAGES.EXCLUDED,
-            flags: 64
-        });
-    }
-
     // Finalize validation
     CommandHelper.VALIDATE_CURRENCY(interaction, amount, { min: MIN, max: MAX, userBalance: userBalance, command: "gift" });
 

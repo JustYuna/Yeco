@@ -24,6 +24,7 @@ const defaultData = {
 
   UPGRADES: { BANK: 1 },
   DAILY: { LAST: "1999.00.00", STREAK: 0 },
+  SETTING_HIDDEN_FROM_LEADERBOARD: false,
 };
 
 const defaultGlobalData = {

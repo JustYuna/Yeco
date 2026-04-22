@@ -1,5 +1,4 @@
 const Maid = require("./CacheMaid");
-const emojis = require("../stats/emojis");
 
 const {
     ActionRowBuilder,
@@ -106,13 +105,13 @@ async function confirmInteraction(interaction, client) {
 
             await submitted.reply({
                 content: success
-                    ? `${emojis.UI_Plus} CAPTCHA passed!`
-                    : `${emojis.UI_Cross} CAPTCHA failed, try again.`,
+                    ? `CAPTCHA passed!`
+                    : `CAPTCHA failed, try again.`,
                 flags: 64,
             });
         } catch (err) {
             await interaction.followUp({
-                content: `${emojis.UI_Cross} CAPTCHA failed (timeout or error), try again.`,
+                content: `CAPTCHA failed (timeout or error), try again.`,
                 flags: 64,
             }).catch(() => {});
         } finally {
@@ -123,7 +122,7 @@ async function confirmInteraction(interaction, client) {
     collector.on("end", () => {
         cleanup(); // cleanup on timeout
         interaction.editReply({
-            content: `${emojis.UI_Cross} CAPTCHA timed out — please retry.`,
+            content: `CAPTCHA timed out — please retry.`,
             components: [],
         }).catch(() => {});
     });

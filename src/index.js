@@ -5,8 +5,12 @@ const result = require('dotenv').config();
 
 const { setCooldown, checkCooldown, editCooldown } = require('./Utils/Cooldown');
 const { AddToGlobalAsync, initDB, initGlobals } = require("./DataStorage/Datastore");
+const config = require('./Core/config');
+const configManager = require('./Core/configManager');
 const CacheMaid = require("./Utils/CacheMaid")
 const botMAP = CacheMaid.new("bot");
+const guildSizeCache = CacheMaid.new("core_guildSizeCache");
+
 CacheMaid.patch("bot", {
     startTime: Date.now(),
     commandsSinceStartup: 0,
@@ -27,17 +31,25 @@ const commandModules = loadModules('./src/commands');
 const onMessage = require('./Core/onMessage');
 const onCommand = require('./Core/onCommand');
 
-const token = process.env.TOKEN;
-const botId = process.env.BOT_ID;
-const clientId = process.env.CLIENT_ID;
+let token;
+let botId;
+let clientId;
+
+if (config.CORE.SETTINGS.DEVELOPER_MODE) {
+    token = process.env.DEV_TOKEN;
+    botId = process.env.DEV_BOT_ID;
+    clientId = process.env.DEV_CLIENT_ID;
+} else {
+    token = process.env.TOKEN;
+    botId = process.env.BOT_ID;
+    clientId = process.env.CLIENT_ID;
+}
 
 const OwnerID = process.env.OWNER_ID;
 
 const { Client, GatewayIntentBits, Options } = require('discord.js');
 const { REST } = require('@discordjs/rest');
 const { Routes } = require('discord-api-types/v10');
-const config = require('./Core/config');
-const configManager = require('./Core/configManager');
 
 const restClient = new REST({ version: '10' }).setToken(token);
 
@@ -73,7 +85,7 @@ client.once('clientReady', async () => {
     } else {
         client.user.setPresence({
             activities: [{
-                name: '/help',
+                name: '/help • Summer Mode ☀️ • V2.3',
                 type: ActivityType.Playing,
             }],
             status: 'online',
@@ -110,8 +122,44 @@ client.on('messageCreate', (message) => {
     })
 });
 
+// -- Command handler helper
+function getGuildTier(guild) {
+    if (!guild) return "OVERSIZED";
+
+    const cached = guildSizeCache.map.get(guild.id);
+    const now = Date.now();
+
+    // use cache if valid
+    if (cached && (now - cached.updated < config.CORE.SETTINGS.GUILD_CACHE_TTL)) {
+        return cached.tier;
+    }
+
+    const size = guild.memberCount;
+
+    const tiers = Object.values(config.CORE.SETTINGS.GUILD_SIZE_SPEC)
+        .sort((a, b) => a.COUNT - b.COUNT);
+
+    let currentTier = "OVERSIZED";
+
+    for (const tier of tiers) {
+        if (size >= tier.COUNT) {
+            currentTier = tier.LOCKOUT_NAME;
+        } else {
+            break;
+        }
+    }
+
+    guildSizeCache.map.set(guild.id, {
+        tier: currentTier,
+        updated: now
+    });
+
+    return currentTier;
+}
+
+// -- Command handler
 client.on('interactionCreate', async (interaction) => {
-    if (!interaction && !interaction.isChatInputCommand()) return;
+    if (!interaction?.isChatInputCommand()) return;
 
     const { commandName, user, guild } = interaction;
 
@@ -145,18 +193,35 @@ client.on('interactionCreate', async (interaction) => {
     const handler = onCommand[commandName];
     const module = commandModules;
     const settings = handler?.settings
+    const members = guild?.memberCount || 0;
 
     if (!handler || !module) {
         return interaction.editReply({ content: config.CORE.MESSAGES.ACTION_UNAVAILABLE, flags: 64 });
     }
 
     // ========================
-    // COOLDOWN
+    // Server Lockout
+    // ========================
+    const tier = getGuildTier(guild);
+
+    if (
+        guild &&
+        !config.CORE.SETTINGS.GUILD_SIZE_IGNORE.includes(guild.id) &&
+        settings.guildSizeLockout?.includes(tier)
+    ) {
+        const display = tier.charAt(0) + tier.slice(1).toLowerCase();
+
+        return interaction.reply({
+            content: `❌ Disabled in ${display} servers (hardware limits)\n💡 Support development or contribute here: https://github.com/JustYuna/Yeco`,
+        });
+    }
+
+    // ========================
+    // COOLDOWN + RATE LIMIT
     // ========================
     
      {
-        AddRate(user.id)
-        const Rate = GetRate(user.id)
+        const Rate = AddRate(user.id)
         if (Rate > config.CORE.SETTINGS.COMMANDS_PER_MINUTE) {
             return interaction.editReply({ content: config.CORE.MESSAGES.ACTION_RATE_LIMIT });
         };
@@ -194,6 +259,8 @@ client.on('interactionCreate', async (interaction) => {
     // ========================
     // Command
     // ========================
+    const required = config.CORE.SETTINGS.GUILD_SIZE_SPEC
+
     try {
         const tags = handler.settings.tags || [];
 

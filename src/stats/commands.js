@@ -16,6 +16,43 @@ const commands = [
         name: 'info',
         description: 'View core info about the bot',
     },
+    {
+        name: "settings",
+        description: "Toggle some settings",
+        options: [
+            {
+                name: "setting",
+                description: "what to toggle?",
+                type: 3,
+                required: true,
+                choices: [
+                    { name: "Leaderboard Visibility", value: "setting_hidden_from_leaderboard" }
+                ]
+            }
+        ]
+    },
+    {
+        name: 'report',
+        description: 'Send feedback or report an issue [Spamming will result in being blacklisted]',
+        options: [
+            {
+                name: 'type',
+                description: 'What do you want to send?',
+                type: 3,
+                required: true,
+                choices: [
+                    { name: '🐛 Bug Report', value: 'report' },
+                    { name: '💬 Feedback', value: 'feedback' }
+                ],
+            },
+            {
+                name: 'message',
+                description: 'Describe your issue or feedback',
+                type: 3,
+                required: true,
+            }
+        ]
+    },
 
     //{
     //    name: 'vote',
@@ -227,6 +264,15 @@ const commands = [
         name: 'build-tower',
         dm_permission: true,
         description: 'Build a tower togheter with everyone else!',
+    },
+
+    {
+        name: 'spin',
+        dm_permission: true,
+        description: 'Spin till you can’t no more!',
+        options: [
+            { name: "target", type: 6, required: true, description: "Target" }
+        ]
     },
 
     {

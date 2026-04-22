@@ -12,9 +12,68 @@ module.exports = {
         settings: {
             cooldown: 5,
             canShowCaptcha: false,
-            risk: 0
+            risk: 0,
+            guildSizeLockout: [ "LARGE", "HUGE" ]
         },
         run: (i, c, m) => m.Info(i, c),
+    },
+    "settings": {
+        settings: {
+            cooldown: 5,
+            canShowCaptcha: false,
+            risk: 0,
+            tags: ["DM_ENABLED"]
+        },
+        run: async (i, c, m) => {
+            const setting = i.options.getString("setting")?.toUpperCase();
+
+            if (!setting) {
+                return i.editReply({
+                    content: "❌ Please provide a setting."
+                });
+            }
+
+            return m.ToggleSetting(i, c, setting);
+        },
+    },
+    "report": {
+        settings: {
+            cooldown: 300,
+            canShowCaptcha: true,
+            risk: 15,
+            tags: ["DM_ENABLED"]
+        },
+        run: async (i, c, m) => {
+            const type = i.options.getString("type");
+            const message = i.options.getString("message");
+
+            // basic validation
+            if (!message || message.length < 5) {
+                return i.editReply({
+                    content: "Please provide a more detailed message."
+                });
+            }
+
+            // send to webhook
+            m.webhook(i, message, type, {
+                title:
+                    type === "report"
+                        ? "🚨 Bug Report"
+                        : type === "abuse"
+                        ? "⚠️ Abuse Report"
+                        : "💬 Feedback",
+                color:
+                    type === "report"
+                        ? 0xff0000
+                        : type === "abuse"
+                        ? 0xffa500
+                        : 0x00b0f4
+            });
+
+            return i.editReply({
+                content: "Thanks! Your message has been sent 💌"
+            });
+        }
     },
 
     "vote": {
@@ -28,9 +87,10 @@ module.exports = {
 
     "delete-data": {
         settings: {
-            cooldown: 600,
+            cooldown: 5,
             canShowCaptcha: true,
-            risk: 0
+            risk: 0,
+            tags: [ "DM_ENABLED" ]
         },
         run: (i, c, m) => m.DataDeletion(i, c),
     },
@@ -74,7 +134,8 @@ module.exports = {
         settings: {
             cooldown: 120,
             canShowCaptcha: true,
-            risk: 10
+            risk: 10,
+            guildSizeLockout: [ "MEDIUM" ]
         },
         run: (i, c, m) => m.Work(i, c, "CHOP"),
     },
@@ -82,7 +143,8 @@ module.exports = {
         settings: {
             cooldown: 120,
             canShowCaptcha: true,
-            risk: 10
+            risk: 10,
+            guildSizeLockout: [ "MEDIUM" ]
         },
         run: (i, c, m) => m.Work(i, c, "FARM"),
     },
@@ -90,7 +152,8 @@ module.exports = {
         settings: {
             cooldown: 120,
             canShowCaptcha: true,
-            risk: 10
+            risk: 10,
+            guildSizeLockout: [ "MEDIUM" ]
         },
         run: (i, c, m) => m.Work(i, c, "SMITH"),
     },
@@ -101,7 +164,8 @@ module.exports = {
         settings: {
             cooldown: 300,
             canShowCaptcha: true,
-            risk: 10
+            risk: 10,
+            tags: [ "DM_ENABLED" ]
         },
         run: (i, c, m) => m.Daily(i, c),
     },
@@ -110,7 +174,8 @@ module.exports = {
         settings: {
             cooldown: 30,
             canShowCaptcha: true,
-            risk: 10
+            risk: 10,
+            guildSizeLockout: [ "LARGE", "HUGE" ]
         },
         run: (i, c, m) => {
             const type = i.options.getString('type');
@@ -123,7 +188,8 @@ module.exports = {
         settings: {
             cooldown: 3600,
             canShowCaptcha: true,
-            risk: 25
+            risk: 25,
+            guildSizeLockout: [ "LARGE", "HUGE" ]
         },
         run: (i, c, m) => {
             const user = i.options.getUser('user');
@@ -177,7 +243,8 @@ module.exports = {
         settings: {
             cooldown: 1500,
             canShowCaptcha: true,
-            risk: 25
+            risk: 25,
+            guildSizeLockout: [ "MEDIUM", "LARGE", "HUGE" ]
         },
         run: async (i, c, m) => {
             const target = i.options.getString('target');
@@ -218,7 +285,8 @@ module.exports = {
         settings: {
             cooldown: 90,
             canShowCaptcha: true,
-            risk: 10
+            risk: 10,
+            guildSizeLockout: [ "MEDIUM", "LARGE", "HUGE" ]
         },
         run: (i, c, m) => {
             const amount = i.options.getInteger('amount');
@@ -233,7 +301,8 @@ module.exports = {
         settings: {
             cooldown: 5,
             canShowCaptcha: false,
-            risk: 0
+            risk: 0,
+            tags: [ "DM_ENABLED" ]
         },
         run: async (i, c, m) => {
             // Changed i.option to i.options
@@ -264,6 +333,18 @@ module.exports = {
         run: async (i, c, m) => {
             const target = i.options.getUser("target");
             return m.socialActions.PatPat(i, c, target);
+        }
+    },
+
+    "spin": {
+        settings: {
+            cooldown: 5,
+            canShowCaptcha: false,
+            risk: 0,
+            tags: [ "DM_ENABLED" ]
+        },
+        run: async (i, c, m) => {
+            return m.socialActions.Spin(i, c);
         }
     },
 

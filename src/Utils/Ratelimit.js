@@ -18,6 +18,8 @@ function AddRate(userId) {
     if (rateCache.map.size < LIMIT_CONFIG.MAX_USERS) {
         rateCache.map.set(userId, currentCount + 1);
     }
+
+    return rateCache.map.get(userId) || 0;
 }
 
 /**

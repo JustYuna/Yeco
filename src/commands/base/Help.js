@@ -9,7 +9,7 @@ async function help(interaction, client) {
         .setColor(0x00AE86)
         .setDescription(
 `**📖 Base**
-\`/help\` • \`/info\` • \`/delete-data\`
+\`/help\` • \`/info\` • \`/delete-data\` 📩• \`/report\` 📩
 
 **💰 Economy**
 \`/fish\` • \`/mine\` • \`/cook\` • \`/hunt\`
@@ -21,17 +21,20 @@ async function help(interaction, client) {
 \`/rob\` • \`/heist\`
 
 **🏦 Other Economy**
-\`/daily\` • \`/wallet\` • \`/bank\`
+\`/daily\` 📩 • \`/wallet\` • \`/bank\` • \`/gift\`
 
 **🎰 Gambling**
 \`/slots\` • \`/dice\` • \`/rock-paper-scissors\`
 
 **🎉 Fun**
-\`/bonk\` • \`/hug\` • \`/patpat\` • \`/poke\`
-\`/ship\` • \`/build-tower\`
+\`/bonk\` 📩 • \`/hug\` 📩 • \`/patpat\` 📩 • \`/poke\` 📩
+\`/ship\` 📩 • \`/build-tower\` 📩 • \`/spin\` 📩
 
 **📊 Extras**
-\`/leaderboard\`
+\`/leaderboard\` 📩
+
+-{ Legend }-
+📩 - Available in DMs
 `
         );
 

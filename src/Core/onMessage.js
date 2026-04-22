@@ -10,8 +10,7 @@ const {
 const CacheMaid = require("../Utils/CacheMaid")
 const refreshCommands = require('../helpers/refreshCommands');
 const colors = require('../stats/colors');
-const Config = require("../Core/config")
-const emojis = require('../stats/emojis');
+const Config = require("../Core/config");
 const { EmbedBuilder } = require("discord.js");
 
 const commandsMap = {
@@ -148,7 +147,6 @@ const commandsMap = {
 
     test: async (message, args) => {
         const os = require("os");
-
         const start = Date.now();
 
         // 🌐 Ping check (roundtrip)
@@ -169,31 +167,8 @@ const commandsMap = {
         const freeMem = (os.freemem() / 1024 / 1024).toFixed(0);
         const load = os.loadavg();
 
-        // 🧵 CPU info (shortened)
+        // 🧵 CPU info
         const cpu = os.cpus()[0]?.model || "Unknown CPU";
-
-        // 😀 Emoji test (dynamic from config)
-        const emojiResults = [];
-
-        for (const [key, value] of Object.entries(Config.CORE.EMOJIS || {})) {
-            const ok = typeof value === "string" && value.includes(":") && value.includes(">");
-            
-            emojiResults.push({
-                name: key,
-                status: ok ? "✅" : "❌",
-                value: ok ? value : "INVALID"
-            });
-        }
-
-        const emojiTest = emojiResults
-            .map(e => `${e.status} **${e.name}** → ${e.value}`)
-            .join("\n") || "No emojis found";
-
-        // 📦 Cache test
-        const cacheSize = CacheMaid?.store?.size || "Unknown";
-
-        // ⚙️ Config sanity
-        const theme = Config?.CORE?.THEMES?.ACTIVE || "Unknown";
 
         const embed = new EmbedBuilder()
             .setColor(colors.blue)
@@ -202,15 +177,44 @@ const commandsMap = {
                 { name: "📡 Ping", value: `WS: **${wsPing}ms**\nRTT: **${roundtrip}ms**`, inline: true },
                 { name: "💾 Memory", value: `RSS: **${rss} MB**\nHeap: **${heapUsed}/${heapTotal} MB**`, inline: true },
                 { name: "🖥 System", value: `Free: **${freeMem} MB**\nTotal: **${totalMem} MB**`, inline: true },
-
                 { name: "📊 Load", value: `${load[0].toFixed(2)} / ${load[1].toFixed(2)} / ${load[2].toFixed(2)}`, inline: false },
-                { name: "🧠 CPU", value: cpu, inline: false },
+                { name: "🧠 CPU", value: cpu, inline: false }
+            );
 
-                { name: "😀 Emoji Check", value: emojiTest, inline: false },
-                { name: "📦 Cache", value: `Entries: **${cacheSize}**`, inline: true },
-                { name: "🎨 Active Theme", value: `**${theme}**`, inline: true },
-            )
-            .setFooter({ text: "Dev Mode • Live Diagnostics" });
+        // --- FIXED EMOJI LOGIC ---
+        const emojiEntries = Object.entries(Config.CORE.EMOJIS || {});
+        if (emojiEntries.length > 0) {
+            let currentFieldText = "";
+            let fieldCount = 1;
+
+            for (const [key, value] of emojiEntries) {
+                const ok = typeof value === "string" && value.includes(":");
+                const line = `${ok ? "✅" : "❌"} **${key}** → ${ok ? value : "INVALID"}\n`;
+
+                // If adding this line exceeds 1000 chars, push the field and start a new one
+                if (currentFieldText.length + line.length > 1000) {
+                    embed.addFields({ name: `😀 Emojis (Part ${fieldCount})`, value: currentFieldText });
+                    currentFieldText = line;
+                    fieldCount++;
+                } else {
+                    currentFieldText += line;
+                }
+            }
+            // Add the last remaining emojis
+            embed.addFields({ name: fieldCount > 1 ? `😀 Emojis (Part ${fieldCount})` : "😀 Emoji Check", value: currentFieldText });
+        } else {
+            embed.addFields({ name: "😀 Emoji Check", value: "No emojis found" });
+        }
+        // -------------------------
+
+        const cacheSize = CacheMaid?.store?.size || "Unknown";
+        const theme = Config?.CORE?.THEMES?.ACTIVE || "Unknown";
+
+        embed.addFields(
+            { name: "📦 Cache", value: `Entries: **${cacheSize}**`, inline: true },
+            { name: "🎨 Active Theme", value: `**${theme}**`, inline: true }
+        )
+        .setFooter({ text: "Dev Mode • Live Diagnostics" });
 
         await tempMsg.edit({ content: null, embeds: [embed] });
     },

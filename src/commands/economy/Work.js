@@ -1,161 +1,148 @@
 const { GetAsync, AddToAsync, SetAsync } = require('../../DataStorage/Datastore');
 const ConfigManager = require('../../Core/configManager');
 
-const CONFIG_PROGRESSION = ConfigManager.raw.PROGRESSION;
-const { REWARDS, LEVELS } = CONFIG_PROGRESSION;
-const { CASH, XP, AMOUNT, HIGHEST } = REWARDS.WEIGHT;
+const CONFIG = ConfigManager.raw;
 
 async function Work(interaction, client, type) {
     if (!interaction || !type) return;
 
     const userID = interaction.user.id;
-    const config = ConfigManager.raw;
-    const activeTheme = config.CORE.THEMES[config.CORE.THEMES.ACTIVE];
+    const config = CONFIG;
+    const theme = config.CORE.THEMES[config.CORE.THEMES.ACTIVE];
+
+    const workData = theme.COMMANDS[type];
+    if (!workData) return;
 
     const workLevelRequirement = config.CORE.COMMAND_LEVEL_REQUIREMENT[type] || 0;
-    const workData = activeTheme.COMMANDS[type];
-    const workMultiplier = workData.MULTIPLIERS || { CASH: 1, XP: 1 };
-    const actionMsg = workData.ACTION_MESSAGE;
 
     // -----------------------------
-    // Enforce Level Requirement
+    // Level check
     // -----------------------------
     let levelData = await GetAsync(userID, "LEVEL") || { LEVEL: 1, EXPERIENCE: 0 };
+
     if (levelData.LEVEL < workLevelRequirement) {
-        const msg = ConfigManager.getMsg("CORE.MESSAGES.COMMAND_NOT_HIGH_ENOUGH_LEVEL", { level: workLevelRequirement });
-        return interaction.editReply({ content: msg });
+        return interaction.editReply({
+            content: ConfigManager.getMsg(
+                "CORE.MESSAGES.COMMAND_NOT_HIGH_ENOUGH_LEVEL",
+                { level: workLevelRequirement }
+            )
+        });
     }
 
     // -----------------------------
-    // 🎲 Weighted Random Resource
+    // Rarity roll (FAST)
     // -----------------------------
-    const totalWeight = workData.RESOURCES.reduce((acc, res) => acc + res.WEIGHT, 0);
-    let random = Math.random() * totalWeight;
+    const chances = config.ECONOMY.WORK.PERCENTAGES;
 
-    let selectedResource = null;
-    for (const resource of workData.RESOURCES) {
-        if (random < resource.WEIGHT) {
-            selectedResource = resource;
-            break;
-        }
-        random -= resource.WEIGHT;
-    }
+    const r = Math.random() * (
+        chances.COMMON +
+        chances.RARE +
+        chances.EPIC +
+        chances.LEGENDARY +
+        chances.MYTHIC
+    );
 
-    if (!selectedResource) return;
+    let rarity;
+    if (r < chances.COMMON) rarity = "COMMON";
+    else if (r < chances.COMMON + chances.RARE) rarity = "RARE";
+    else if (r < chances.COMMON + chances.RARE + chances.EPIC) rarity = "EPIC";
+    else if (r < chances.COMMON + chances.RARE + chances.EPIC + chances.LEGENDARY) rarity = "LEGENDARY";
+    else rarity = "MYTHIC";
 
-    // -----------------------------
-    // 📦 Amount (Scaled by Weight)
-    // -----------------------------
-    const baseAmount = REWARDS.WEIGHT.BASE_AMOUNT;
-    const maxAmount = REWARDS.WEIGHT.MAX_AMOUNT;
-
-    const maxWeight = REWARDS.WEIGHT.AMOUNT_MAX_WEIGHT;
-    let weight = selectedResource.WEIGHT;
-
-    weight = Math.max(0, Math.min(weight, maxWeight));
-
-    const t = weight / maxWeight;
-    let amount = baseAmount + (maxAmount - baseAmount) * t;
-    const variance = REWARDS.WEIGHT.AMOUNT_VARIANCE;
-    const randomFactor = 1 + (Math.random() * 2 - 1) * variance;
-
-    amount *= randomFactor;
-    amount = Math.max(baseAmount, Math.min(amount, maxAmount));
-    const finalAmount = Math.round(amount);
+    const list = workData.RESOURCES[rarity];
+    const material = list[(Math.random() * list.length) | 0];
 
     // -----------------------------
-    // 💰 Rewards (Worth Scaled Inversely by Weight)
+    // Amount (simple & fast)
     // -----------------------------
-    const baseWorth = REWARDS.WEIGHT.BASE_WORTH;
-    const worthCut = REWARDS.WEIGHT.WORTH_WEIGHT_CUT_ABOVE;
-    let cutMultiplier = 1;
+    const baseAmount = config.PROGRESSION.REWARDS.WEIGHT.BASE_AMOUNT;
+    const maxAmount = config.PROGRESSION.REWARDS.WEIGHT.MAX_AMOUNT;
 
-    if (weight > worthCut.VALUE)
-        cutMultiplier = worthCut.CUT;
-
-    
-    let finalWorth = baseWorth / (weight * cutMultiplier);
-    finalWorth = Math.round(finalWorth * workMultiplier.CASH);
+    const amount = ((Math.random() * (maxAmount - baseAmount)) + baseAmount) | 0;
 
     // -----------------------------
-    // 📈 Level Handling
+    // Worth (simplified math)
     // -----------------------------
-    const baseXP = REWARDS.WEIGHT.BASE_XP;
-    const xpCut = REWARDS.WEIGHT.XP__WEIGHT_CUT_ABOVE;
-    cutMultiplier = 1; // reset cut
+    const weightCut = config.PROGRESSION.REWARDS.WEIGHT.WORTH_WEIGHT_CUT_ABOVE;
+    const baseWorth = config.PROGRESSION.REWARDS.WEIGHT.BASE_WORTH;
 
-    if (weight > xpCut.VALUE)
-        cutMultiplier = xpCut.CUT;
+    let cut = 1;
+    if (rarity === "LEGENDARY" || rarity === "MYTHIC") cut = weightCut.CUT;
 
-    const finalXP = Math.round(baseXP / (weight * cutMultiplier) * workMultiplier.XP);
+    let finalWorth = (baseWorth / cut) * config.ECONOMY.WORK.MULTIPLIER[workData.MULTIPLIER || "LVL_0"].CASH;
+    finalWorth = finalWorth | 0;
 
-    let level = levelData.LEVEL || 0;
-    let experience = levelData.EXPERIENCE || 0;
-    let leveledUp = false;
+    // -----------------------------
+    // XP (simplified)
+    // -----------------------------
+    const xpBase = config.PROGRESSION.REWARDS.WEIGHT.BASE_XP;
 
-    // Add XP
-    experience += finalXP;
+    let xpCut = 1;
+    if (rarity === "LEGENDARY" || rarity === "MYTHIC") xpCut = config.PROGRESSION.REWARDS.WEIGHT.XP__WEIGHT_CUT_ABOVE.CUT;
 
-    // Multi-level support
+    const finalXP = ((xpBase / xpCut) * config.ECONOMY.WORK.MULTIPLIER[workData.MULTIPLIER || "LVL_0"].EXPERIENCE) | 0;
+
+    // -----------------------------
+    // Level system
+    // -----------------------------
+    let level = levelData.LEVEL || 1;
+    let xp = levelData.EXPERIENCE || 0;
+
+    xp += finalXP;
+
     while (true) {
-        const xpNeeded = LEVELS.XP_TABLE[level];
-        if (!xpNeeded) break;
+        const req = config.PROGRESSION.LEVELS.XP_TABLE[level];
+        if (!req || xp < req) break;
 
-        if (experience >= xpNeeded) {
-            experience -= xpNeeded;
-            level++;
-            leveledUp = true;
-        } else break;
+        xp -= req;
+        level++;
     }
 
     // -----------------------------
-    // Tag Handling
+    // Tags
     // -----------------------------
-    const tags = selectedResource.TAG || [];
-    let tagMsg = "";
+    let finalMsgExtra = "";
 
-    if (tags.includes("WORTHLESS")) {
+    if (rarity === "MYTHIC") {
         finalWorth = 0;
     }
 
-    if (tags.includes("LUCKY")) {
-        tagMsg += ConfigManager.getMsg("ECONOMY.WORK.MESSAGES.LUCKY_ATTACH");
+    if (rarity === "LEGENDARY") {
+        finalMsgExtra += "\n✨ Lucky find!";
     }
 
     // -----------------------------
-    // 💾 Save Stats
+    // Save
     // -----------------------------
-    await SetAsync(userID, { LEVEL: { LEVEL: level, EXPERIENCE: experience } });   
+    await SetAsync(userID, { LEVEL: { LEVEL: level, EXPERIENCE: xp } });
+
     await AddToAsync(userID, {
         MAIN_CURRENCY: finalWorth,
         TOTAL_MAIN_CURRENCY: finalWorth
     });
 
     // -----------------------------
-    // 📩 Messages
+    // Message
     // -----------------------------
-    const baseMsg = ConfigManager.parseMsg(actionMsg, {
-        amount: finalAmount,
-        material: selectedResource.MATERIAL,
-        totalValue: finalWorth
+    const msg = ConfigManager.parseMsg(workData.ACTION_MESSAGE, {
+        amount,
+        material,
+        totalValue: finalWorth,
+        mainCurrency_name: config.CORE.THEMES[config.CORE.THEMES.ACTIVE].CURRENCY.MAIN.NAME,
+        mainCurrency_emoji: config.CORE.THEMES[config.CORE.THEMES.ACTIVE].CURRENCY.MAIN.EMOJI
     });
 
-    const xpMsg = ConfigManager.getMsg("ECONOMY.WORK.MESSAGES.EXPERIENCE_ATTACH", {
-        xp: finalXP
-    });
+    const xpMsg = ConfigManager.getMsg("ECONOMY.WORK.MESSAGES.EXPERIENCE_ATTACH", { xp: finalXP });
 
-    let finalMsg = baseMsg + tagMsg + xpMsg;
+    let finalMessage = msg + finalMsgExtra + xpMsg;
 
-    if (leveledUp) {
-        const levelMsg = ConfigManager.getMsg("ECONOMY.WORK.MESSAGES.LEVEL_UP_ATTACH", {
-            level: level
-        });
-
-        finalMsg += levelMsg;
-    }
+    const levelUpMsg =
+        level > levelData.LEVEL
+            ? ConfigManager.getMsg("ECONOMY.WORK.MESSAGES.LEVEL_UP_ATTACH", { level })
+            : "";
 
     return interaction.editReply({
-        content: finalMsg
+        content: finalMessage + levelUpMsg
     });
 }
 

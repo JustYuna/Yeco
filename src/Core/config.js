@@ -7,10 +7,33 @@ module.exports = {
     CORE: {
         SETTINGS: {
             COMMANDS_PER_MINUTE: 10, // limits how many commands the user can send till timeout
-            MAX_MEMORY_USAGE: 1024, // limites how much mb ram the bot is allowed to use
+            MAX_MEMORY_USAGE: 1024, // limits how much MB RAM the bot is allowed to use
 
             DEBUG_MEMORY: false,
-            DEVELOPER_MODE: false,
+            DEVELOPER_MODE: true,
+
+            GUILD_CACHE_TTL: 10 * 60 * 1000, // 10 min
+            GUILD_SIZE_IGNORE: [
+                1231008556346773514 // SGA - Hangout (Core server for Yeco)
+            ],
+            GUILD_SIZE_SPEC: {
+                SMALL: {
+                    COUNT: 0,
+                    LOCKOUT_NAME: "SMALL"
+                },
+                MEDIUM: {
+                    COUNT: 100,
+                    LOCKOUT_NAME: "MEDIUM"
+                },
+                LARGE: {
+                    COUNT: 1000,
+                    LOCKOUT_NAME: "LARGE"
+                },
+                HUGE: {
+                    COUNT: 2500,
+                    LOCKOUT_NAME: "HUGE"
+                },
+            }, // Limits what command can be used for what server
         },
         MESSAGES: {
             NOT_ENOUGH_CURRENCY: "❌ You do not have enough **{mainCurrency_name}** {mainCurrency_emoji} to perform this action!",
@@ -45,9 +68,23 @@ module.exports = {
             // theme default
             Coin: "<:emoji_gold_coin:1495152668325187604>",
             Gems: "<:emoji_blue_diamond:1495152785379950713>",
+            // theme summer
+            Shell: "<:emoji_shell:1496174039339765851>",
+            Starfish: "<:emoji_starfish:1496174031987277884>",
 
-            // other
+            // default emojis
+            Axe: "<:emoji_axe:1496163471530786827>",
+            Sword: "<:emoji_sword:1496167584561631373>",
+            FishBait: "<:emoji_bait:1496168209156538368>",
             Gambled: "<:emoji_spin_wheel:1495152525337428119>",
+            Wheat: "<:emoji_wheat:1496169584347058306>",
+            BlueStar: "<:emoji_blue_star:1496170019388915822>",
+            GreenUpgrade: "<:emoji_green_upgrade:1496170310829871154>",
+            PurpleToT: "<:emoji_purple_tot:1496172568128782419>",
+
+            // social
+            SOCIAL_Discord: "<:social_discord:1496168648283394171>",
+            SOCIAL_X: "<:social_x:1496168595963777035>",
 
             // system
             UI_Info: "<:ui_info:1495149117347991682>",
@@ -60,202 +97,558 @@ module.exports = {
                 THEMES
         ========================================= */
         THEMES: {
-            ACTIVE: "DEFAULT",
+            ACTIVE: "SUMMER",
+            // SUMMER, HALLOWEEN, WINTER, DEFAULT
 
-            // ------------------
-            // -- HALLOWEEN
-            // ------------------
+            //#region SUMMER THEME
+            SUMMER: {
+                CURRENCY: {
+                    MAIN: { NAME: "Shells", EMOJI: "{emoji_Shell}" },
+                    SECONDARY: { NAME: "Starfish", EMOJI: "{emoji_Starfish}" },
+                },
+                COLORS: { 
+                    MAIN: [255, 200, 50], // Bright Summer Yellow
+                    SECONDARY: [0, 180, 220], // Ocean Blue
+                    ERROR: [250, 0, 0] 
+                },
+                COMMANDS: {
+                    HUNTING: {
+                        ACTION_MESSAGE: "🏹 You trekked across the sun-drenched dunes...\nYou tracked down **{amount}x {material}** and sold the spoils for: **{totalValue} {mainCurrency_name}** {mainCurrency_emoji}",
+                        RESOURCES: {
+                            "COMMON": [
+                                "Beach Crab",
+                                "Sand Piper",
+                                "Sea Gull",
+                                "Stray Dog"
+                            ],
+                            "RARE": [
+                                "Golden Retriever",
+                                "Wild Iguana",
+                                "Exotic Parrot",
+                                "Flamingo"
+                            ],
+                            "EPIC": [
+                                "Great White Shark",
+                                "Manta Ray",
+                                "Komodo Dragon",
+                                "Sea Turtle"
+                            ],
+                            "LEGENDARY": [
+                                "Ancient Sea Serpent",
+                                "Golden Dolphin",
+                                "The Kraken’s Kitten",
+                                "Moby Dick"
+                            ],
+                            "MYTHIC": [
+                                "A Shark with a Laser on its Head",
+                                "A Seagull that stole your fries",
+                                "The Loch Ness Monster on Vacation",
+                                "A Bigfoot wearing Sunglasses"
+                            ]
+                        }
+                    },
+                    MINING: {
+                        ACTION_MESSAGE: "⛏️ You dig your shovel deep into the pristine sand...\nYou unearthed **{amount}x {material}** and sold it for: **{totalValue} {mainCurrency_name}** {mainCurrency_emoji}",
+                        RESOURCES: {
+                            "COMMON": [
+                                "Wet Sand",
+                                "Smooth Pebble",
+                                "Coarse Gravel",
+                                "Broken Sea Glass"
+                            ],
+                            "RARE": [
+                                "Amber Chunk",
+                                "Tropical Quartz",
+                                "Coral Fragment",
+                                "Limestone"
+                            ],
+                            "EPIC": [
+                                "Sunstone Crystal",
+                                "Aquamarine Ore",
+                                "Pure Salt Crystal",
+                                "Volcanic Glass"
+                            ],
+                            "LEGENDARY": [
+                                "Buried Pirate Gold",
+                                "Ancient Sun-Dial",
+                                "Neptune’s Pearl",
+                                "Molten Core"
+                            ],
+                            "MYTHIC": [
+                                "A Literal Sun-Beam",
+                                "A Sandcastle that won't fall",
+                                "The Forbidden Dry Sand",
+                                "A Nokia 3310 (Still working)"
+                            ]
+                        }
+                    },
+                    FISHING: {
+                        ACTION_MESSAGE: "🎣 You cast your line from the end of the pier...\nYou caught **{amount}x {material}** and sold it for: **{totalValue} {mainCurrency_name}** {mainCurrency_emoji}",
+                        RESOURCES: {
+                            "COMMON": [
+                                "Sardine",
+                                "Plastic Cup",
+                                "Seaweed Bundle",
+                                "Rusty Can"
+                            ],
+                            "RARE": [
+                                "Blue Marlin",
+                                "Yellow-Fin Tuna",
+                                "Clownfish",
+                                "Blowfish"
+                            ],
+                            "EPIC": [
+                                "Swordfish",
+                                "Electric Eel",
+                                "Giant Squid Tentacle",
+                                "Hammerhead Shark"
+                            ],
+                            "LEGENDARY": [
+                                "Atlantis Coin",
+                                "King Neptune's Fin",
+                                "The Golden Guppy",
+                                "Living Coral Reef"
+                            ],
+                            "MYTHIC": [
+                                "A Message in a Bottle from 1995",
+                                "SpongeBob’s Spatula",
+                                "A Fish with human legs",
+                                "The ‘One that got away’"
+                            ]
+                        }
+                    },
+                    COOKING: {
+                        ACTION_MESSAGE: "🍳 You fired up the grill at the beach party...\nYou prepared **{amount}x {material}** and sold them to hungry tourists for: **{totalValue} {mainCurrency_name}** {mainCurrency_emoji}",
+                        RESOURCES: {
+                            "COMMON": [
+                                "Burnt Hotdog",
+                                "Corn on the Cob",
+                                "Ice-Cream Sandwich",
+                                "Fruit Salad"
+                            ],
+                            "RARE": [
+                                "Gourmet Burger",
+                                "Pineapple Pizza",
+                                "Grilled Shrimp Skewers",
+                                "Pulled Pork Slider"
+                            ],
+                            "EPIC": [
+                                "Lobster Tail",
+                                "Wagyu Steak",
+                                "Tropical Parfait",
+                                "Seafood Paella"
+                            ],
+                            "LEGENDARY": [
+                                "The Ultimate BBQ Ribs",
+                                "Ambrosia Nectar",
+                                "Golden Pineapple Cake",
+                                "Liquid Sunshine Cocktail"
+                            ],
+                            "MYTHIC": [
+                                "A Burger that never ends",
+                                "Watermelon without seeds",
+                                "Edible Sunscreen (Don't try this)",
+                                "A Cloud in a Cone"
+                            ]
+                        }
+                    },
+                    CHOP: {
+                        MULTIPLIER: "LVL_5",
+                        ACTION_MESSAGE: "🪓 You hacked through the tropical jungle...\nAnd gathered **{amount}x {material}** and earned: **{totalValue} {mainCurrency_name}** {mainCurrency_emoji}",
+                        RESOURCES: {
+                            "COMMON": [
+                                "Palm Leaf",
+                                "Driftwood",
+                                "Bamboo Stick",
+                                "Coconut Husk"
+                            ],
+                            "RARE": [
+                                "Teak Wood",
+                                "Mahogany Branch",
+                                "Rubber Tree Sap",
+                                "Acacia Log"
+                            ],
+                            "EPIC": [
+                                "Jungle Vine",
+                                "Ebony Bark",
+                                "Ancient Fern",
+                                "Flowering Hibiscus Wood"
+                            ],
+                            "LEGENDARY": [
+                                "Spirit Palm Wood",
+                                "Golden Banyan Root",
+                                "World Tree Sapling",
+                                "Sun-Soaked Ironwood"
+                            ],
+                            "MYTHIC": [
+                                "A Tree that grows Money",
+                                "A Giant Celery Stalk",
+                                "The Tree of Eternal Summer",
+                                "A Vertical Beach Umbrella"
+                            ]
+                        }
+                    },
+                    FARM: {
+                        MULTIPLIER: "LVL_5",
+                        ACTION_MESSAGE: "🌾 You harvested the sun-ripened crops...\nAnd collected **{amount}x {material}** and earned: **{totalValue} {mainCurrency_name}** {mainCurrency_emoji}",
+                        RESOURCES: {
+                            "COMMON": [
+                                "Sweet Corn",
+                                "Juicy Tomato",
+                                "Watermelon Slice",
+                                "Bell Pepper"
+                            ],
+                            "RARE": [
+                                "Golden Pineapple",
+                                "Dragonfruit",
+                                "Mango",
+                                "Passionfruit"
+                            ],
+                            "EPIC": [
+                                "Starfruit",
+                                "Blue Java Banana",
+                                "Sun-Kissed Strawberry",
+                                "Miracle Berry"
+                            ],
+                            "LEGENDARY": [
+                                "Crystal Kiwi",
+                                "Rainbow Corn",
+                                "Glow-in-the-dark Melon",
+                                "Solar Sunflower"
+                            ],
+                            "MYTHIC": [
+                                "The Last Remaining Twinkie",
+                                "A Square Watermelon",
+                                "Exploding Grapes",
+                                "A Pizza-Flavored Carrot"
+                            ]
+                        }
+                    },
+                    SMITH: {
+                        MULTIPLIER: "LVL_5",
+                        ACTION_MESSAGE: "⚒️ You hammered away at the beach forge...\nAnd crafted **{amount}x {material}** and earned: **{totalValue} {mainCurrency_name}** {mainCurrency_emoji}",
+                        RESOURCES: {
+                            "COMMON": [
+                                "Sand Shovel",
+                                "Shell Dagger",
+                                "Wooden Buckler",
+                                "Stone Spear"
+                            ],
+                            "RARE": [
+                                "Bronze Trident",
+                                "Coral Sword",
+                                "Shark-Tooth Blade",
+                                "Obsidian Knife"
+                            ],
+                            "EPIC": [
+                                "Steel Scimitar",
+                                "Pearl-Encrusted Shield",
+                                "Volcanic Hammer",
+                                "Whalebone Bow"
+                            ],
+                            "LEGENDARY": [
+                                "Poseidon’s Spear",
+                                "The Sun-Blade",
+                                "Tidal Wave Axe",
+                                "Atlantis Plate Armor"
+                            ],
+                            "MYTHIC": [
+                                "A Sharpened Surfboard",
+                                "The Ban-Hammer",
+                                "A Sword made of Hardened Jell-O",
+                                "A Water Gun that shoots real fire"
+                            ]
+                        }
+                    },
+                    WALLET: {
+                        TITLE: "🏖️ {username}'s Beach Bag",
+                        THUMBNAIL: "{emoji_Shell}",
+                        FIELDS: {
+                            CURRENCY: "💰 Beach Funds",
+                            STATISTICS: "📊 Summer Records",
+                            STREAK: "☀️ Heat Streak",
+                            INVENTORY: "📦 Picnic Basket"
+                        }
+                    }
+                }
+            },
+            //#endregion
+
+            //#region HALLOWEEN THEME
             HALLOWEEN: {
                 CURRENCY: {
                     MAIN: { NAME: "Candy", EMOJI: "{emoji_Candy}" },
                     SECONDARY: { NAME: "Bones", EMOJI: "{emoji_Bone}" },
                 },
-                COLORS: { MAIN: [250, 150, 0], SECONDARY: [50, 75, 100], ERROR: [250, 0, 0] },
+                COLORS: { 
+                    MAIN: [250, 150, 0], 
+                    SECONDARY: [50, 75, 100], 
+                    ERROR: [250, 0, 0] 
+                },
                 COMMANDS: {
                     HUNTING: {
                         ACTION_MESSAGE: "🏹 You stalked through the fog of the cursed woods...\nYou tracked down **{amount}x {material}** and sold the spoils for: **{totalValue} {mainCurrency_name}** {mainCurrency_emoji}",
-                        RESOURCES: [
-                            { MATERIAL: "Scattered Lantern", WEIGHT: 40 },
-                            { MATERIAL: "Shadow Bat", WEIGHT: 40 },
-                            { MATERIAL: "Spooky Ghost", WEIGHT: 25 },
-                            { MATERIAL: "Shadow Bat", WEIGHT: 20 },
-                            { MATERIAL: "Cursed Scarecrow", WEIGHT: 15 },
-                            { MATERIAL: "Ectoplasm Jar", WEIGHT: 12.5 },
-                            { MATERIAL: "Headless Horseman", WEIGHT: 10 },
-                            { MATERIAL: "Ancient Vampire", WEIGHT: 8 },
-                            { MATERIAL: "Witch's Black Cat", WEIGHT: 5 },
-                            { MATERIAL: "Werewolf Alpha", WEIGHT: 2 },
-                            { MATERIAL: "Headless Horseman's Horse", WEIGHT: 1 },
-                        ]
+                        RESOURCES: {
+                            "COMMON": [
+                                "Scattered Lantern",
+                                "Shadow Bat",
+                                "Spooky Ghost",
+                                "Black Cat"
+                            ],
+                            "RARE": [
+                                "Cursed Scarecrow",
+                                "Ectoplasm Jar",
+                                "Ancient Vampire",
+                                "Werewolf Alpha"
+                            ],
+                            "EPIC": [
+                                "Headless Horseman",
+                                "Banshee's Veil",
+                                "Graveyard Ghoul",
+                                "Shadow Stalker"
+                            ],
+                            "LEGENDARY": [
+                                "Headless Horseman's Horse",
+                                "Grim Reaper",
+                                "The Great Pumpkin",
+                                "Ancient Lich"
+                            ],
+                            "MYTHIC": [
+                                "A Skeleton playing the Trumpet",
+                                "The Monster Mash (It's a graveyard smash)",
+                                "A Vampire with Sparkles",
+                                "The IRS (Truly terrifying)"
+                            ]
+                        }
                     },
                     MINING: {
                         ACTION_MESSAGE: "⛏️ You swing your pickaxe into a cracked tombstone...\nYou unearthed **{amount}x {material}** and sold it for: **{totalValue} {mainCurrency_name}** {mainCurrency_emoji}",
-                        RESOURCES: [
-                            { MATERIAL: "Pumpkin Shards", WEIGHT: 45 },
-                            { MATERIAL: "Rusty Coffin", WEIGHT: 30 },
-                            { MATERIAL: "Grave Dirt", WEIGHT: 30 },
-                            { MATERIAL: "Cursed Gravel", WEIGHT: 30 },
-                            { MATERIAL: "Brimstone", WEIGHT: 15 },
-                            { MATERIAL: "Cursed Bones", WEIGHT: 10 },
-                            { MATERIAL: "Cursed Gold", WEIGHT: 8 },
-                            { MATERIAL: "Polished Onyx", WEIGHT: 5 },
-                            { MATERIAL: "Soul Fragment", WEIGHT: 2 },
-                            { MATERIAL: "Soul Amethyst", WEIGHT: 1 },
-                            { MATERIAL: "Headless Uranium", WEIGHT: 0.5, TAG: ["LUCKY"] }
-                        ]
+                        RESOURCES: {
+                            "COMMON": [
+                                "Pumpkin Shards",
+                                "Grave Dirt",
+                                "Rusty Coffin",
+                                "Cursed Gravel"
+                            ],
+                            "RARE": [
+                                "Brimstone",
+                                "Cursed Bones",
+                                "Cursed Gold",
+                                "Polished Onyx"
+                            ],
+                            "EPIC": [
+                                "Soul Fragment",
+                                "Soul Amethyst",
+                                "Ghostly Granite",
+                                "Petrified Eye"
+                            ],
+                            "LEGENDARY": [
+                                "Headless Uranium",
+                                "Demon Core",
+                                "Hellstone",
+                                "Cursed Diamond"
+                            ],
+                            "MYTHIC": [
+                                "A Rock that looks like a Face",
+                                "The Bottomless Pit",
+                                "A Jar of Nightmare Fuel",
+                                "Satan's Paperweight"
+                            ]
+                        }
                     },
                     FISHING: {
-                        ACTION_MESSAGE: "🎣 You cast your line into the murky swamp waters...\nYou caught **{amount}x {material}** and sold it for: **{totalValue} {mainCurrency_name}** {mainCurrency_emoji}",
-                        RESOURCES: [
-                            { MATERIAL: "Sunken Skeleton Hand", WEIGHT: 20 },
-                            { MATERIAL: "Soggy Bandages", WEIGHT: 40 },
-                            { MATERIAL: "Eerie Eel", WEIGHT: 25 },
-                            { MATERIAL: "Mutated Piranha", WEIGHT: 20 },
-                            { MATERIAL: "Bonefish", WEIGHT: 15 },
-                            { MATERIAL: "Ghost Carp", WEIGHT: 10 },
-                            { MATERIAL: "Glowing Jellyfish", WEIGHT: 8 },
-                            { MATERIAL: "Cursed Anchor", WEIGHT: 2 },
-                            { MATERIAL: "Kranken's Tentacle", WEIGHT: 1 },
-                        ]
+                        ACTION_MESSAGE: "{emoji_FishBait} You cast your line into the murky swamp waters...\nYou caught **{amount}x {material}** and sold it for: **{totalValue} {mainCurrency_name}** {mainCurrency_emoji}",
+                        RESOURCES: {
+                            "COMMON": [
+                                "Sunken Skeleton Hand",
+                                "Soggy Bandages",
+                                "Eerie Eel",
+                                "Mutated Piranha"
+                            ],
+                            "RARE": [
+                                "Bonefish",
+                                "Ghost Carp",
+                                "Glowing Jellyfish",
+                                "Cursed Anchor"
+                            ],
+                            "EPIC": [
+                                "Kraken's Tentacle",
+                                "Swamp Thing's Left Toe",
+                                "Drowned King's Crown",
+                                "Soul-Stealing Salmon"
+                            ],
+                            "LEGENDARY": [
+                                "Ghost Ship Anchor",
+                                "Abyssal Horror",
+                                "Leviathan Scale",
+                                "The Flying Dutchman's Steering Wheel"
+                            ],
+                            "MYTHIC": [
+                                "A Message in a Bottle from your Ex",
+                                "The Loch Ness Monster (He needs $3.50)",
+                                "A Wet Sock",
+                                "SpongeBob's Spooky Costume"
+                            ]
+                        }
                     },
                     COOKING: {
                         ACTION_MESSAGE: "🍳 You stirred a bubbling cauldron over a green flame...\nYou prepared **{amount}x {material}** and sold them to hungry ghouls for: **{totalValue} {mainCurrency_name}** {mainCurrency_emoji}",
-                        RESOURCES: [
-                            { MATERIAL: "Eyeball Cupcakes", WEIGHT: 45 },
-                            { MATERIAL: "Witch's Brew", WEIGHT: 30 },
-                            { MATERIAL: "Ghostly Pasta", WEIGHT: 15 },
-                            { MATERIAL: "Spider-Cider", WEIGHT: 8 },
-                            { MATERIAL: "Hellfire Peppers", WEIGHT: 2 }
-                        ]
+                        RESOURCES: {
+                            "COMMON": [
+                                "Eyeball Cupcakes",
+                                "Witch's Brew",
+                                "Ghostly Pasta",
+                                "Spider-Cider"
+                            ],
+                            "RARE": [
+                                "Hellfire Peppers",
+                                "Poison Candy Apple",
+                                "Deviled Eggs (Literally)",
+                                "Bat-Wing Soup"
+                            ],
+                            "EPIC": [
+                                "Brain Pudding",
+                                "Finger Sandwiches (Actual Fingers)",
+                                "Monster Mash Potatoes",
+                                "Cursed Curry"
+                            ],
+                            "LEGENDARY": [
+                                "Soul-Stuffed Turkey",
+                                "Phoenix Wing Hot Sauce",
+                                "Eldritch Omelette",
+                                "Dragon Blood Wine"
+                            ],
+                            "MYTHIC": [
+                                "A Canned Ghost",
+                                "Mystery Meat (Don't ask)",
+                                "The Forbidden Fruit Fruit-Loop",
+                                "Invisible Steak"
+                            ]
+                        }
                     },
-
-                    // ------------------
-                    // -- LVL. 5+
-                    // ------------------
                     CHOP: {
-                        MULTIPLIERS: {
-                            CASH: 2.5,
-                            XP: 2
-                        },
-                        ACTION_MESSAGE: "🪓 You chopped through the haunted woods...\nAnd gathered **{amount}x {material}** and earned: **{totalValue} {mainCurrency_name}** {mainCurrency_emoji}",
-                        RESOURCES: [
-                            { MATERIAL: "Dead Branch", WEIGHT: 50 },
-                            { MATERIAL: "Rotten Log", WEIGHT: 50 },
-                            { MATERIAL: "Twisted Oak", WEIGHT: 50 },
-
-                            { MATERIAL: "Pumpkin Vine", WEIGHT: 25 },
-                            { MATERIAL: "Cursed Sapling", WEIGHT: 25 },
-
-                            { MATERIAL: "Blood Maple", WEIGHT: 20 },
-                            { MATERIAL: "Spiderwood", WEIGHT: 15 },
-                            { MATERIAL: "Haunted Birch", WEIGHT: 15 },
-
-                            { MATERIAL: "Ghost Bark", WEIGHT: 10 },
-                            { MATERIAL: "Witchwood", WEIGHT: 10 },
-                            { MATERIAL: "Soul Branch", WEIGHT: 8 },
-
-                            { MATERIAL: "Shadow Timber", WEIGHT: 7 },
-                            { MATERIAL: "Phantom Root", WEIGHT: 6 },
-                            { MATERIAL: "Coffin Wood", WEIGHT: 5 },
-
-                            { MATERIAL: "Moonlit Bark", WEIGHT: 4 },
-                            { MATERIAL: "Ancient Haunted Oak", WEIGHT: 3 },
-                            { MATERIAL: "Spirit Branch", WEIGHT: 2 },
-
-                            { MATERIAL: "Demonwood", WEIGHT: 1 },
-                            { MATERIAL: "Vampire Root", WEIGHT: 0.75 },
-                            { MATERIAL: "Pumpkin King's Tree", WEIGHT: 0.5 }
-                        ]
+                        MULTIPLIER: "LVL_5",
+                        ACTION_MESSAGE: "{emoji_Axe} You chopped through the haunted woods...\nAnd gathered **{amount}x {material}** and earned: **{totalValue} {mainCurrency_name}** {mainCurrency_emoji}",
+                        RESOURCES: {
+                            "COMMON": [
+                                "Dead Branch",
+                                "Rotten Log",
+                                "Twisted Oak",
+                                "Pumpkin Vine"
+                            ],
+                            "RARE": [
+                                "Blood Maple",
+                                "Spiderwood",
+                                "Haunted Birch",
+                                "Cursed Sapling"
+                            ],
+                            "EPIC": [
+                                "Ghost Bark",
+                                "Witchwood",
+                                "Soul Branch",
+                                "Shadow Timber"
+                            ],
+                            "LEGENDARY": [
+                                "Moonlit Bark",
+                                "Ancient Haunted Oak",
+                                "Demonwood",
+                                "Pumpkin King's Tree"
+                            ],
+                            "MYTHIC": [
+                                "The Whomping Willow",
+                                "A Tree made of Broccoli",
+                                "The Tree of Regret",
+                                "A Cardboard Cutout of a Forest"
+                            ]
+                        }
                     },
-
                     FARM: {
-                        MULTIPLIERS: {
-                            CASH: 2.5,
-                            XP: 2
-                        },
-                        ACTION_MESSAGE: "🌾 You harvested from the cursed fields...\nAnd collected **{amount}x {material}** and earned: **{totalValue} {mainCurrency_name}** {mainCurrency_emoji}",
-                        RESOURCES: [
-                            { MATERIAL: "Rotten Wheat", WEIGHT: 50 },
-                            { MATERIAL: "Ghost Corn", WEIGHT: 50 },
-                            { MATERIAL: "Bone Carrot", WEIGHT: 50 },
-
-                            { MATERIAL: "Bat Berry", WEIGHT: 25 },
-                            { MATERIAL: "Poison Apple", WEIGHT: 25 },
-
-                            { MATERIAL: "Pumpkin", WEIGHT: 20 },
-                            { MATERIAL: "Witch Pepper", WEIGHT: 15 },
-                            { MATERIAL: "Blood Tomato", WEIGHT: 15 },
-
-                            { MATERIAL: "Shadow Berry", WEIGHT: 10 },
-                            { MATERIAL: "Eyeball Plant", WEIGHT: 10 },
-                            { MATERIAL: "Soul Mushroom", WEIGHT: 8 },
-
-                            { MATERIAL: "Golden Pumpkin", WEIGHT: 7 },
-                            { MATERIAL: "Cursed Root", WEIGHT: 6 },
-                            { MATERIAL: "Ghoul Melon", WEIGHT: 5 },
-
-                            { MATERIAL: "Crystal Pumpkin", WEIGHT: 4 },
-                            { MATERIAL: "Moon Blossom", WEIGHT: 3 },
-                            { MATERIAL: "Spirit Flower", WEIGHT: 2 },
-
-                            { MATERIAL: "Necro Bloom", WEIGHT: 1 },
-                            { MATERIAL: "Dragon Gourd", WEIGHT: 0.75 },
-                            { MATERIAL: "Soul Seed", WEIGHT: 0.5 }
-                        ]
+                        MULTIPLIER: "LVL_5",
+                        ACTION_MESSAGE: "{emoji_Wheat} You harvested from the cursed fields...\nAnd collected **{amount}x {material}** and earned: **{totalValue} {mainCurrency_name}** {mainCurrency_emoji}",
+                        RESOURCES: {
+                            "COMMON": [
+                                "Rotten Wheat",
+                                "Ghost Corn",
+                                "Bone Carrot",
+                                "Bat Berry"
+                            ],
+                            "RARE": [
+                                "Poison Apple",
+                                "Pumpkin",
+                                "Witch Pepper",
+                                "Blood Tomato"
+                            ],
+                            "EPIC": [
+                                "Shadow Berry",
+                                "Eyeball Plant",
+                                "Soul Mushroom",
+                                "Golden Pumpkin"
+                            ],
+                            "LEGENDARY": [
+                                "Crystal Pumpkin",
+                                "Moon Blossom",
+                                "Necro Bloom",
+                                "Soul Seed"
+                            ],
+                            "MYTHIC": [
+                                "Angry Potatoes",
+                                "Sentient Corn (It watches you)",
+                                "The Forbidden Bean",
+                                "A Single Blue Raspberry"
+                            ]
+                        }
                     },
-
                     SMITH: {
-                        MULTIPLIERS: {
-                            CASH: 2.5,
-                            XP: 2
-                        },
-                        ACTION_MESSAGE: "⚒️ You forged cursed weaponry...\nAnd crafted **{amount}x {material}** and earned: **{totalValue} {mainCurrency_name}** {mainCurrency_emoji}",
-                        RESOURCES: [
-                            { MATERIAL: "Rusty Knife", WEIGHT: 50 },
-                            { MATERIAL: "Bone Sword", WEIGHT: 50 },
-                            { MATERIAL: "Ghoul Shield", WEIGHT: 50 },
-
-                            { MATERIAL: "Witch Dagger", WEIGHT: 25 },
-                            { MATERIAL: "Cursed Blade", WEIGHT: 25 },
-
-                            { MATERIAL: "Bat Axe", WEIGHT: 20 },
-                            { MATERIAL: "Haunted Helmet", WEIGHT: 15 },
-                            { MATERIAL: "Skull Crusher", WEIGHT: 15 },
-
-                            { MATERIAL: "Pumpkin Cleaver", WEIGHT: 10 },
-                            { MATERIAL: "Shadow Hammer", WEIGHT: 10 },
-                            { MATERIAL: "Soul Shield", WEIGHT: 8 },
-
-                            { MATERIAL: "Ruby Scythe", WEIGHT: 7 },
-                            { MATERIAL: "Phantom Axe", WEIGHT: 6 },
-                            { MATERIAL: "Blood Blade", WEIGHT: 5 },
-
-                            { MATERIAL: "Crystal Reaper", WEIGHT: 4 },
-                            { MATERIAL: "Moonsteel Scythe", WEIGHT: 3 },
-                            { MATERIAL: "Ancient Boneblade", WEIGHT: 2 },
-
-                            { MATERIAL: "Spirit Reaver", WEIGHT: 1 },
-                            { MATERIAL: "Dragon Fang Blade", WEIGHT: 0.75 },
-                            { MATERIAL: "Pumpkin King's Scythe", WEIGHT: 0.5 }
-                        ]
+                        MULTIPLIER: "LVL_5",
+                        ACTION_MESSAGE: "{emoji_Sword} You forged cursed weaponry...\nAnd crafted **{amount}x {material}** and earned: **{totalValue} {mainCurrency_name}** {mainCurrency_emoji}",
+                        RESOURCES: {
+                            "COMMON": [
+                                "Rusty Knife",
+                                "Bone Sword",
+                                "Ghoul Shield",
+                                "Witch Dagger"
+                            ],
+                            "RARE": [
+                                "Cursed Blade",
+                                "Bat Axe",
+                                "Haunted Helmet",
+                                "Skull Crusher"
+                            ],
+                            "EPIC": [
+                                "Pumpkin Cleaver",
+                                "Shadow Hammer",
+                                "Soul Shield",
+                                "Ruby Scythe"
+                            ],
+                            "LEGENDARY": [
+                                "Crystal Reaper",
+                                "Moonsteel Scythe",
+                                "Spirit Reaver",
+                                "Pumpkin King's Scythe"
+                            ],
+                            "MYTHIC": [
+                                "A Spatula of Doom",
+                                "A Sword made of Hard Candy",
+                                "The Key to Your Heart (It's rusty)",
+                                "A Lighthearted Saber"
+                            ]
+                        }
                     },
-
                     WALLET: {
                         TITLE: "🎒 {username}'s Candy Basket",
-                        THUMBNAIL: "{emoji_CandyBasket}", // If you have this emoji
+                        THUMBNAIL: "{emoji_PurpleToT}",
                         FIELDS: {
                             CURRENCY: "💰 Currencies",
                             STATISTICS: "📊 Statistics",
                             STREAK: "🌟 Daily Streak",
                             INVENTORY: "📦 Collected Items"
                         }
-                    },
+                    }
                 }
             },
+            //#endregion
 
-            // ------------------
-            // -- WINTER
-            // ------------------
+            //#region WINTER THEME
             WINTER: {
                 CURRENCY: {
                     MAIN: { NAME: "Snowflakes", EMOJI: "{emoji_Snowflake}" },
@@ -265,176 +658,263 @@ module.exports = {
                 COMMANDS: {
                     HUNTING: {
                         ACTION_MESSAGE: "🏹 You trekked through the deep blizzard snow...\nYou tracked down **{amount}x {material}** and sold the spoils for: **{totalValue} {mainCurrency_name}** {mainCurrency_emoji}",
-                        RESOURCES: [
-                            { MATERIAL: "Frozen Pinecone", WEIGHT: 40 },
-                            { MATERIAL: "Arctic Fox", WEIGHT: 40 },
-                            { MATERIAL: "Winter Owl", WEIGHT: 25 },
-                            { MATERIAL: "Snow Hare", WEIGHT: 20 },
-                            { MATERIAL: "Snow Golem Core", WEIGHT: 15 },
-                            { MATERIAL: "Arctic Wolf Pelt", WEIGHT: 12 },
-                            { MATERIAL: "Yeti Fur", WEIGHT: 10 },
-                            { MATERIAL: "Reindeer Antler", WEIGHT: 8 },
-                            { MATERIAL: "Frostwyrm Scale", WEIGHT: 5 },
-                            { MATERIAL: "Ice Dragon Scale", WEIGHT: 2 },
-                            { MATERIAL: "Frostwyrm Scale", WEIGHT: 1 },
-                        ]
+                        RESOURCES: {
+                            "COMMON": [
+                                "Frozen Pinecone",
+                                "Arctic Fox",
+                                "Winter Owl",
+                                "Snow Hare"
+                            ],
+                            "RARE": [
+                                "Snow Golem Core",
+                                "Arctic Wolf Pelt",
+                                "Reindeer Antler",
+                                "Yeti Fur"
+                            ],
+                            "EPIC": [
+                                "Frostwyrm Scale",
+                                "White Stag",
+                                "Snow Leopard",
+                                "Hibernating Bear"
+                            ],
+                            "LEGENDARY": [
+                                "Ice Dragon Scale",
+                                "Crystal Phoenix",
+                                "Ancient Mammoth",
+                                "The Abominable Snowman"
+                            ],
+                            "MYTHIC": [
+                                "A Penguin in a Business Suit",
+                                "The Ghost of Christmas Past",
+                                "A Sentient Snowball with an Attitude",
+                                "Jack Frost’s Left Sock"
+                            ]
+                        }
                     },
                     MINING: {
                         ACTION_MESSAGE: "⛏️ You crack through the permafrost with your pickaxe...\nYou unearthed **{amount}x {material}** and sold it for: **{totalValue} {mainCurrency_name}** {mainCurrency_emoji}",
-                        RESOURCES: [
-                            { MATERIAL: "Snow", WEIGHT: 45 },
-                            { MATERIAL: "Hardened Slush", WEIGHT: 40 },
-                            { MATERIAL: "Ice", WEIGHT: 30 },
-                            { MATERIAL: "Frozen Raw Iron", WEIGHT: 25 },
-                            { MATERIAL: "Permafrost Ice", WEIGHT: 15 },
-                            { MATERIAL: "Frozen Coal", WEIGHT: 15 },
-                            { MATERIAL: "glacial Sapphire", WEIGHT: 10 },
-                            { MATERIAL: "Glacial Crystal", WEIGHT: 8 },
-                            { MATERIAL: "Ancient Mammoth Tusk", WEIGHT: 2 },
-                            { MATERIAL: "Sugarcane Amethyst", WEIGHT: 1 },
-                            { MATERIAL: "Stella Ice Crystal", WEIGHT: 0.5, TAG: ["LUCKY"] },
-                            { MATERIAL: "Festive Uranium", WEIGHT: 0.25, TAG: ["LUCKY"] },
-                        ]
+                        RESOURCES: {
+                            "COMMON": [
+                                "Snow",
+                                "Hardened Slush",
+                                "Ice",
+                                "Frozen Gravel"
+                            ],
+                            "RARE": [
+                                "Frozen Raw Iron",
+                                "Frozen Coal",
+                                "Permafrost Ice",
+                                "Compressed Hailstone"
+                            ],
+                            "EPIC": [
+                                "Glacial Sapphire",
+                                "Glacial Crystal",
+                                "Ancient Mammoth Tusk",
+                                "Ever-Frozen Emerald"
+                            ],
+                            "LEGENDARY": [
+                                "Sugarcane Amethyst",
+                                "Stella Ice Crystal",
+                                "Festive Uranium",
+                                "Pure Liquid Nitrogen"
+                            ],
+                            "MYTHIC": [
+                                "A Block of 'Yellow Snow' (Do not eat)",
+                                "A Frozen Caveman's Club",
+                                "The Core of the North Pole",
+                                "The ‘Ice’ from a 90s Rapper’s Chain"
+                            ]
+                        }
                     },
                     FISHING: {
-                        ACTION_MESSAGE: "🎣 You drop your line through a hole in the ice...\nYou caught **{amount}x {material}** and sold it for: **{totalValue} {mainCurrency_name}** {mainCurrency_emoji}",
-                        RESOURCES: [
-                            { MATERIAL: "Ice Cube", WEIGHT: 40 },
-                            { MATERIAL: "Frozen Sardine", WEIGHT: 25 },
-                            { MATERIAL: "Arctic Char", WEIGHT: 15 },
-                            { MATERIAL: "Frost-Scale Trout", WEIGHT: 10 },
-                            { MATERIAL: "The Polar Star", WEIGHT: 2 }
-                        ]
+                        ACTION_MESSAGE: "{emoji_FishBait} You drop your line through a hole in the ice...\nYou caught **{amount}x {material}** and sold it for: **{totalValue} {mainCurrency_name}** {mainCurrency_emoji}",
+                        RESOURCES: {
+                            "COMMON": [
+                                "Ice Cube",
+                                "Frozen Sardine",
+                                "Old Mittens",
+                                "Seaweed Popsicle"
+                            ],
+                            "RARE": [
+                                "Arctic Char",
+                                "Frost-Scale Trout",
+                                "Chilled Cod",
+                                "Frozen Boot"
+                            ],
+                            "EPIC": [
+                                "The Polar Star",
+                                "Diamond-Back Sturgeon",
+                                "Glacier Jellyfish",
+                                "Ancient Frozen Anchor"
+                            ],
+                            "LEGENDARY": [
+                                "Iceberg Lobster",
+                                "Abyssal Frost-Eel",
+                                "Sunken Sled",
+                                "Poseidon’s Frozen Fork"
+                            ],
+                            "MYTHIC": [
+                                "The Titanic (Small Version)",
+                                "A Fish wearing a tiny Scarf",
+                                "Santa’s Missing Naughty List",
+                                "A Literal Block of Dry Ice"
+                            ]
+                        }
                     },
                     COOKING: {
                         ACTION_MESSAGE: "🍳 You warmed up the kitchen with a roaring fire...\nYou prepared **{amount}x {material}** and sold them to cold hikers for: **{totalValue} {mainCurrency_name}** {mainCurrency_emoji}",
-                        RESOURCES: [
-                            { MATERIAL: "Burnt Marshemllows", WEIGHT: 50 },
-                            { MATERIAL: "Peppermint Cocoa", WEIGHT: 45 },
-                            { MATERIAL: "Gingerbread Men", WEIGHT: 30 },
-                            { MATERIAL: "Peppermint Cocao", WEIGHT: 20 },
-                            { MATERIAL: "Honey-Glazed Ham", WEIGHT: 15 },
-                            { MATERIAL: "Spiced Apple Cider", WEIGHT: 10 },
-                            { MATERIAL: "Cinnamon Churros", WEIGHT: 8 },
-                            { MATERIAL: "Roast Turkey", WEIGHT: 5 },
-                            { MATERIAL: "Roasted Chestnuts", WEIGHT: 2 }
-                        ]
+                        RESOURCES: {
+                            "COMMON": [
+                                "Burnt Marshmallows",
+                                "Peppermint Cocoa",
+                                "Gingerbread",
+                                "Honey-Glazed Ham"
+                            ],
+                            "RARE": [
+                                "Spiced Apple Cider",
+                                "Cinnamon Churros",
+                                "Roast Turkey",
+                                "Roasted Chestnuts"
+                            ],
+                            "EPIC": [
+                                "Candycane Colored French Bread",
+                                "Glacier Mint Sorbet",
+                                "Star-Shaped Sugar Cookies",
+                                "Slow-Roasted Venison"
+                            ],
+                            "LEGENDARY": [
+                                "Northern Lights Fruit Cake",
+                                "Ever-Warm Spicy Ramen",
+                                "Yeti’s Favorite Meatloaf",
+                                "Golden-Crusted Pheasant"
+                            ],
+                            "MYTHIC": [
+                                "An Edible Snow-Globe",
+                                "The Last Slice of Christmas Pudding",
+                                "A Bowl of Instant Snow (Just add water!)",
+                                "Santa’s Secret Stash of Cookies",
+                                "A Frozen Pizza (Literally just a block of ice)"
+                            ]
+                        }
                     },
 
                     // ------------------
                     // -- LVL. 5+
                     // ------------------
                     CHOP: {
-                        MULTIPLIERS: {
-                            CASH: 2.5,
-                            XP: 2
-                        },
-                        ACTION_MESSAGE: "🪓 You chopped frozen timber...\nAnd gathered **{amount}x {material}** and earned: **{totalValue} {mainCurrency_name}** {mainCurrency_emoji}",
-                        RESOURCES: [
-                            { MATERIAL: "Frozen Stick", WEIGHT: 50 },
-                            { MATERIAL: "Snowy Log", WEIGHT: 50 },
-                            { MATERIAL: "Pine Tree", WEIGHT: 50 },
-
-                            { MATERIAL: "Frost Branch", WEIGHT: 25 },
-                            { MATERIAL: "Icy Oak", WEIGHT: 25 },
-
-                            { MATERIAL: "Winter Birch", WEIGHT: 20 },
-                            { MATERIAL: "Frozen Maple", WEIGHT: 15 },
-                            { MATERIAL: "Glacier Wood", WEIGHT: 15 },
-
-                            { MATERIAL: "White Pine", WEIGHT: 10 },
-                            { MATERIAL: "Candy Cane Tree", WEIGHT: 10 },
-                            { MATERIAL: "Frost Bark", WEIGHT: 8 },
-
-                            { MATERIAL: "Crystal Timber", WEIGHT: 7 },
-                            { MATERIAL: "Frozen Ebony", WEIGHT: 6 },
-                            { MATERIAL: "Snow Blossom Tree", WEIGHT: 5 },
-
-                            { MATERIAL: "Aurora Bark", WEIGHT: 4 },
-                            { MATERIAL: "Ancient Icewood", WEIGHT: 3 },
-                            { MATERIAL: "Moon Frost Tree", WEIGHT: 2 },
-
-                            { MATERIAL: "Spirit Pine", WEIGHT: 1 },
-                            { MATERIAL: "Dragon Frost Root", WEIGHT: 0.75 },
-                            { MATERIAL: "World Frost Sapling", WEIGHT: 0.5 }
-                        ]
+                        MULTIPLIER: "LVL_5",
+                        ACTION_MESSAGE: "{emoji_Axe} You chopped frozen timber...\nAnd gathered **{amount}x {material}** and earned: **{totalValue} {mainCurrency_name}** {mainCurrency_emoji}",
+                        RESOURCES: {
+                            "COMMON": [
+                                "Frozen Stick",
+                                "Snowy Log",
+                                "Pine Tree",
+                                "Frosty Oak Tree"
+                            ],
+                            "RARE": [
+                                "Frosty Branch",
+                                "Blue Maple",
+                                "Frosty Birch Tree",
+                                "Candy Cane Tree"
+                            ],
+                            "EPIC": [
+                                "Glaciar Tree",
+                                "Frosted Bark",
+                                "Frosty Blossom Tree",
+                                "Aurora Bark"
+                            ],
+                            "LEGENDARY": [
+                                "Ancient Icewood",
+                                "Glaciar Stump",
+                                "Moon Frost Tree",
+                                "Spirit Pine Tree"
+                            ],
+                            "MYTHIC": [
+                                "Ancient Frost Roots",
+                                "Frosted Sapling",
+                                "Frosted Moonlit Willow Tree"
+                            ]
+                        }
                     },
 
                     FARM: {
-                        MULTIPLIERS: {
-                            CASH: 2.5,
-                            XP: 2
-                        },
-                        ACTION_MESSAGE: "🌾 You harvested frozen crops...\nAnd collected **{amount}x {material}** and earned: **{totalValue} {mainCurrency_name}** {mainCurrency_emoji}",
-                        RESOURCES: [
-                            { MATERIAL: "Frozen Wheat", WEIGHT: 50 },
-                            { MATERIAL: "Ice Corn", WEIGHT: 50 },
-                            { MATERIAL: "Snow Carrot", WEIGHT: 50 },
-
-                            { MATERIAL: "Winter Potato", WEIGHT: 25 },
-                            { MATERIAL: "Peppermint Leaf", WEIGHT: 25 },
-
-                            { MATERIAL: "Snow Pumpkin", WEIGHT: 20 },
-                            { MATERIAL: "Frozen Berry", WEIGHT: 15 },
-                            { MATERIAL: "Ice Melon", WEIGHT: 15 },
-
-                            { MATERIAL: "Blue Frostberry", WEIGHT: 10 },
-                            { MATERIAL: "Cold Cabbage", WEIGHT: 10 },
-                            { MATERIAL: "Sugar Cane", WEIGHT: 8 },
-
-                            { MATERIAL: "Golden Snowcorn", WEIGHT: 7 },
-                            { MATERIAL: "Crystal Carrot", WEIGHT: 6 },
-                            { MATERIAL: "Giant Ice Pumpkin", WEIGHT: 5 },
-
-                            { MATERIAL: "Glacier Berry", WEIGHT: 4 },
-                            { MATERIAL: "Ancient Root", WEIGHT: 3 },
-                            { MATERIAL: "Aurora Bloom", WEIGHT: 2 },
-
-                            { MATERIAL: "Spirit Crop", WEIGHT: 1 },
-                            { MATERIAL: "Dragonfruit Ice", WEIGHT: 0.75 },
-                            { MATERIAL: "Winter Seed", WEIGHT: 0.5 }
-                        ]
+                        MULTIPLIER: "LVL_5",
+                        ACTION_MESSAGE: "{emoji_Wheat} You harvested frozen crops...\nAnd collected **{amount}x {material}** and earned: **{totalValue} {mainCurrency_name}** {mainCurrency_emoji}",
+                        RESOURCES: {
+                            "COMMON": [
+                                "Blue Wheat",
+                                "Blue Corn",
+                                "Blue Carrot",
+                                "Iced Grass"
+                            ],
+                            "RARE": [
+                                "Blue Poteto",
+                                "Peppermint Leaf",
+                                "Blue Pumkin",
+                                "Frozen Berry"
+                            ],
+                            "EPIC": [
+                                "Blue Melon",
+                                "Blue cabbage",
+                                "Sugar Cane",
+                                "Golden Snowcorn"
+                            ],
+                            "LEGENDARY": [
+                                "Crystal Carrot",
+                                "Crystal Giant Pumkin",
+                                "Crystal Berry",
+                                "Gracier Berry"
+                            ],
+                            "MYTHIC": [
+                                "Acnient Frozen Root",
+                                "Aurora Bloom",
+                                "Spirit Crop",
+                                "Winter Seed"
+                            ]
+                        }
                     },
 
                     SMITH: {
-                        MULTIPLIERS: {
-                            CASH: 2.5,
-                            XP: 2
-                        },
-                        ACTION_MESSAGE: "⚒️ You forged icy weaponry...\nAnd crafted **{amount}x {material}** and earned: **{totalValue} {mainCurrency_name}** {mainCurrency_emoji}",
-                        RESOURCES: [
-                            { MATERIAL: "Iron Knife", WEIGHT: 50 },
-                            { MATERIAL: "Frozen Sword", WEIGHT: 50 },
-                            { MATERIAL: "Ice Shield", WEIGHT: 50 },
-
-                            { MATERIAL: "Frost Dagger", WEIGHT: 25 },
-                            { MATERIAL: "Steel Saber", WEIGHT: 25 },
-
-                            { MATERIAL: "Frozen Axe", WEIGHT: 20 },
-                            { MATERIAL: "Knight Helm", WEIGHT: 15 },
-                            { MATERIAL: "War Hammer", WEIGHT: 15 },
-
-                            { MATERIAL: "Crystal Sword", WEIGHT: 10 },
-                            { MATERIAL: "Frost Hammer", WEIGHT: 10 },
-                            { MATERIAL: "Ice Shield", WEIGHT: 8 },
-
-                            { MATERIAL: "Ruby Blade", WEIGHT: 7 },
-                            { MATERIAL: "Snow Hammer", WEIGHT: 6 },
-                            { MATERIAL: "Diamond Greatblade", WEIGHT: 5 },
-
-                            { MATERIAL: "Glacier Lance", WEIGHT: 4 },
-                            { MATERIAL: "Ancient Frostblade", WEIGHT: 3 },
-                            { MATERIAL: "Moonsteel Blade", WEIGHT: 2 },
-
-                            { MATERIAL: "Spirit Forged Blade", WEIGHT: 1 },
-                            { MATERIAL: "Dragon Ice Sword", WEIGHT: 0.75 },
-                            { MATERIAL: "Legendary Frost Crown", WEIGHT: 0.5 }
-                        ]
+                        MULTIPLIER: "LVL_5",
+                        ACTION_MESSAGE: "{emoji_Sword} You forged icy weaponry...\nAnd crafted **{amount}x {material}** and earned: **{totalValue} {mainCurrency_name}** {mainCurrency_emoji}",
+                        RESOURCES: {
+                            "COMMON": [
+                                "Iron Knife",
+                                "Frozen Sword",
+                                "Ice Shield",
+                                "Frost Dagger"
+                            ],
+                            "RARE": [
+                                "Steel Saber",
+                                "Frozen Axe",
+                                "Ice Knight Helmet",
+                                "Ice Hammer"
+                            ],
+                            "EPIC": [
+                                "Crystal Sword",
+                                "Crystal Dagger",
+                                "Crystal Spiked Shield",
+                                "Crystal Baguette"
+                            ],
+                            "LEGENDARY": [
+                                "Ruby Blade",
+                                "Snow Hammer",
+                                "Diamond Greatsword",
+                                "Glacier Lance"
+                            ],
+                            "MYTHIC": [
+                                "Ancient Frostblade",
+                                "Moonsteel Blade",
+                                "Spirit Forged Blade",
+                                "Dragon Ice Sword",
+                                "Frost Crown"
+                            ]
+                        }
                     },
 
                     WALLET: {
                         TITLE: "❄️ {username}'s Winter Stash",
-                        THUMBNAIL: "{emoji_Candy}", // Or a snowflake emoji if you have one
+                        THUMBNAIL: "{emoji_Snowflake}",
                         FIELDS: {
                             CURRENCY: "🧊 Frozen Assets",
                             STATISTICS: "📊 Winter Records",
@@ -444,10 +924,9 @@ module.exports = {
                     },
                 }
             },
+            //#endregion
 
-            // ------------------
-            // -- DEFAULT
-            // ------------------
+            //#region DEFAULT THEME
             DEFAULT: {
                 CURRENCY: {
                     MAIN: { NAME: "Coins", EMOJI: "{emoji_Coin}" },
@@ -457,196 +936,258 @@ module.exports = {
                 COMMANDS: {
                     HUNTING: {
                         ACTION_MESSAGE: "🏹 You ventured into the wild meadows...\nYou tracked down **{amount}x {material}** and sold the spoils for: **{totalValue} {mainCurrency_name}** {mainCurrency_emoji}",
-                        RESOURCES: [
-                            { MATERIAL: "Feather", WEIGHT: 50 },
-                            { MATERIAL: "Rabbit", WEIGHT: 45 },
-                            { MATERIAL: "Pheasant", WEIGHT: 25 },
-                            { MATERIAL: "Wild Boar", WEIGHT: 15 },
-                            { MATERIAL: "Dear", WEIGHT: 12.5 },
-                            { MATERIAL: "Capibara", WEIGHT: 10 },
-                            { MATERIAL: "Majestic Stag", WEIGHT: 10 },
-                            { MATERIAL: "Griffon", WEIGHT: 7.5 },
-                            { MATERIAL: "Dixi Toilet", WEIGHT: 5 },
-                            { MATERIAL: "Golden Eagle", WEIGHT: 4 },
-                            { MATERIAL: "Ancient Silver Fox", WEIGHT: 1 },
-                            { MATERIAL: "Pheonix", WEIGHT: 0.5, TAG: ["LUCKY"] },
-                            { MATERIAL: "Unicorn", WEIGHT: 0.25, TAG: ["LUCKY"] },
-                        ]
+                        RESOURCES: {
+                            "COMMON": [
+                                "Feather",
+                                "Rabbit",
+                                "Pheasant",
+                                "Geese"
+                            ],
+                            "RARE": [
+                                "Wild Boar",
+                                "Dear",
+                                "Capibara",
+                                "Fancy Wolf"
+                            ],
+                            "EPIC": [
+                                "Majestic Stag",
+                                "Griffinn",
+                                "Dixi Toilet",
+                                "Golden Eagle"
+                            ],
+                            "LEGENDARY": [
+                                "Ancient Silver Fox",
+                                "Pheonix",
+                                "Unicorn",
+                                "Yourself"
+                            ],
+                            "MYTHIC": [
+                                "The Invisible Flying Spaghetti Monster",
+                                "A Single, Sentient Raw Chicken Nugget",
+                                "The Last Remaining Pixel",
+                                "Godzilla's Smaller Brother (Kevin)",
+                                "The Marshmellow monster from Ghostbusters"
+                            ]
+                        }
                     },
                     MINING: {
                         ACTION_MESSAGE: "⛏️ You swing your pickaxe deep into the cavern walls...\nYou unearthed **{amount}x {material}** and sold it for: **{totalValue} {mainCurrency_name}** {mainCurrency_emoji}",
-                        RESOURCES: [
-                            { MATERIAL: "Grass", WEIGHT: 50, TAG: ["WORTHLESS"] },
-                            { MATERIAL: "Stone", WEIGHT: 30 },
-                            { MATERIAL: "Granite", WEIGHT: 30 },
-                            { MATERIAL: "Diorite", WEIGHT: 30 },
-                            { MATERIAL: "Gravel", WEIGHT: 30 },
-                            { MATERIAL: "Coal", WEIGHT: 25 },
-                            { MATERIAL: "Raw Copper", WEIGHT: 25 },
-                            { MATERIAL: "Raw Iron", WEIGHT: 20 },
-                            { MATERIAL: "Raw Gold", WEIGHT: 15 },
-                            { MATERIAL: "Raw Chromium", WEIGHT: 15 },
-                            { MATERIAL: "Raw Osmium", WEIGHT: 15 },
-                            { MATERIAL: "Raw Tin", WEIGHT: 15 },
-                            { MATERIAL: "Sulfur", WEIGHT: 10 },
-                            { MATERIAL: "Iridium", WEIGHT: 10 },
-                            { MATERIAL: "Slate", WEIGHT: 10 },
-                            { MATERIAL: "Diamond", WEIGHT: 8 },
-                            { MATERIAL: "Sapphire", WEIGHT: 5 },
-                            { MATERIAL: "Emerald", WEIGHT: 5 },
-                            { MATERIAL: "Ruby", WEIGHT: 5 },
-                            { MATERIAL: "Mythdril", WEIGHT: 2 },
-                            { MATERIAL: "Netherite", WEIGHT: 2 },
-                            { MATERIAL: "Amethyst", WEIGHT: 1 },
-                            { MATERIAL: "Uranium", WEIGHT: 0.5, TAG: ["LUCKY"] }
-                        ]
+                        RESOURCES: {
+                            "COMMON": [
+                                "Grass",
+                                "Stone",
+                                "Granite",
+                                "Diorite",
+                                "Gravel"
+                            ],
+                            "RARE": [
+                                "Coal",
+                                "Raw Copper",
+                                "Raw Iron",
+                                "Raw Gold",
+                                "Raw Chromium"
+                            ],
+                            "EPIC": [
+                                "Raw Osmium",
+                                "Raw Tin",
+                                "Sulfur",
+                                "Iridium",
+                                "Slate"
+                            ],
+                            "LEGENDARY": [
+                                "Diamond",
+                                "Emerald",
+                                "Sapphire",
+                                "Ruby",
+                                "Mithdril"
+                            ],
+                            "MYTHIC": [
+                                "Netherite",
+                                "Amethyst",
+                                "Uranium",
+                                "Yunium"
+                            ]
+                        }
                     },
                     FISHING: {
-                        ACTION_MESSAGE: "🎣 You cast your line into the blue water...\nYou caught **{amount}x {material}** and sold it for: **{totalValue} {mainCurrency_name}** {mainCurrency_emoji}",
-                        RESOURCES: [
-                            { MATERIAL: "Seaweed", WEIGHT: 40 },
-                            { MATERIAL: "Kelp", WEIGHT: 40 },
-                            { MATERIAL: "Old Sneaker", WEIGHT: 40 },
-                            { MATERIAL: "Old High Heel", WEIGHT: 40 },
-                            { MATERIAL: "Cod", WEIGHT: 30 },
-                            { MATERIAL: "Rainbow Trout", WEIGHT: 20 },
-                            { MATERIAL: "Salmon", WEIGHT: 15 },
-                            { MATERIAL: "Anchor", WEIGHT: 10 },
-                            { MATERIAL: "Tropical Fish", WEIGHT: 10 },
-                            { MATERIAL: "Squid", WEIGHT: 10 },
-                            { MATERIAL: "Shrimp", WEIGHT: 10 },
-                            { MATERIAL: "Golden Carp", WEIGHT: 5 },
-                            { MATERIAL: "Neptune's Trident", WEIGHT: 5 },
-                            { MATERIAL: "Sunken Treasure Chest", WEIGHT: 1 },
-                            { MATERIAL: "Pineapple House", WEIGHT: 0.25, TAG: ["LUCKY"] },
-                            { MATERIAL: "Squidward", WEIGHT: 0.1, TAG: ["LUCKY"] },
-                        ]
+                        ACTION_MESSAGE: "{emoji_FishBait} You cast your line into the blue water...\nYou caught **{amount}x {material}** and sold it for: **{totalValue} {mainCurrency_name}** {mainCurrency_emoji}",
+                        RESOURCES: {
+                            "COMMON": [
+                                "Seaweed",
+                                "Kelp",
+                                "Old Sneaker",
+                                "Old High Heel"
+                            ],
+                            "RARE": [
+                                "Cod",
+                                "Rainbow Trout",
+                                "Salmon",
+                                "Anchor"
+                            ],
+                            "EPIC": [
+                                "Tropical Fish",
+                                "Squid",
+                                "Shrimp",
+                                "Golden Carp"
+                            ],
+                            "LEGENDARY": [
+                                "Axolotl",
+                                "Plastic",
+                                "Electronic Device",
+                                "Paper with 'Free Nitro' written on it"
+                            ],
+                            "MYTHIC": [
+                                "Neptune's Trident",
+                                "Sunken Treasure Chest",
+                                "Pineapple House",
+                                "Squidward"
+                            ]
+                        }
                     },
                     COOKING: {
                         ACTION_MESSAGE: "🍳 You worked a shift at the local bistro...\nYou prepared **{amount}x {material}** and earned: **{totalValue} {mainCurrency_name}** {mainCurrency_emoji}",
-                        RESOURCES: [
-                            { MATERIAL: "Chocolate Chip Cookies", WEIGHT: 30 },
-                            { MATERIAL: "Blueberry Pancakes", WEIGHT: 30 },
-                            { MATERIAL: "Fruit Smoothie", WEIGHT: 25 },
-                            { MATERIAL: "Banana Bread", WEIGHT: 20 },
-                            { MATERIAL: "Butter Chicken", WEIGHT: 15 },
-                            { MATERIAL: "Pasta", WEIGHT: 12.5 },
-                            { MATERIAL: "Fish Fillet", WEIGHT: 10 },
-                            { MATERIAL: "Steak au Poivre", WEIGHT: 10 },
-                            { MATERIAL: "Filet Mignon", WEIGHT: 8 },
-                            { MATERIAL: "Chocolate Soufflé", WEIGHT: 2 },
-                            { MATERIAL: "Waffle", WEIGHT: 1 },
-                            { MATERIAL: "Bagguete", WEIGHT: 0.5, TAG: ["LUCKY"] },
-                        ]
+                        RESOURCES: {
+                            "COMMON": [
+                                "Chocolate Chip Cookies",
+                                "Blueberry Pancakes",
+                                "Cherry Blossom Icetea",
+                                "Fruit Smoothie"
+                            ],
+                            "RARE": [
+                                "Banana Bread",
+                                "Butter Chicken",
+                                "Pasta",
+                                "Fish Fillet"
+                            ],
+                            "EPIC": [
+                                "Steak au Poivre",
+                                "Fillet Mignon",
+                                "Chocolate Soufflé",
+                                "French Bread"
+                            ],
+                            "LEGENDARY": [
+                                "Waffle",
+                                "Brownies",
+                                "Pink Beans",
+                                "Bake Poteto"
+                            ],
+                            "MYTHIC": [
+                                "McDonalds",
+                                "Burger King",
+                                "KFC",
+                                "Wendies"
+                            ]
+                        }
                     },
 
                     // ------------------
                     // -- LVL. 5+
                     // ------------------
                     CHOP: {
-                        MULTIPLIERS: {
-                            CASH: 2.5,
-                            XP: 2
-                        },
-                        ACTION_MESSAGE: "🪓 You vent into a forest...\nAnd chopped **{amount}x {material}** and earned: **{totalValue} {mainCurrency_name}** {mainCurrency_emoji}",
-                        RESOURCES: [
-                            { MATERIAL: "Oak Tree", WEIGHT: 50 },
-                            { MATERIAL: "Pine Tree", WEIGHT: 50 },
-                            { MATERIAL: "Birch Tree", WEIGHT: 50 },
-
-                            { MATERIAL: "Apple Tree", WEIGHT: 25 },
-                            { MATERIAL: "Lemon Tree", WEIGHT: 25 },
-
-                            { MATERIAL: "Red Maple Tree", WEIGHT: 20 },
-                            { MATERIAL: "Sweetgum Tree", WEIGHT: 15 },
-                            { MATERIAL: "Super Maple Tree", WEIGHT: 15 },
-
-                            { MATERIAL: "White Oak Tree", WEIGHT: 10 },
-                            { MATERIAL: "Willow Tree", WEIGHT: 10 },
-                            { MATERIAL: "Cherry Blossom Tree", WEIGHT: 8 },
-
-                            { MATERIAL: "Mahogany Tree", WEIGHT: 7 },
-                            { MATERIAL: "Ebony Tree", WEIGHT: 6 },
-                            { MATERIAL: "Golden Birch Tree", WEIGHT: 5 },
-
-                            { MATERIAL: "Crystal Bark Tree", WEIGHT: 4 },
-                            { MATERIAL: "Ancient Oak Tree", WEIGHT: 3 },
-                            { MATERIAL: "Moonlit Willow", WEIGHT: 2 },
-
-                            { MATERIAL: "Spiritwood Tree", WEIGHT: 1 },
-                            { MATERIAL: "Dragonroot Tree", WEIGHT: 0.75 },
-                            { MATERIAL: "World Tree Sapling", WEIGHT: 0.5 }
-                        ]
+                        MULTIPLIER: "LVL_5",
+                        ACTION_MESSAGE: "{emoji_Axe} You vent into a forest...\nAnd chopped **{amount}x {material}** and earned: **{totalValue} {mainCurrency_name}** {mainCurrency_emoji}",
+                        RESOURCES: {
+                            "COMMON": [
+                                "Oak Tree",
+                                "Pine Tree",
+                                "Birch Tree",
+                                "Apple Tree"
+                            ],
+                            "RARE": [
+                                "Lemon Tree",
+                                "Red Maple Tree",
+                                "Sweetgum Tree",
+                                "Sigar Maple Tree"
+                            ],
+                            "EPIC": [
+                                "Albino Oak Tree",
+                                "Willom Tree",
+                                "Wise Tree",
+                                "Cherry Blossom Tree"
+                            ],
+                            "LEGENDARY": [
+                                "Mehagony Tree",
+                                "Ebony Tree",
+                                "Golden Birch Tree",
+                                "Crystal Bark Tree"
+                            ],
+                            "MYTHIC": [
+                                "Ancient Oak Tree",
+                                "Moonlit Willow Tree",
+                                "Spirit Tree",
+                                "Dragonroot Tree"
+                            ]
+                        }
                     },
                     FARM: {
-                        MULTIPLIERS: {
-                            CASH: 2.5,
-                            XP: 2
-                        },
-                        ACTION_MESSAGE: "🌾 You worked on a farm...\nAnd harvested **{amount}x {material}** and earned: **{totalValue} {mainCurrency_name}** {mainCurrency_emoji}",
-                        RESOURCES: [
-                            { MATERIAL: "Wheat", WEIGHT: 50 },
-                            { MATERIAL: "Corn", WEIGHT: 50 },
-                            { MATERIAL: "Carrot", WEIGHT: 50 },
-
-                            { MATERIAL: "Potato", WEIGHT: 25 },
-                            { MATERIAL: "Tomato", WEIGHT: 25 },
-
-                            { MATERIAL: "Pumpkin", WEIGHT: 20 },
-                            { MATERIAL: "Watermelon", WEIGHT: 15 },
-                            { MATERIAL: "Strawberry", WEIGHT: 15 },
-
-                            { MATERIAL: "Blueberry", WEIGHT: 10 },
-                            { MATERIAL: "Cabbage", WEIGHT: 10 },
-                            { MATERIAL: "Sugar Cane", WEIGHT: 8 },
-
-                            { MATERIAL: "Golden Corn", WEIGHT: 7 },
-                            { MATERIAL: "Purple Carrot", WEIGHT: 6 },
-                            { MATERIAL: "Giant Pumpkin", WEIGHT: 5 },
-
-                            { MATERIAL: "Crystal Berry", WEIGHT: 4 },
-                            { MATERIAL: "Ancient Root", WEIGHT: 3 },
-                            { MATERIAL: "Moon Blossom", WEIGHT: 2 },
-
-                            { MATERIAL: "Spirit Crop", WEIGHT: 1 },
-                            { MATERIAL: "Dragonfruit", WEIGHT: 0.75 },
-                            { MATERIAL: "World Seed", WEIGHT: 0.5 }
-                        ]
+                        MULTIPLIER: "LVL_5",
+                        ACTION_MESSAGE: "{emoji_Wheat} You worked on a farm...\nAnd harvested **{amount}x {material}** and earned: **{totalValue} {mainCurrency_name}** {mainCurrency_emoji}",
+                        RESOURCES: {
+                            "COMMON": [
+                                "Wheat",
+                                "Corn",
+                                "Carrot",
+                                "Potato"
+                            ],
+                            "RARE": [
+                                "Tomato",
+                                "Poteto",
+                                "Pumkin",
+                                "Watermelon"
+                            ],
+                            "EPIC": [
+                                "Strawberry",
+                                "Blueberry",
+                                "Sugar Cane",
+                                "Golden Corn"
+                            ],
+                            "LEGENDARY": [
+                                "Purple Carrot",
+                                "Giant Pumkin",
+                                "Crystal Berry",
+                                "Ancient Root"
+                            ],
+                            "MYTHIC": [
+                                "Moon Blossom",
+                                "Spirit Crop",
+                                "Dragonfruit",
+                                "World Seed"
+                            ]
+                        }
                     },
                     SMITH: {
-                        MULTIPLIERS: {
-                            CASH: 2.5,
-                            XP: 2
-                        },
-                        ACTION_MESSAGE: "⚒️ You worked at the forge...\nAnd crafted **{amount}x {material}** and earned: **{totalValue} {mainCurrency_name}** {mainCurrency_emoji}",
-                        RESOURCES: [
-                            { MATERIAL: "Iron Dagger", WEIGHT: 50 },
-                            { MATERIAL: "Iron Sword", WEIGHT: 50 },
-                            { MATERIAL: "Iron Shield", WEIGHT: 50 },
-
-                            { MATERIAL: "Steel Dagger", WEIGHT: 25 },
-                            { MATERIAL: "Steel Sword", WEIGHT: 25 },
-
-                            { MATERIAL: "Steel Shield", WEIGHT: 20 },
-                            { MATERIAL: "Knight Helmet", WEIGHT: 15 },
-                            { MATERIAL: "Battle Axe", WEIGHT: 15 },
-
-                            { MATERIAL: "Golden Sword", WEIGHT: 10 },
-                            { MATERIAL: "War Hammer", WEIGHT: 10 },
-                            { MATERIAL: "Spiked Shield", WEIGHT: 8 },
-
-                            { MATERIAL: "Ruby Blade", WEIGHT: 7 },
-                            { MATERIAL: "Emerald Hammer", WEIGHT: 6 },
-                            { MATERIAL: "Diamond Greatsword", WEIGHT: 5 },
-
-                            { MATERIAL: "Crystal Lance", WEIGHT: 4 },
-                            { MATERIAL: "Ancient Warblade", WEIGHT: 3 },
-                            { MATERIAL: "Moonsteel Saber", WEIGHT: 2 },
-
-                            { MATERIAL: "Spirit Forged Axe", WEIGHT: 1 },
-                            { MATERIAL: "Dragonbone Blade", WEIGHT: 0.75 },
-                            { MATERIAL: "Legendary Crownblade", WEIGHT: 0.5 }
-                        ]
+                        MULTIPLIER: "LVL_5",
+                        ACTION_MESSAGE: "{emoji_Sword} You worked at the forge...\nAnd crafted **{amount}x {material}** and earned: **{totalValue} {mainCurrency_name}** {mainCurrency_emoji}",
+                        RESOURCES: {
+                            "COMMON": [
+                                "Iron Sword",
+                                "Iron Dagger",
+                                "Iron Shield"
+                            ],
+                            "RARE": [
+                                "Steel Sword",
+                                "Steel Dagger",
+                                "Steel Shield"
+                            ],
+                            "EPIC": [
+                                "Knight Helmet",
+                                "Battle Axe",
+                                "Spiked Shield",
+                                "War Hammer",
+                                "Spirit Forged Axe",
+                            ],
+                            "LEGENDARY": [
+                                "Golden Sword",
+                                "Ruby Hammer",
+                                "Emerald Hammer",
+                                "Moonsteel Saber",
+                            ],
+                            "MYTHIC": [
+                                "Crystal Lance",
+                                "Diamond Greatsword",
+                                "Ancient Warblade",
+                            ]
+                        }
                     },
 
                     WALLET: {
@@ -661,7 +1202,8 @@ module.exports = {
                     }
                 }
             }
-        },
+            //#endregion
+        }
     },
 
     PROGRESSION: {
@@ -690,18 +1232,6 @@ module.exports = {
                 36: 19_100_000, 37: 20_500_000, 38: 21_950_000, 39: 23_450_000, 40: 25_000_000,
                 41: 26_600_000, 42: 28_250_000, 43: 29_950_000, 44: 31_700_000, 45: 33_500_000,
                 46: 35_350_000, 47: 37_250_000, 48: 39_200_000, 49: 41_200_000, 50: 43_250_000
-            },
-            REWARDS: { // level: cash multiplier in %
-                0: 0, 1: 0, 2: 5, 3: 10, 4: 15, 5: 20,
-                6: 25, 7: 30, 8: 35, 9: 40, 10: 45,
-                11: 50, 12: 55, 13: 60, 14: 65, 15: 70,
-                16: 75, 17: 80, 18: 85, 19: 90, 20: 95,
-                21: 100, 22: 110, 23: 120, 24: 130, 25: 140,
-                26: 150, 27: 160, 28: 170, 29: 180, 30: 190,
-                31: 200, 32: 210, 33: 220, 34: 225, 35: 230,
-                36: 235, 37: 240, 38: 245, 39: 247, 40: 248,
-                41: 249, 42: 250, 43: 250, 44: 250, 45: 250,
-                46: 250, 47: 250, 48: 250, 49: 250, 50: 250
             }
         }
     },
@@ -714,9 +1244,20 @@ module.exports = {
 
         WORK: {
             MESSAGES: {
-                EXPERIENCE_ATTACH: "\n{emoji_UI_Plus} +{xp} XP",
-                LEVEL_UP_ATTACH: ", {emoji_UI_Plus} Level Up! New lvl.: **{level}**",
+                EXPERIENCE_ATTACH: "\n{emoji_BlueStar} +{xp} XP",
+                LEVEL_UP_ATTACH: ", {emoji_GreenUpgrade} Level Up! New lvl.: **{level}**",
                 LUCKY_ATTACH: "\n✨ You have been realy lucky, keep it up!",
+            },
+            PERCENTAGES: {
+                COMMON: 50,
+                RARE: 25,
+                EPIC: 5,
+                LEGENDARY: 1,
+                MYTHIC: 0.5
+            },
+            MULTIPLIER: {
+                LVL_0: { CASH: 1, EXPERIENCE: 1 },
+                LVL_5: { CASH: 2, EXPERIENCE: 2.5 }
             }
         },
 
@@ -826,11 +1367,6 @@ module.exports = {
             MIN: 50,
             MAX: 5_000,
             MAX_RECIEVER: 100_000,
-            EXCLUDE: [
-                // Admins
-                "656588010195910686", // Snuv
-            ],
-
             MESSAGES: {
                 EXCLUDED: "You cannot gift candy to this user.",
                 TO_BOT: "You cannot gift candy to bots.",
@@ -934,16 +1470,16 @@ module.exports = {
                 "https://media.tenor.com/GnafzH7LqWsAAAAm/rina-bonk-love-live.webp",
                 "https://media.tenor.com/vd9BRgtG56oAAAAm/pepe-bonk-bonk.webp"
             ],
-        RESPONSES: [
-            "🔨 {user} [bonked]({gif}) {target} into the next century!",
-            "🌌 {user} [bonked]({gif}) {target} so hard they saw stars.",
-            "🌕 {user} [bonked]({gif}) {target} all the way to the moon.",
-            "💫 {user} [bonked]({gif}) {target} into another dimension!",
-            "⚡ {user} [bonked]({gif}) {target} at lightning speed!",
-            "🎯 {user} [bonked]({gif}) {target} with perfect accuracy!",
-            "🪐 {user} [bonked]({gif}) {target} straight into orbit!",
-            "🏏 A wild {user} appeared and [bonked]({gif}) {target}!",
-        ]
+            RESPONSES: [
+                "🔨 {user} [bonked]({gif}) {target} into the next century!",
+                "🌌 {user} [bonked]({gif}) {target} so hard they saw stars.",
+                "🌕 {user} [bonked]({gif}) {target} all the way to the moon.",
+                "💫 {user} [bonked]({gif}) {target} into another dimension!",
+                "⚡ {user} [bonked]({gif}) {target} at lightning speed!",
+                "🎯 {user} [bonked]({gif}) {target} with perfect accuracy!",
+                "🪐 {user} [bonked]({gif}) {target} straight into orbit!",
+                "🏏 A wild {user} appeared and [bonked]({gif}) {target}!",
+            ]
         },
 
         HUG: {
@@ -962,12 +1498,40 @@ module.exports = {
                 "https://tenor.com/view/animehug-gif-4492243580644690368",
                 "https://tenor.com/view/anime-hug-hugs-happy-hug-hug-friend-hug-gif-4606955245193927037",
                 "https://tenor.com/view/fruits-basket-fruits-basket-anime-tohru-honda-gif-8076948538234069750",
+                "https://tenor.com/view/how-to-raise-a-boring-girlfriend-saenai-heroine-sarnai-heroine-saekano-gif-17909375",
+                "https://tenor.com/view/patrick-star-smash-gif-19642208",
+                "https://giphy.com/gifs/teto-utau-muglaliteto-ct5bSAvJEvWi0gDhDn",
+                "https://tenor.com/view/bonk-hit-book-school-anime-gif-24977313",
             ],
             RESPONSES: [
                 "🤗 {user} gave a warm [hug]({gif}) to {target}",
                 "💖 {user} wrapped {target} in a big hug! [GIF]({gif})",
                 "🌸 {user} hugs {target} gently [here]({gif})",
                 "✨ {user} sends loving hugs to {target} [gif]({gif})",
+            ]
+        },
+
+        SPIN: {
+            GIFS: [
+                "https://tenor.com/view/chibi-miku-hatsune-miku-vocaloid-spinning-gif-17905461",
+                "https://tenor.com/view/hatsune-miku-hatsune-miku-spin-spinning-gif-8067541111061086862",
+                "https://tenor.com/view/aymenzero-kasane-teto-teto-0401-cycle-gif-18089640910220477995",
+                "https://tenor.com/view/teto-kasane-spin-kasane-teto-vocaloid-gif-4888694876011655461",
+                "https://tenor.com/view/tetoris-kasane-teto-teto-synthv-hiiragi-magnetite-gif-13980202707426180496",
+                "https://tenor.com/view/kasane-teto-microwave-spin-gif-12225979279271836335",
+                "https://tenor.com/view/spin-record-cat-gif-21749933",
+                "https://tenor.com/view/fish-spin-confetti-fishy-spinning-gif-2147613004635078456",
+                "https://tenor.com/view/ramona-flowers-spin-spinning-scott-pilgrim-gif-13111814067486747074",
+                "https://tenor.com/view/sea-lion-sea-lion-sealion-spinna-gif-6572328635488597288",
+                "https://tenor.com/view/pigeon-pigeon-spin-meme-gif-4075639143464625668",
+                "https://tenor.com/view/paper-lily-lacie-spin-spinning-rotate-gif-17132424264998507907",
+            ],
+            RESPONSES: [
+                "🌪️ {user} is making {target} [spin]({gif}) right round, baby, right round!",
+                "🌀 Look at them go! {user} [spun]({gif}) {target} into a dizzy mess.",
+                "📡 {user} put {target} in the [microwave]({gif})! *Ding!*",
+                "💫 {user} [rotated]({gif}) {target} at 7200 RPM!",
+                "🎠 {user} turned {target} into a [human fidget spinner]({gif})!",
             ]
         },
         
