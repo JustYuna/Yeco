@@ -109,7 +109,8 @@ module.exports = {
         settings: {
             cooldown: 30,
             canShowCaptcha: true,
-            risk: 10
+            risk: 10,
+            tags: [ "DM_ENABLED" ]
         },
         run: (i, c, m) => m.Work(i, c, "MINING"),
     },
@@ -117,7 +118,8 @@ module.exports = {
         settings: {
             cooldown: 30,
             canShowCaptcha: true,
-            risk: 10
+            risk: 10,
+            tags: [ "DM_ENABLED" ]
         },
         run: (i, c, m) => m.Work(i, c, "COOKING"),
     },
@@ -344,7 +346,8 @@ module.exports = {
             tags: [ "DM_ENABLED" ]
         },
         run: async (i, c, m) => {
-            return m.socialActions.Spin(i, c);
+            const target = i.options.getUser("target");
+            return m.socialActions.Spin(i, c, target);
         }
     },
 

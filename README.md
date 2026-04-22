@@ -68,4 +68,8 @@
 1. Clone the repository
 2. Install dependencies:
    ```bash
+<<<<<<< HEAD
    npm install
+=======
+   npm install
+>>>>>>> 3ba7d50 (v2.3 - Fixed work command payout being way to high)

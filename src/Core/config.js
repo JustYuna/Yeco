@@ -1248,15 +1248,15 @@ module.exports = {
                 LEVEL_UP_ATTACH: ", {emoji_GreenUpgrade} Level Up! New lvl.: **{level}**",
                 LUCKY_ATTACH: "\n✨ You have been realy lucky, keep it up!",
             },
-            PERCENTAGES: {
-                COMMON: 50,
-                RARE: 25,
-                EPIC: 5,
-                LEGENDARY: 1,
-                MYTHIC: 0.5
+            RARITIES: {
+                COMMON: { WORTH: 100, AMOUNT_MAX: 35, PERCENTAGE: 150 },
+                RARE: { WORTH: 500, AMOUNT_MAX: 20, PERCENTAGE: 75 },
+                EPIC: { WORTH: 1_000, AMOUNT_MAX: 12, PERCENTAGE: 20 },
+                LEGENDARY: { WORTH: 5_000, AMOUNT_MAX: 6, PERCENTAGE: 5 },
+                MYTHIC: { WORTH: 10_000, AMOUNT_MAX: 3, PERCENTAGE: 0.5 }
             },
             MULTIPLIER: {
-                LVL_0: { CASH: 1, EXPERIENCE: 1 },
+                LVL_0: { CASH: 1, EXPERIENCE: 1.25 },
                 LVL_5: { CASH: 2, EXPERIENCE: 2.5 }
             }
         },

@@ -30,57 +30,47 @@ async function Work(interaction, client, type) {
     }
 
     // -----------------------------
-    // Rarity roll (FAST)
+    // Rarity roll (NEW SYSTEM)
     // -----------------------------
-    const chances = config.ECONOMY.WORK.PERCENTAGES;
+    const rarities = config.ECONOMY.WORK.RARITIES;
 
-    const r = Math.random() * (
-        chances.COMMON +
-        chances.RARE +
-        chances.EPIC +
-        chances.LEGENDARY +
-        chances.MYTHIC
-    );
+    const totalWeight = Object.values(rarities)
+        .reduce((sum, r) => sum + r.PERCENTAGE, 0);
 
-    let rarity;
-    if (r < chances.COMMON) rarity = "COMMON";
-    else if (r < chances.COMMON + chances.RARE) rarity = "RARE";
-    else if (r < chances.COMMON + chances.RARE + chances.EPIC) rarity = "EPIC";
-    else if (r < chances.COMMON + chances.RARE + chances.EPIC + chances.LEGENDARY) rarity = "LEGENDARY";
-    else rarity = "MYTHIC";
+    let roll = Math.random() * totalWeight;
 
+    let rarity = "COMMON";
+    for (const key in rarities) {
+        roll -= rarities[key].PERCENTAGE;
+        if (roll <= 0) {
+            rarity = key;
+            break;
+        }
+    }
+
+    const rarityData = rarities[rarity];
+
+    // -----------------------------
+    // Pick material
+    // -----------------------------
     const list = workData.RESOURCES[rarity];
     const material = list[(Math.random() * list.length) | 0];
 
     // -----------------------------
-    // Amount (simple & fast)
+    // Amount (biased → more low rolls)
     // -----------------------------
-    const baseAmount = config.PROGRESSION.REWARDS.WEIGHT.BASE_AMOUNT;
-    const maxAmount = config.PROGRESSION.REWARDS.WEIGHT.MAX_AMOUNT;
+    const amount = (Math.random() * Math.random() * rarityData.AMOUNT_MAX) | 0;
 
-    const amount = ((Math.random() * (maxAmount - baseAmount)) + baseAmount) | 0;
-
-    // -----------------------------
-    // Worth (simplified math)
-    // -----------------------------
-    const weightCut = config.PROGRESSION.REWARDS.WEIGHT.WORTH_WEIGHT_CUT_ABOVE;
-    const baseWorth = config.PROGRESSION.REWARDS.WEIGHT.BASE_WORTH;
-
-    let cut = 1;
-    if (rarity === "LEGENDARY" || rarity === "MYTHIC") cut = weightCut.CUT;
-
-    let finalWorth = (baseWorth / cut) * config.ECONOMY.WORK.MULTIPLIER[workData.MULTIPLIER || "LVL_0"].CASH;
-    finalWorth = finalWorth | 0;
+    // prevent 0 drops feeling bad
+    const finalAmount = amount <= 0 ? 1 : amount;
 
     // -----------------------------
-    // XP (simplified)
+    // Worth + Experience
     // -----------------------------
-    const xpBase = config.PROGRESSION.REWARDS.WEIGHT.BASE_XP;
+    const workMultiplier = config.ECONOMY.WORK.MULTIPLIER[workData.MULTIPLIER || "LVL_0"];
 
-    let xpCut = 1;
-    if (rarity === "LEGENDARY" || rarity === "MYTHIC") xpCut = config.PROGRESSION.REWARDS.WEIGHT.XP__WEIGHT_CUT_ABOVE.CUT;
-
-    const finalXP = ((xpBase / xpCut) * config.ECONOMY.WORK.MULTIPLIER[workData.MULTIPLIER || "LVL_0"].EXPERIENCE) | 0;
+    const currencyFinal = (finalAmount * rarityData.WORTH * workMultiplier.CASH);
+    const xpFinal = (finalAmount * rarityData.WORTH * workMultiplier.EXPERIENCE);
 
     // -----------------------------
     // Level system
@@ -88,7 +78,7 @@ async function Work(interaction, client, type) {
     let level = levelData.LEVEL || 1;
     let xp = levelData.EXPERIENCE || 0;
 
-    xp += finalXP;
+    xp += xpFinal;
 
     while (true) {
         const req = config.PROGRESSION.LEVELS.XP_TABLE[level];
@@ -99,16 +89,16 @@ async function Work(interaction, client, type) {
     }
 
     // -----------------------------
-    // Tags
+    // Tags / Flavor
     // -----------------------------
     let finalMsgExtra = "";
 
-    if (rarity === "MYTHIC") {
-        finalWorth = 0;
-    }
-
     if (rarity === "LEGENDARY") {
         finalMsgExtra += "\n✨ Lucky find!";
+    }
+
+    if (rarity === "MYTHIC") {
+        finalMsgExtra += "\n☢️ Crazy, i was crazy once... but not this lucky to get a mythic.";
     }
 
     // -----------------------------
@@ -117,28 +107,34 @@ async function Work(interaction, client, type) {
     await SetAsync(userID, { LEVEL: { LEVEL: level, EXPERIENCE: xp } });
 
     await AddToAsync(userID, {
-        MAIN_CURRENCY: finalWorth,
-        TOTAL_MAIN_CURRENCY: finalWorth
+        MAIN_CURRENCY: currencyFinal,
+        TOTAL_MAIN_CURRENCY: currencyFinal
     });
 
     // -----------------------------
     // Message
     // -----------------------------
     const msg = ConfigManager.parseMsg(workData.ACTION_MESSAGE, {
-        amount,
+        amount: finalAmount,
         material,
-        totalValue: finalWorth,
-        mainCurrency_name: config.CORE.THEMES[config.CORE.THEMES.ACTIVE].CURRENCY.MAIN.NAME,
-        mainCurrency_emoji: config.CORE.THEMES[config.CORE.THEMES.ACTIVE].CURRENCY.MAIN.EMOJI
+        totalValue: currencyFinal,
+        mainCurrency_name: theme.CURRENCY.MAIN.NAME,
+        mainCurrency_emoji: theme.CURRENCY.MAIN.EMOJI
     });
 
-    const xpMsg = ConfigManager.getMsg("ECONOMY.WORK.MESSAGES.EXPERIENCE_ATTACH", { xp: finalXP });
+    const xpMsg = ConfigManager.getMsg(
+        "ECONOMY.WORK.MESSAGES.EXPERIENCE_ATTACH",
+        { xp: xpFinal }
+    );
 
     let finalMessage = msg + finalMsgExtra + xpMsg;
 
     const levelUpMsg =
         level > levelData.LEVEL
-            ? ConfigManager.getMsg("ECONOMY.WORK.MESSAGES.LEVEL_UP_ATTACH", { level })
+            ? ConfigManager.getMsg(
+                  "ECONOMY.WORK.MESSAGES.LEVEL_UP_ATTACH",
+                  { level }
+              )
             : "";
 
     return interaction.editReply({
