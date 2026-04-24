@@ -4,6 +4,13 @@ require("dotenv").config();
 const webhookMap = {
     feedback: process.env.WEBHOOK_FEEDBACK,
     report: process.env.WEBHOOK_REPORT,
+    update_plan: process.env.WEBHOOK_UPDATE_PLANNING,
+    update: process.env.WEBHOOK_UPDATE,
+};
+
+const rolePingMap = {
+    update_plan: process.env.ROLEID_UPDATE_PLANNING,
+    update: process.env.ROLEID_UPDATE,
 };
 
 const clients = {};
@@ -24,6 +31,24 @@ async function sendWebhook(interaction, text, type = "feedback", extra = {}) {
         const client = getClient(type);
         if (!client) return;
 
+        const isUpdate = ["update_plan", "update"].includes(type);
+        const roleId = rolePingMap[type];
+
+        // prevent breaking code block
+        const safeText = text.replace(/```/g, "'''");
+
+        if (isUpdate) {
+            await client.send({
+                username: extra.username || "Yeco Logs",
+                content: `${roleId ? `<@&${roleId}>\n` : ""}${safeText}`,
+                allowedMentions: {
+                    roles: roleId ? [roleId] : [],
+                },
+            });
+            return;
+        }
+
+        // default: embed (feedback/report)
         const embed = new EmbedBuilder()
             .setTitle(extra.title || `📩 ${type.toUpperCase()}`)
             .setDescription(text)

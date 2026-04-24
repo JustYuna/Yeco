@@ -1,14 +1,13 @@
 const { GetAsync, AddToAsync, SetAsync } = require('../../DataStorage/Datastore');
 const ConfigManager = require('../../Core/configManager');
 
-const CONFIG = ConfigManager.raw;
+const config = ConfigManager.raw;
+const theme = config.CORE.THEMES[config.CORE.THEMES.ACTIVE];
 
 async function Work(interaction, client, type) {
     if (!interaction || !type) return;
 
     const userID = interaction.user.id;
-    const config = CONFIG;
-    const theme = config.CORE.THEMES[config.CORE.THEMES.ACTIVE];
 
     const workData = theme.COMMANDS[type];
     if (!workData) return;
@@ -30,7 +29,33 @@ async function Work(interaction, client, type) {
     }
 
     // -----------------------------
-    // Rarity roll (NEW SYSTEM)
+    // Passive check
+    // -----------------------------
+    const isPassive = config.ECONOMY.WORK.IDLE_COMMANDS.includes(type);
+    const passiveData = await GetAsync(userID, "PASSIVE_WORK_COLLECTION") || {};
+
+    if (isPassive) {
+        if (type in passiveData) {
+            const remaining = passiveData[type].READY_AT - Date.now();
+            const secondsRemaining = Math.ceil(remaining / 1000);
+
+            if (remaining > 0) {
+                const msg = ConfigManager.getMsg(
+                    "ECONOMY.WORK.MESSAGES.PASSIVE_NOT_READY",
+                    { time: secondsRemaining }
+                );
+                return interaction.editReply({ content: msg });
+            } else {
+                const msg = ConfigManager.getMsg(
+                    "ECONOMY.WORK.MESSAGES.PASSIVE_READY"
+                );
+                return interaction.editReply({ content: msg });
+            }
+        }
+    }
+
+    // -----------------------------
+    // Rarity roll
     // -----------------------------
     const rarities = config.ECONOMY.WORK.RARITIES;
 
@@ -51,26 +76,36 @@ async function Work(interaction, client, type) {
     const rarityData = rarities[rarity];
 
     // -----------------------------
-    // Pick material
+    // Pick material (Crossmix Themes)
     // -----------------------------
-    const list = workData.RESOURCES[rarity];
-    const material = list[(Math.random() * list.length) | 0];
+    const defaultWorkData =
+        config.CORE.THEMES["DEFAULT"]?.COMMANDS?.[type];
+
+    const themedList = workData.RESOURCES[rarity] || [];
+    const defaultList = defaultWorkData?.RESOURCES?.[rarity] || [];
+
+    const combinedList = [...themedList, ...defaultList];
+    const finalList = combinedList.length > 0 ? combinedList : themedList;
+
+    const material = finalList[(Math.random() * finalList.length) | 0];
 
     // -----------------------------
-    // Amount (biased → more low rolls)
+    // Amount (biased low)
     // -----------------------------
     const amount = (Math.random() * Math.random() * rarityData.AMOUNT_MAX) | 0;
-
-    // prevent 0 drops feeling bad
     const finalAmount = amount <= 0 ? 1 : amount;
 
     // -----------------------------
     // Worth + Experience
     // -----------------------------
-    const workMultiplier = config.ECONOMY.WORK.MULTIPLIER[workData.MULTIPLIER || "LVL_0"];
+    const workMultiplier =
+        config.ECONOMY.WORK.MULTIPLIER[workData.MULTIPLIER || "LVL_0"];
 
-    const currencyFinal = (finalAmount * rarityData.WORTH * workMultiplier.CASH);
-    const xpFinal = (finalAmount * rarityData.WORTH * workMultiplier.EXPERIENCE);
+    const currencyFinal =
+        finalAmount * rarityData.WORTH * workMultiplier.CASH;
+
+    const xpFinal =
+        finalAmount * rarityData.WORTH * workMultiplier.EXPERIENCE;
 
     // -----------------------------
     // Level system
@@ -89,7 +124,7 @@ async function Work(interaction, client, type) {
     }
 
     // -----------------------------
-    // Tags / Flavor
+    // Flavor
     // -----------------------------
     let finalMsgExtra = "";
 
@@ -106,21 +141,46 @@ async function Work(interaction, client, type) {
     // -----------------------------
     await SetAsync(userID, { LEVEL: { LEVEL: level, EXPERIENCE: xp } });
 
-    await AddToAsync(userID, {
-        MAIN_CURRENCY: currencyFinal,
-        TOTAL_MAIN_CURRENCY: currencyFinal
-    });
+    if (!isPassive) {
+        await AddToAsync(userID, {
+            MAIN_CURRENCY: currencyFinal,
+            TOTAL_MAIN_CURRENCY: currencyFinal
+        });
+    } else {
+        const passiveData =
+            (await GetAsync(userID, "PASSIVE_WORK_COLLECTION")) || {};
+
+        passiveData[type] = passiveData[type] || {
+            READY_AT: 0,
+            CURRENCY: 0
+        };
+
+        passiveData[type].CURRENCY += currencyFinal;
+        passiveData[type].READY_AT =
+            Date.now() + rarityData.COOLDOWN * 1000;
+
+        await SetAsync(userID, {
+            PASSIVE_WORK_COLLECTION: passiveData
+        });
+    }
 
     // -----------------------------
     // Message
     // -----------------------------
-    const msg = ConfigManager.parseMsg(workData.ACTION_MESSAGE, {
-        amount: finalAmount,
-        material,
-        totalValue: currencyFinal,
-        mainCurrency_name: theme.CURRENCY.MAIN.NAME,
-        mainCurrency_emoji: theme.CURRENCY.MAIN.EMOJI
-    });
+    let msg = ConfigManager.getMsg(
+        `ECONOMY.WORK.MESSAGES.ACTION.${type}.${config.CORE.THEMES.ACTIVE}`,
+        {
+            amount: finalAmount,
+            material,
+            rarity,
+            time: rarityData.COOLDOWN,
+            totalValue: currencyFinal,
+            mainCurrency_name: theme.CURRENCY.MAIN.NAME,
+            mainCurrency_emoji: theme.CURRENCY.MAIN.EMOJI
+        }
+    );
+
+    if (!msg) msg = "No work message could be fetched.";
 
     const xpMsg = ConfigManager.getMsg(
         "ECONOMY.WORK.MESSAGES.EXPERIENCE_ATTACH",

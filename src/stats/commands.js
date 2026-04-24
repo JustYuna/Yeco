@@ -17,6 +17,10 @@ const commands = [
         description: 'View core info about the bot',
     },
     {
+        name: 'cooldown',
+        description: 'View what cooldowns you are one currently',
+    },
+    {
         name: "settings",
         description: "Toggle some settings",
         options: [
@@ -66,12 +70,17 @@ const commands = [
 
     // Work \\
     {
+        name: 'passive',
+        description: 'Claim your passive income',
+    },
+
+    {
         name: 'hunt',
-        description: 'Hunt some animals for money',
+        description: 'Hunt some animals for currency',
     },
     {
         name: 'fish',
-        description: 'Lets go fishing for some money',
+        description: 'Lets go fishing for some currency',
     },
     {
         name: 'mine',
@@ -100,12 +109,12 @@ const commands = [
 
     {
         name: 'daily',
-        description: 'Claim your daily amount of money',
+        description: 'Claim your daily amount of currency',
     },
 
     {
         name: 'gift',
-        description: 'Give your candy to another user',
+        description: 'Give your currency to another user',
         options: [
             { name: 'amount', type: 4, required: true, description: 'Amount' },
             { name: 'user', type: 6, required: true, description: 'User' },
@@ -252,7 +261,7 @@ const commands = [
 
     {
         name: 'slots',
-        description: 'gamble ur money',
+        description: 'gamble ur currency',
         options: [
             { name: 'amount', type: 4, required: true, description: 'Gamble amount' },
             { name: 'view', type: 5, required: false, description: 'View Info' },

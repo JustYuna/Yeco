@@ -1,4 +1,5 @@
 const { removeUser } = require('../../DataStorage/Datastore');
+const ConfigManager = require("../../Core/configManager")
 const CacheMaid = require("../../Utils/CacheMaid");
 
 const pendingDeletes = CacheMaid.new("command_dataDeletion").map;
@@ -16,16 +17,18 @@ async function DataDeletion(interaction, client) {
             pendingDeletes.delete(userId);
 
             await removeUser(userId);
+            const msg = ConfigManager.getMsg("OTHER.DATA_DELETION.DELETED")
             return interaction.editReply({
-                content: "🗑️ Your data has been permanently deleted."
+                content: msg
             });
         }
     }
 
     pendingDeletes.set(userId, now);
 
+    const msg = ConfigManager.getMsg("OTHER.DATA_DELETION.CONFIRM")
     return interaction.editReply({
-        content: "⚠️ This will delete ALL your data.\nRun `/delete-data` again within 20 seconds to confirm."
+        content: msg
     });
 }
 

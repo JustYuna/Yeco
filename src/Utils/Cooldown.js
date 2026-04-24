@@ -65,8 +65,18 @@ function editCooldown(interaction, command, duration) {
     setCooldown(interaction, command, duration);
 }
 
+/**
+ * Returns all active cooldowns asigned to a userid
+ */
+function getCooldowns(userId) {
+    if (!userId) return cooldowns.map;
+
+    return cooldowns.map.get(userId) || new Map();
+}
+
 module.exports = {
     checkCooldown,
     setCooldown,
     editCooldown,
+    getCooldowns
 };

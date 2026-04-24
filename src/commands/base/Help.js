@@ -9,13 +9,14 @@ async function help(interaction, client) {
         .setColor(0x00AE86)
         .setDescription(
 `**📖 Base**
-\`/help\` • \`/info\` • \`/delete-data\` 📩• \`/report\` 📩
+\`/help\` • \`/info\` • \`/delete-data\` 📩 • \`/report\` 📩
 
 **💰 Economy**
-\`/fish\` • \`/mine\` • \`/cook\` • \`/hunt\`
+\`/fish\` 📥 • \`/mine\` 📥 • \`/cook\` 📥 • \`/hunt\`
+\`/passive\`
 
 **🔓 Unlocks (Level 5)**
-\`/chop\` • \`/farm\` • \`/smith\`
+\`/chop\` • \`/farm\` 📥 • \`/smith\`
 
 **⚔️ Crime**
 \`/rob\` • \`/heist\`
@@ -31,10 +32,11 @@ async function help(interaction, client) {
 \`/ship\` 📩 • \`/build-tower\` 📩 • \`/spin\` 📩
 
 **📊 Extras**
-\`/leaderboard\` 📩
+\`/leaderboard\` 📩 • \`/cooldowns\` 📩
 
 -{ Legend }-
 📩 - Available in DMs
+📥 - Passive income command
 `
         );
 

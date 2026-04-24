@@ -81,6 +81,9 @@ module.exports = {
             BlueStar: "<:emoji_blue_star:1496170019388915822>",
             GreenUpgrade: "<:emoji_green_upgrade:1496170310829871154>",
             PurpleToT: "<:emoji_purple_tot:1496172568128782419>",
+            Trashcan: "<:emoji_trashcan:1496950798675083315>",
+            Box: "<:emoji_box:1496951152120430602>",
+            Calender: "<:emoji_calenders:1496979436510249071>",
 
             // social
             SOCIAL_Discord: "<:social_discord:1496168648283394171>",
@@ -113,7 +116,6 @@ module.exports = {
                 },
                 COMMANDS: {
                     HUNTING: {
-                        ACTION_MESSAGE: "🏹 You trekked across the sun-drenched dunes...\nYou tracked down **{amount}x {material}** and sold the spoils for: **{totalValue} {mainCurrency_name}** {mainCurrency_emoji}",
                         RESOURCES: {
                             "COMMON": [
                                 "Beach Crab",
@@ -148,19 +150,20 @@ module.exports = {
                         }
                     },
                     MINING: {
-                        ACTION_MESSAGE: "⛏️ You dig your shovel deep into the pristine sand...\nYou unearthed **{amount}x {material}** and sold it for: **{totalValue} {mainCurrency_name}** {mainCurrency_emoji}",
                         RESOURCES: {
                             "COMMON": [
                                 "Wet Sand",
                                 "Smooth Pebble",
                                 "Coarse Gravel",
-                                "Broken Sea Glass"
+                                "Broken Sea Glass",
+                                "Fish Alloy"
                             ],
                             "RARE": [
                                 "Amber Chunk",
                                 "Tropical Quartz",
                                 "Coral Fragment",
-                                "Limestone"
+                                "Limestone",
+                                "Gold Fish Alloy"
                             ],
                             "EPIC": [
                                 "Sunstone Crystal",
@@ -178,12 +181,11 @@ module.exports = {
                                 "A Literal Sun-Beam",
                                 "A Sandcastle that won't fall",
                                 "The Forbidden Dry Sand",
-                                "A Nokia 3310 (Still working)"
+                                "Fishium"
                             ]
                         }
                     },
                     FISHING: {
-                        ACTION_MESSAGE: "🎣 You cast your line from the end of the pier...\nYou caught **{amount}x {material}** and sold it for: **{totalValue} {mainCurrency_name}** {mainCurrency_emoji}",
                         RESOURCES: {
                             "COMMON": [
                                 "Sardine",
@@ -218,7 +220,6 @@ module.exports = {
                         }
                     },
                     COOKING: {
-                        ACTION_MESSAGE: "🍳 You fired up the grill at the beach party...\nYou prepared **{amount}x {material}** and sold them to hungry tourists for: **{totalValue} {mainCurrency_name}** {mainCurrency_emoji}",
                         RESOURCES: {
                             "COMMON": [
                                 "Burnt Hotdog",
@@ -254,7 +255,6 @@ module.exports = {
                     },
                     CHOP: {
                         MULTIPLIER: "LVL_5",
-                        ACTION_MESSAGE: "🪓 You hacked through the tropical jungle...\nAnd gathered **{amount}x {material}** and earned: **{totalValue} {mainCurrency_name}** {mainCurrency_emoji}",
                         RESOURCES: {
                             "COMMON": [
                                 "Palm Leaf",
@@ -290,7 +290,6 @@ module.exports = {
                     },
                     FARM: {
                         MULTIPLIER: "LVL_5",
-                        ACTION_MESSAGE: "🌾 You harvested the sun-ripened crops...\nAnd collected **{amount}x {material}** and earned: **{totalValue} {mainCurrency_name}** {mainCurrency_emoji}",
                         RESOURCES: {
                             "COMMON": [
                                 "Sweet Corn",
@@ -326,7 +325,6 @@ module.exports = {
                     },
                     SMITH: {
                         MULTIPLIER: "LVL_5",
-                        ACTION_MESSAGE: "⚒️ You hammered away at the beach forge...\nAnd crafted **{amount}x {material}** and earned: **{totalValue} {mainCurrency_name}** {mainCurrency_emoji}",
                         RESOURCES: {
                             "COMMON": [
                                 "Sand Shovel",
@@ -387,7 +385,6 @@ module.exports = {
                 },
                 COMMANDS: {
                     HUNTING: {
-                        ACTION_MESSAGE: "🏹 You stalked through the fog of the cursed woods...\nYou tracked down **{amount}x {material}** and sold the spoils for: **{totalValue} {mainCurrency_name}** {mainCurrency_emoji}",
                         RESOURCES: {
                             "COMMON": [
                                 "Scattered Lantern",
@@ -422,7 +419,6 @@ module.exports = {
                         }
                     },
                     MINING: {
-                        ACTION_MESSAGE: "⛏️ You swing your pickaxe into a cracked tombstone...\nYou unearthed **{amount}x {material}** and sold it for: **{totalValue} {mainCurrency_name}** {mainCurrency_emoji}",
                         RESOURCES: {
                             "COMMON": [
                                 "Pumpkin Shards",
@@ -457,7 +453,6 @@ module.exports = {
                         }
                     },
                     FISHING: {
-                        ACTION_MESSAGE: "{emoji_FishBait} You cast your line into the murky swamp waters...\nYou caught **{amount}x {material}** and sold it for: **{totalValue} {mainCurrency_name}** {mainCurrency_emoji}",
                         RESOURCES: {
                             "COMMON": [
                                 "Sunken Skeleton Hand",
@@ -492,7 +487,6 @@ module.exports = {
                         }
                     },
                     COOKING: {
-                        ACTION_MESSAGE: "🍳 You stirred a bubbling cauldron over a green flame...\nYou prepared **{amount}x {material}** and sold them to hungry ghouls for: **{totalValue} {mainCurrency_name}** {mainCurrency_emoji}",
                         RESOURCES: {
                             "COMMON": [
                                 "Eyeball Cupcakes",
@@ -528,7 +522,6 @@ module.exports = {
                     },
                     CHOP: {
                         MULTIPLIER: "LVL_5",
-                        ACTION_MESSAGE: "{emoji_Axe} You chopped through the haunted woods...\nAnd gathered **{amount}x {material}** and earned: **{totalValue} {mainCurrency_name}** {mainCurrency_emoji}",
                         RESOURCES: {
                             "COMMON": [
                                 "Dead Branch",
@@ -564,7 +557,6 @@ module.exports = {
                     },
                     FARM: {
                         MULTIPLIER: "LVL_5",
-                        ACTION_MESSAGE: "{emoji_Wheat} You harvested from the cursed fields...\nAnd collected **{amount}x {material}** and earned: **{totalValue} {mainCurrency_name}** {mainCurrency_emoji}",
                         RESOURCES: {
                             "COMMON": [
                                 "Rotten Wheat",
@@ -600,7 +592,6 @@ module.exports = {
                     },
                     SMITH: {
                         MULTIPLIER: "LVL_5",
-                        ACTION_MESSAGE: "{emoji_Sword} You forged cursed weaponry...\nAnd crafted **{amount}x {material}** and earned: **{totalValue} {mainCurrency_name}** {mainCurrency_emoji}",
                         RESOURCES: {
                             "COMMON": [
                                 "Rusty Knife",
@@ -657,7 +648,6 @@ module.exports = {
                 COLORS: { MAIN: [0, 100, 200], SECONDARY: [50, 75, 100], ERROR: [250, 0, 0] },
                 COMMANDS: {
                     HUNTING: {
-                        ACTION_MESSAGE: "🏹 You trekked through the deep blizzard snow...\nYou tracked down **{amount}x {material}** and sold the spoils for: **{totalValue} {mainCurrency_name}** {mainCurrency_emoji}",
                         RESOURCES: {
                             "COMMON": [
                                 "Frozen Pinecone",
@@ -692,7 +682,6 @@ module.exports = {
                         }
                     },
                     MINING: {
-                        ACTION_MESSAGE: "⛏️ You crack through the permafrost with your pickaxe...\nYou unearthed **{amount}x {material}** and sold it for: **{totalValue} {mainCurrency_name}** {mainCurrency_emoji}",
                         RESOURCES: {
                             "COMMON": [
                                 "Snow",
@@ -727,7 +716,6 @@ module.exports = {
                         }
                     },
                     FISHING: {
-                        ACTION_MESSAGE: "{emoji_FishBait} You drop your line through a hole in the ice...\nYou caught **{amount}x {material}** and sold it for: **{totalValue} {mainCurrency_name}** {mainCurrency_emoji}",
                         RESOURCES: {
                             "COMMON": [
                                 "Ice Cube",
@@ -762,7 +750,6 @@ module.exports = {
                         }
                     },
                     COOKING: {
-                        ACTION_MESSAGE: "🍳 You warmed up the kitchen with a roaring fire...\nYou prepared **{amount}x {material}** and sold them to cold hikers for: **{totalValue} {mainCurrency_name}** {mainCurrency_emoji}",
                         RESOURCES: {
                             "COMMON": [
                                 "Burnt Marshmallows",
@@ -803,7 +790,6 @@ module.exports = {
                     // ------------------
                     CHOP: {
                         MULTIPLIER: "LVL_5",
-                        ACTION_MESSAGE: "{emoji_Axe} You chopped frozen timber...\nAnd gathered **{amount}x {material}** and earned: **{totalValue} {mainCurrency_name}** {mainCurrency_emoji}",
                         RESOURCES: {
                             "COMMON": [
                                 "Frozen Stick",
@@ -839,7 +825,6 @@ module.exports = {
 
                     FARM: {
                         MULTIPLIER: "LVL_5",
-                        ACTION_MESSAGE: "{emoji_Wheat} You harvested frozen crops...\nAnd collected **{amount}x {material}** and earned: **{totalValue} {mainCurrency_name}** {mainCurrency_emoji}",
                         RESOURCES: {
                             "COMMON": [
                                 "Blue Wheat",
@@ -876,7 +861,6 @@ module.exports = {
 
                     SMITH: {
                         MULTIPLIER: "LVL_5",
-                        ACTION_MESSAGE: "{emoji_Sword} You forged icy weaponry...\nAnd crafted **{amount}x {material}** and earned: **{totalValue} {mainCurrency_name}** {mainCurrency_emoji}",
                         RESOURCES: {
                             "COMMON": [
                                 "Iron Knife",
@@ -935,7 +919,6 @@ module.exports = {
                 COLORS: { MAIN: [0, 250, 250], SECONDARY: [250, 50, 160], ERROR: [250, 0, 0] },
                 COMMANDS: {
                     HUNTING: {
-                        ACTION_MESSAGE: "🏹 You ventured into the wild meadows...\nYou tracked down **{amount}x {material}** and sold the spoils for: **{totalValue} {mainCurrency_name}** {mainCurrency_emoji}",
                         RESOURCES: {
                             "COMMON": [
                                 "Feather",
@@ -971,14 +954,17 @@ module.exports = {
                         }
                     },
                     MINING: {
-                        ACTION_MESSAGE: "⛏️ You swing your pickaxe deep into the cavern walls...\nYou unearthed **{amount}x {material}** and sold it for: **{totalValue} {mainCurrency_name}** {mainCurrency_emoji}",
                         RESOURCES: {
                             "COMMON": [
                                 "Grass",
                                 "Stone",
                                 "Granite",
                                 "Diorite",
-                                "Gravel"
+                                "Gravel",
+                                "Zinc",
+                                "Obsidian",
+                                "Garnet",
+                                "Malachite"
                             ],
                             "RARE": [
                                 "Coal",
@@ -992,14 +978,19 @@ module.exports = {
                                 "Raw Tin",
                                 "Sulfur",
                                 "Iridium",
-                                "Slate"
+                                "Slate",
+                                "Platinum",
+                                "Lapiz",
+                                "Topaz"
                             ],
                             "LEGENDARY": [
                                 "Diamond",
                                 "Emerald",
                                 "Sapphire",
                                 "Ruby",
-                                "Mithdril"
+                                "Mithdril",
+                                "Sunstone",
+                                "Rainbownite"
                             ],
                             "MYTHIC": [
                                 "Netherite",
@@ -1010,7 +1001,6 @@ module.exports = {
                         }
                     },
                     FISHING: {
-                        ACTION_MESSAGE: "{emoji_FishBait} You cast your line into the blue water...\nYou caught **{amount}x {material}** and sold it for: **{totalValue} {mainCurrency_name}** {mainCurrency_emoji}",
                         RESOURCES: {
                             "COMMON": [
                                 "Seaweed",
@@ -1045,7 +1035,6 @@ module.exports = {
                         }
                     },
                     COOKING: {
-                        ACTION_MESSAGE: "🍳 You worked a shift at the local bistro...\nYou prepared **{amount}x {material}** and earned: **{totalValue} {mainCurrency_name}** {mainCurrency_emoji}",
                         RESOURCES: {
                             "COMMON": [
                                 "Chocolate Chip Cookies",
@@ -1085,7 +1074,6 @@ module.exports = {
                     // ------------------
                     CHOP: {
                         MULTIPLIER: "LVL_5",
-                        ACTION_MESSAGE: "{emoji_Axe} You vent into a forest...\nAnd chopped **{amount}x {material}** and earned: **{totalValue} {mainCurrency_name}** {mainCurrency_emoji}",
                         RESOURCES: {
                             "COMMON": [
                                 "Oak Tree",
@@ -1121,7 +1109,6 @@ module.exports = {
                     },
                     FARM: {
                         MULTIPLIER: "LVL_5",
-                        ACTION_MESSAGE: "{emoji_Wheat} You worked on a farm...\nAnd harvested **{amount}x {material}** and earned: **{totalValue} {mainCurrency_name}** {mainCurrency_emoji}",
                         RESOURCES: {
                             "COMMON": [
                                 "Wheat",
@@ -1157,7 +1144,6 @@ module.exports = {
                     },
                     SMITH: {
                         MULTIPLIER: "LVL_5",
-                        ACTION_MESSAGE: "{emoji_Sword} You worked at the forge...\nAnd crafted **{amount}x {material}** and earned: **{totalValue} {mainCurrency_name}** {mainCurrency_emoji}",
                         RESOURCES: {
                             "COMMON": [
                                 "Iron Sword",
@@ -1236,29 +1222,102 @@ module.exports = {
         }
     },
 
+    OTHER: {
+        DATA_DELETION: {
+            CONFIRM: "{emoji_UI_Warn} This will delete ALL your data.\nRun `/delete-data` again within 20 seconds to confirm.",
+            DELETED: "{emoji_Trashcan} Your data has been permanently deleted."
+        }
+    },
+
     ECONOMY: {
 
         // -------------------
         // BASE SECTION
         // -------------------
 
+        PASSIVE: {
+
+        },
+
         WORK: {
+            IDLE_COMMANDS: [
+                "FARM",
+                "MINING",
+                "FISHING",
+                "COOKING"
+            ],
+            RARITIES: {
+                COMMON: { WORTH: 100, AMOUNT_MAX: 35, PERCENTAGE: 150, COOLDOWN: 30 },
+                RARE: { WORTH: 500, AMOUNT_MAX: 20, PERCENTAGE: 75, COOLDOWN: 60 },
+                EPIC: { WORTH: 1_000, AMOUNT_MAX: 12, PERCENTAGE: 20, COOLDOWN: 120 },
+                LEGENDARY: { WORTH: 5_000, AMOUNT_MAX: 6, PERCENTAGE: 5, COOLDOWN: 300 },
+                MYTHIC: { WORTH: 10_000, AMOUNT_MAX: 3, PERCENTAGE: 0.5, COOLDOWN: 600 }
+            },
+            MULTIPLIER: {
+                LVL_0: { CASH: 1, EXPERIENCE: 1.25, COOLDOWN: 1 },
+                LVL_5: { CASH: 2, EXPERIENCE: 2.5, COOLDOWN: 1.5 }
+            },
             MESSAGES: {
                 EXPERIENCE_ATTACH: "\n{emoji_BlueStar} +{xp} XP",
                 LEVEL_UP_ATTACH: ", {emoji_GreenUpgrade} Level Up! New lvl.: **{level}**",
                 LUCKY_ATTACH: "\n✨ You have been realy lucky, keep it up!",
+
+                PASSIVE_NOT_READY: "⏳ Command not ready\nCollect your rewards via `/passive` available in {time}s.",
+                PASSIVE_READY: "📦 Your rewards are ready\nuse `/passive` to collect them!",
+                PASSIVE_COLLECTED: "✅ **Collection Successful!**\n💰 You received **{total}** coins.\n{emoji_Box} **Jobs Finished: **{collected}**\n⏳ **Remaining Jobs: **{remaining}**",
+
+                ACTION: { // ECONOMY.WORK.MESSAGES.ACTION
+                    FISHING: {
+                        SUMMER: "{emoji_FishBait} You cast your line from the pier and caught **{amount}x {material}**!\n{emoji_Box} Added to collection, claimable in `{time}`.",
+                        WINTER: "{emoji_FishBait} You fished through the ice and pulled up **{amount}x {material}**!\n{emoji_Box} Added to collection, claimable in `{time}`.",
+                        HALLOWEEN: "{emoji_FishBait} You fished in the murky swamp and snagged **{amount}x {material}**!\n{emoji_Box} Added to collection, claimable in `{time}`.",
+                        DEFAULT: "{emoji_FishBait} You went fishing and caught **{amount}x {material}**!\n{emoji_Box} Added to collection, claimable in `{time}`."
+                    },
+
+                    MINING: {
+                        SUMMER: "⛏️ You mined through the heat and found **{amount}x {material}**!\n{emoji_Box} Added to collection, claimable in `{time}`.",
+                        WINTER: "❄️ You cracked the permafrost and extracted **{amount}x {material}**!\n{emoji_Box} Added to collection, claimable in `{time}`.",
+                        HALLOWEEN: "🏮 You mined a haunted vein and discovered **{amount}x {material}**!\n{emoji_Box} Added to collection, claimable in `{time}`.",
+                        DEFAULT: "⛏️ You went mining and gathered **{amount}x {material}**!\n{emoji_Box} Added to collection, claimable in `{time}`."
+                    },
+
+                    COOKING: {
+                        SUMMER: "🍳 You fired up the grill and prepared **{amount}x {material}**!\n{emoji_Box} Added to collection, claimable in `{time}`.",
+                        WINTER: "🍲 You cooked a hearty winter stew of **{amount}x {material}**!\n{emoji_Box} Added to collection, claimable in `{time}`.",
+                        HALLOWEEN: "🧪 You brewed a spooky concoction of **{amount}x {material}**!\n{emoji_Box} Added to collection, claimable in `{time}`.",
+                        DEFAULT: "🍳 You cooked up **{amount}x {material}**!\n{emoji_Box} Added to collection, claimable in `{time}`."
+                    },
+
+                    FARM: {
+                        SUMMER: "{emoji_Wheat} You harvested **{amount}x {material}** under the summer sun!\n{emoji_Box} Added to collection, claimable in `{time}`.",
+                        WINTER: "{emoji_Wheat} You gathered a winter yield of **{amount}x {material}**!\n{emoji_Box} Added to collection, claimable in `{time}`.",
+                        HALLOWEEN: "{emoji_Wheat} You harvested a cursed patch of **{amount}x {material}**!\n{emoji_Box} Added to collection, claimable in `{time}`.",
+                        DEFAULT: "{emoji_Wheat} You farmed **{amount}x {material}**!\n{emoji_Box} Added to collection, claimable in `{time}`."
+                    },
+
+                    // Non-Idle Commands (Regular immediate reward style)
+                    HUNTING: {
+                        SUMMER: "🏹 You tracked prey through the lush forest and caught **{amount}x {material}** for **{totalValue} {mainCurrency_name}**",
+                        WINTER: "❄️ Tracking footprints in the snow, you caught **{amount}x {material}** worth **{totalValue} {mainCurrency_name}**",
+                        HALLOWEEN: "🧛 You hunted a shadow beast in the dark! Gained **{amount}x {material}** worth **{totalValue} {mainCurrency_name}**",
+                        DEFAULT: "🏹 You went hunting and brought back **{amount}x {material}** worth **{totalValue} {mainCurrency_name}**"
+                    },
+
+                    CHOP: {
+                        SUMMER: "{emoji_Axe} You chopped down sun-dried trees for **{amount}x {material}**, earning **{totalValue} {mainCurrency_name}**",
+                        WINTER: "{emoji_Axe} You split frozen logs to get **{amount}x {material}** worth **{totalValue} {mainCurrency_name}**",
+                        HALLOWEEN: "{emoji_Axe} You chopped an ancient, gnarled tree! Gained **{amount}x {material}** worth **{totalValue} {mainCurrency_name}**",
+                        DEFAULT: "{emoji_Axe} You chopped wood and got **{amount}x {material}** for **{totalValue} {mainCurrency_name}**"
+                    },
+
+                    SMITH: {
+                        SUMMER: "{emoji_Sword} You forged **{amount}x {material}** in the scorching heat for **{totalValue} {mainCurrency_name}**",
+                        WINTER: "{emoji_Sword} Using the forge's warmth, you crafted **{amount}x {material}** worth **{totalValue} {mainCurrency_name}**",
+                        HALLOWEEN: "{emoji_Sword} You forged a cursed blade from **{amount}x {material}** worth **{totalValue} {mainCurrency_name}**",
+                        DEFAULT: "{emoji_Sword} You smithed **{amount}x {material}** and earned **{totalValue} {mainCurrency_name}**"
+                    }
+                }
             },
-            RARITIES: {
-                COMMON: { WORTH: 100, AMOUNT_MAX: 35, PERCENTAGE: 150 },
-                RARE: { WORTH: 500, AMOUNT_MAX: 20, PERCENTAGE: 75 },
-                EPIC: { WORTH: 1_000, AMOUNT_MAX: 12, PERCENTAGE: 20 },
-                LEGENDARY: { WORTH: 5_000, AMOUNT_MAX: 6, PERCENTAGE: 5 },
-                MYTHIC: { WORTH: 10_000, AMOUNT_MAX: 3, PERCENTAGE: 0.5 }
-            },
-            MULTIPLIER: {
-                LVL_0: { CASH: 1, EXPERIENCE: 1.25 },
-                LVL_5: { CASH: 2, EXPERIENCE: 2.5 }
-            }
         },
 
         BANK: {
@@ -1359,12 +1418,12 @@ module.exports = {
             },
             MESSAGES: {
                 ALREADY_CLAIMED: `{emoji_UI_Cross} You already used \`/daily\` today!`,
-                RECIEVED: "{mainCurrency_emoji} You received **{reward} {mainCurrency_name}**",
+                RECIEVED: "{emoji_Calender} {mainCurrency_emoji} You received **{reward} {mainCurrency_name}**",
             }
         },
 
         GIFT: {
-            MIN: 50,
+            MIN: 1,
             MAX: 5_000,
             MAX_RECIEVER: 100_000,
             MESSAGES: {
@@ -1380,7 +1439,7 @@ module.exports = {
         // -------------------
 
         ROCK_PAPER_SCISSORS: {
-            MIN_BET: 50,
+            MIN_BET: 1,
             MAX_BET: 50_000,
             WIN_CHANCE: { WIN: 40, LOSE: 50, ULTIMATE_LOSE: 10 },
 
@@ -1408,7 +1467,7 @@ module.exports = {
         },
 
         SLOTS: {
-            MIN_BET: 50,
+            MIN_BET: 1,
             MAX_BET: 50_000,
             SYMBOLS: [
                 { emoji: "🍒", weight: 3 },
@@ -1431,7 +1490,7 @@ module.exports = {
         },
 
         DICE: {
-            MIN_BET: 50,
+            MIN_BET: 1,
             MAX_GET: 50_000,
         },
     },

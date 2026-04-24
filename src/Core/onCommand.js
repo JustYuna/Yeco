@@ -17,6 +17,15 @@ module.exports = {
         },
         run: (i, c, m) => m.Info(i, c),
     },
+    "cooldown": {
+        settings: {
+            cooldown: 5,
+            canShowCaptcha: false,
+            risk: 0,
+            guildSizeLockout: [ "MEDIUM", "LARGE", "HUGE" ]
+        },
+        run: (i, c, m) => m.Cooldowns(i, c),
+    },
     "settings": {
         settings: {
             cooldown: 5,
@@ -97,6 +106,15 @@ module.exports = {
 
     // -- Economy -- \\
 
+    "passive": {
+        settings: {
+            cooldown: 30,
+            canShowCaptcha: true,
+            risk: 10
+        },
+        run: (i, c, m) => m.Passive(i, c),
+    },
+
     "fish": {
         settings: {
             cooldown: 30,
@@ -109,8 +127,7 @@ module.exports = {
         settings: {
             cooldown: 30,
             canShowCaptcha: true,
-            risk: 10,
-            tags: [ "DM_ENABLED" ]
+            risk: 10
         },
         run: (i, c, m) => m.Work(i, c, "MINING"),
     },
@@ -118,8 +135,7 @@ module.exports = {
         settings: {
             cooldown: 30,
             canShowCaptcha: true,
-            risk: 10,
-            tags: [ "DM_ENABLED" ]
+            risk: 10
         },
         run: (i, c, m) => m.Work(i, c, "COOKING"),
     },
@@ -137,7 +153,7 @@ module.exports = {
             cooldown: 120,
             canShowCaptcha: true,
             risk: 10,
-            guildSizeLockout: [ "MEDIUM" ]
+            guildSizeLockout: [ "MEDIUM", "LARGE", "HUGE" ]
         },
         run: (i, c, m) => m.Work(i, c, "CHOP"),
     },
@@ -146,7 +162,7 @@ module.exports = {
             cooldown: 120,
             canShowCaptcha: true,
             risk: 10,
-            guildSizeLockout: [ "MEDIUM" ]
+            guildSizeLockout: [ "MEDIUM", "LARGE", "HUGE" ]
         },
         run: (i, c, m) => m.Work(i, c, "FARM"),
     },
@@ -155,7 +171,7 @@ module.exports = {
             cooldown: 120,
             canShowCaptcha: true,
             risk: 10,
-            guildSizeLockout: [ "MEDIUM" ]
+            guildSizeLockout: [ "MEDIUM", "LARGE", "HUGE" ]
         },
         run: (i, c, m) => m.Work(i, c, "SMITH"),
     },

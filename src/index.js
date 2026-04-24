@@ -34,6 +34,7 @@ const onCommand = require('./Core/onCommand');
 let token;
 let botId;
 let clientId;
+const devMode = config.CORE.SETTINGS.DEVELOPER_MODE;
 
 if (config.CORE.SETTINGS.DEVELOPER_MODE) {
     token = process.env.DEV_TOKEN;
@@ -73,7 +74,7 @@ client.once('clientReady', async () => {
 
     const { ActivityType } = require('discord.js');
 
-    if (config.CORE.SETTINGS.DEVELOPER_MODE) {
+    if (devMode) {
         client.user.setPresence({
             activities: [{
                 name: 'Maintenance Mode',
@@ -265,7 +266,7 @@ client.on('interactionCreate', async (interaction) => {
         const tags = handler.settings.tags || [];
 
         if (!tags.includes("DM_ENABLED")) {
-            if (!guild || guild.memberCount < 5) {
+            if (!guild || guild.memberCount < 5 && !devMode) {
                 return interaction.editReply({
                     content: "This command is not available here.\n[Requirements]:\nMust be in a server\nServer must have 5+ members"
                 });

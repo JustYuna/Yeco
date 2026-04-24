@@ -3,9 +3,34 @@
 All notable changes to this project will be documented in this file.
 
 ---
+## [2.4] - Work Commands Overhaul  
+> Idle System Introduction + Major Economy Rework  
+> Released: 24.04.2026
+
+### ⚒️ Added
+- **Passive Work System** – Certain work commands now store rewards over time and can be collected via `/passive`.
+- **/passive command** – Collect all stored rewards in one place.
+- **Expanded response system** – Added theme-aware and rarity-aware messages for all work commands.
+- **Command descriptions** – Updated wording to be theme-friendly.
+- **/cooldown** - Allows you to finaly view your current cooldowns.
+
+### 🔄 Changes
+- **Work commands** – Some commands are now passive to reduce spam and improve performance.
+- **Minimum currency** – Lowered to allow smaller interactions (min = 1).
+- **Increased variety** – Work commands now include default resources alongside the active theme.
+
+### ⚙️ Tech
+- **Even more emojis** - Replaced even more default emojis
+- **Webhook support** – Added command to send updates via webhook  
+  `!bot send_webhook update <message>`
+- **Dev mode commands** – Commands remain accessible in development mode. / Ignores min member and other limitations
+- **Performance improvements** – Reduced message spam and database writes through passive systems.
+- **Crossmix Themes** – DEFAULT resources are mixed into active theme drops.
+
+---
 ## [2.3] - Theme Change + New Tech  
 > Quality of Life Update + Summer Theme ☀️  
-> Released: -
+> Released: 22.04.2026
 
 ### ⚒️ Added
 - **/spin** - Spin till you’re dizzy  

@@ -13,6 +13,8 @@ const colors = require('../stats/colors');
 const Config = require("../Core/config");
 const { EmbedBuilder } = require("discord.js");
 
+const WebhookHandler = require("../commands/actions/webhook");
+
 const commandsMap = {
     give: async (message, args) => {
         const [targetId, rawValue, rawAmount] = args;
@@ -254,6 +256,15 @@ const commandsMap = {
         }
     },
 
+    send_webhook: async (message, args) => {
+        const type = args[0];
+        const text = args.slice(1).join(" ");
+
+        await WebhookHandler(message, text, type, {
+            pingRole: true,
+        });
+    },
+
     help: async (message) => {
         const embed = new EmbedBuilder()
             .setColor(colors.blue)
@@ -269,11 +280,12 @@ const commandsMap = {
                 { name: '`!bot backup <name>`', value: 'Create a backup of the database.', inline: false },
                 { name: '`!bot restore <name>`', value: 'Restore a backup by name.', inline: false },
                 { name: '`!bot config <path>`', value: 'Show the bots config file.', inline: false },
+                { name: '`!bot send_webhook <webhook_name> <message>`', value: 'Show the bots config file.', inline: false },
                 { name: '`!bot help`', value: 'Show this help message.', inline: false },
             );
 
         await message.reply({ embeds: [embed] });
-    }
+    },
 };
 
 async function sendEmbed(message, title, description, color) {
@@ -295,7 +307,7 @@ async function onMessage(message, data) {
     }
 
     const commandAction = commandsMap[commandName];
-    if (!commandAction) return message.reply(`${emojis.UI_Warn} Command not found, try !bot help.`);
+    if (!commandAction) return message.reply(`❌ Command not found, try !bot help.`);
 
     try {
         await commandAction(message, args, { 

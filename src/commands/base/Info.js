@@ -40,11 +40,27 @@ async function info(interaction) {
             .setTitle("Trickster Info")
             .setThumbnail(avatarUrl)
             .setDescription(
-                `**Owner:** ${username}\n` +
-                `This bot is designed to be a global economy bot to sync up multiple servers into using one stable system!` +
-                "\n[Trickster Changelogs](https://github.com/JustSnuv/Trickster/blob/main/CHANGELOG.md)" +
-                `\n\n**Socials:**` +
-                `\n>>> [Support](https://www.dicord.gg/43kaQUsUjf)\n[About ${username}](https://pronouns.cc/@Snuv)\n[Github](https://github.com/JustSnuv)`
+                `**Developer:** ${username}\n` +
+                `This bot is designed to be a global economy bot to sync up multiple servers into using one stable system!`
+            )
+            .addFields(
+                {
+                    name: "🔗 Changelogs",
+                    value:
+                        "[View Changelog](https://github.com/JustYuna/Yeco/blob/main/Changelog.md)\n" +
+                        "[View Source Code](https://github.com/JustYuna/Yeco)"
+                },
+                {
+                    name: "🌐 Socials",
+                    value:
+                        "[Support Server](https://discord.gg/43kaQUsUjf)\n" +
+                        `[About ${username}](https://pronouns.cc/@Snuv)\n` +
+                        "[GitHub](https://github.com/JustSnuv)"
+                },
+                {
+                    name: "🧾 Credits",
+                    value: `Icons: gvesster + ${username}`
+                }
             )
             .setFooter({ text: `Powered by: ${username}` });
 
