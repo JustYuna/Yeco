@@ -1479,6 +1479,7 @@ module.exports = {
     FUN: {
         BONK: {
             GIFS: [
+                "https://tenor.com/view/nobara-bonk-nobara-kugisaki-nobara-hammer-kugisaki-nobara-bonk-anime-gif-8518894744860326251",
                 "https://tenor.com/view/teto-utau-sansansanxu-vocaloid-i%27m-talking-to-you-gif-2641126725330411734",
                 "https://tenor.com/view/bonk-meme-dog-gif-9935778472248450901",
                 "https://tenor.com/view/bonk-gif-20931372",
@@ -1526,6 +1527,7 @@ module.exports = {
 
         HUG: {
             GIFS: [
+                "https://tenor.com/view/jujutsu-kaisen-hug-satoru-gif-22607500",
                 "https://tenor.com/view/hug-anime-comfy-cute-gif-5299348585618231224",
                 "https://tenor.com/view/alice-vt-gif-25825873",
                 "https://tenor.com/view/chikako-hugging-otohime-for-the-first-and-she-confused-gif-313471048803276179",
@@ -1555,6 +1557,7 @@ module.exports = {
 
         SPIN: {
             GIFS: [
+                "https://tenor.com/view/choso-jjk-jujutsu-kaisen-jjk-s3-jujutsu-kaisen-s3-gif-7572046441222807134",
                 "https://tenor.com/view/chibi-miku-hatsune-miku-vocaloid-spinning-gif-17905461",
                 "https://tenor.com/view/hatsune-miku-hatsune-miku-spin-spinning-gif-8067541111061086862",
                 "https://tenor.com/view/aymenzero-kasane-teto-teto-0401-cycle-gif-18089640910220477995",
@@ -1579,6 +1582,7 @@ module.exports = {
         
         PATPAT: {
             GIFS: [
+                "https://tenor.com/view/jujutsu-kaisen-satoru-megumi-head-squeeze-jujutsu-kaisen-satoru-megumi-head-gif-14091249289821549249",
                 "https://tenor.com/view/anime-girl-pet-gif-9096264",
                 "https://tenor.com/view/panko-cat-pankocat-fatfatpankocat-pet-gif-228857265189960783",
                 "https://tenor.com/view/bunny-gif-4514864",

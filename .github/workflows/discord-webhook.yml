@@ -8,6 +8,33 @@ jobs:
   notify:
     runs-on: ubuntu-latest
     steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 2  # Get the last 2 commits to compare
+
+      - name: Get diff stats
+        id: diff
+        run: |
+          # Get file changes between previous commit and current
+          FILES_CHANGED=$(git diff --name-only HEAD~1 HEAD | wc -l)
+          INSERTIONS=$(git diff --shortstat HEAD~1 HEAD | grep -oP '(?<=insertion\(s\) )\d+' || echo "0")
+          DELETIONS=$(git diff --shortstat HEAD~1 HEAD | grep -oP '(?<=deletion\(s\) )\d+' || echo "0")
+          
+          # Get list of changed files (limited to 10 for Discord embed)
+          FILE_LIST=$(git diff --name-only HEAD~1 HEAD | head -10 | sed 's/^/- /' | tr '\n' '\n')
+          if [ $(git diff --name-only HEAD~1 HEAD | wc -l) -gt 10 ]; then
+            FILE_LIST="${FILE_LIST}\n- *and $(( $(git diff --name-only HEAD~1 HEAD | wc -l) - 10 )) more...*"
+          fi
+          
+          echo "files_changed=$FILES_CHANGED" >> $GITHUB_OUTPUT
+          echo "insertions=$INSERTIONS" >> $GITHUB_OUTPUT
+          echo "deletions=$DELETIONS" >> $GITHUB_OUTPUT
+          
+          # Escape for JSON
+          FILE_LIST_ESCAPED=$(echo "$FILE_LIST" | jq -Rsa .)
+          echo "file_list=$FILE_LIST_ESCAPED" >> $GITHUB_OUTPUT
+
       - name: Send to Discord
         env:
           WEBHOOK_URL: ${{ secrets.DISCORD_WEBHOOK_URL }}
@@ -15,15 +42,36 @@ jobs:
           AUTHOR: ${{ github.actor }}
           COMMIT_URL: ${{ github.event.head_commit.url }}
           SHA: ${{ github.sha }}
+          FILES_CHANGED: ${{ steps.diff.outputs.files_changed }}
+          INSERTIONS: ${{ steps.diff.outputs.insertions }}
+          DELETIONS: ${{ steps.diff.outputs.deletions }}
+          FILE_LIST: ${{ steps.diff.outputs.file_list }}
+          REPO_NAME: ${{ github.repository }}
         run: |
           curl -X POST -H "Content-Type: application/json" \
           -d "{
-            \"content\": \"📦 **New commit!**\",
             \"embeds\": [{
-              \"title\": \"${COMMIT_MSG}\",
+              \"title\": \"📦 New push to \`${GITHUB_REF_NAME}\`\",
               \"url\": \"${COMMIT_URL}\",
-              \"description\": \"**Author:** ${AUTHOR}\\n**Commit:** \`${SHA:0:7}\`\",
-              \"color\": 5793266
+              \"description\": \"**${COMMIT_MSG}**\n\n**👤 Author:** ${AUTHOR}\n**🔗 Commit:** \`${SHA:0:7}\`\",
+              \"color\": 5793266,
+              \"fields\": [
+                {
+                  \"name\": \"📊 Diff Stats\",
+                  \"value\": \"🟢 +${INSERTIONS} insertions\\n🔴 -${DELETIONS} deletions\\n📁 ${FILES_CHANGED} file(s) changed\",
+                  \"inline\": true
+                },
+                {
+                  \"name\": \"📝 Changed Files\",
+                  \"value\": ${FILE_LIST},
+                  \"inline\": false
+                }
+              ],
+              \"footer\": {
+                \"text\": \"${REPO_NAME}\",
+                \"icon_url\": \"https://github.githubassets.com/favicon.ico\"
+              },
+              \"timestamp\": \"$(date -u +"%Y-%m-%dT%H:%M:%SZ")\"
             }]
           }" \
           $WEBHOOK_URL

@@ -73,8 +73,14 @@ async function Work(interaction, client, type) {
     // -----------------------------
     // Worth + Experience
     // -----------------------------
+    const voteBoost = await GetAsync(userID, "VOTE_BOOST");
+    let boostMultiplier = 1;
+    if (voteBoost && voteBoost > Date.now()) {
+        boostMultiplier = 2;
+    }
+
     const currencyFinal =
-        finalAmount * rarityData.WORTH * workSettings.MULTIPLIER.CURRENCY;
+        finalAmount * rarityData.WORTH * workSettings.MULTIPLIER.CURRENCY * boostMultiplier;
     const xpFinal =
         finalAmount * rarityData.WORTH * workSettings.MULTIPLIER.EXPERIENCE;
     const cooldownFinal =
