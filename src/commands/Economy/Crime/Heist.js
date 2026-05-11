@@ -1,8 +1,8 @@
-const { editCooldown } = require('../../Utils/Cooldown');
-const { GetAsync, AddToAsync } = require('../../DataStorage/Datastore');
+const { editCooldown } = require('../../../Utilities/Cooldown');
+const { GetAsync, AddToAsync } = require('../../../DataStorage/Datastore');
 
-const Config = require("../../Core/config");
-const ConfigManager = require("../../Core/configManager");
+const Config = require("../../../Core/config");
+const ConfigManager = require("../../../Core/configManager");
 const { EmbedBuilder } = require("discord.js");
 
 // --- Data ---

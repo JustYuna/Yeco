@@ -1,13 +1,12 @@
-const { GetAsync, AddToAsync } = require('../../DataStorage/Datastore');
+const { GetAsync, AddToAsync } = require('../../../DataStorage/Datastore');
 const { EmbedBuilder } = require('discord.js');
 
-const ConfigManager = require("../../Core/configManager");
-const CommandHelper = require("../../helpers/commandHelper");
+const ConfigManager = require("../../../Core/configManager");
+const CommandHelper = require("../../..//Utilities/CommandHelper");
 
 const COINFLIP = ConfigManager.raw.GAMBLING.COINFLIP;
 const {
     MIN_BET,
-    MAX_BET,
     WIN_CHANCE,
     LOSE_CHANCE,
     ULTIMATE_LOSE_CHANCE,
@@ -22,7 +21,7 @@ async function Coinflip(interaction, client, { amount, selection }) {
     const userId = interaction.user.id;
 
     let Balance = await GetAsync(userId, "MAIN_CURRENCY") || 0;
-    await CommandHelper.VALIDATE_CURRENCY(interaction, amount, { min: MIN_BET, max: MAX_BET, userBalance: Balance, command: "coinflip" });
+    await CommandHelper.VALIDATE_CURRENCY(interaction, amount, { min: MIN_BET, userBalance: Balance, command: "coinflip" });
 
     let rand = Math.random() * totalChance;
     let result = "lose";

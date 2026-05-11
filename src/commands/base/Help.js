@@ -12,11 +12,10 @@ async function help(interaction, client) {
 \`/help\` • \`/info\` • \`/delete-data\` 📩 • \`/report\` 📩
 
 **💰 Economy**
-\`/fish\` 📥 • \`/mine\` 📥 • \`/cook\` 📥 • \`/hunt\`
-\`/passive\`
-
-**🔓 Unlocks (Level 5)**
-\`/chop\` • \`/farm\` 📥 • \`/smith\`
+\`/farm\` - Lvl. 0
+\`/gather\` - Lvl. 2
+\`/extract\` - Lvl. 5
+\`/craft\` - Lvl. 10
 
 **⚔️ Crime**
 \`/rob\` • \`/heist\`
@@ -25,7 +24,7 @@ async function help(interaction, client) {
 \`/daily\` 📩 • \`/wallet\` • \`/bank\` • \`/gift\`
 
 **🎰 Gambling**
-\`/slots\` • \`/dice\` • \`/rock-paper-scissors\`
+\`/slots\` • \`/coinflip\`
 
 **🎉 Fun**
 \`/bonk\` 📩 • \`/hug\` 📩 • \`/patpat\` 📩 • \`/poke\` 📩
@@ -36,7 +35,6 @@ async function help(interaction, client) {
 
 -{ Legend }-
 📩 - Available in DMs
-📥 - Passive income command
 `
         );
 

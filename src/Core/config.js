@@ -1,7 +1,6 @@
 // config.js
 
 require("dotenv").config();
-const { EmbedBuilder } = require("discord.js");
 
 module.exports = {
     CORE: {
@@ -79,11 +78,17 @@ module.exports = {
             Gambled: "<:emoji_spin_wheel:1495152525337428119>",
             Wheat: "<:emoji_wheat:1496169584347058306>",
             BlueStar: "<:emoji_blue_star:1496170019388915822>",
+            YellowStar: "<:emoji_yellow_star:1501439867534704851>",
             GreenUpgrade: "<:emoji_green_upgrade:1496170310829871154>",
             PurpleToT: "<:emoji_purple_tot:1496172568128782419>",
             Trashcan: "<:emoji_trashcan:1496950798675083315>",
             Box: "<:emoji_box:1496951152120430602>",
             Calender: "<:emoji_calenders:1496979436510249071>",
+            PurpleFire: "<:emoji_purple_fire:1501439477057323180>",
+            RedLightning: "<:emoji_red_lightning:1501440930648035358>",
+            Blueberry: "<:emoji_blueberry:1501441146881314857>",
+            Lemon: "<:emoji_lemon:1501441317237166141>",
+            Carrot: "<:emoji_carrot:1501441471822430290>",
 
             // social
             SOCIAL_Discord: "<:social_discord:1496168648283394171>",
@@ -93,7 +98,8 @@ module.exports = {
             UI_Info: "<:ui_info:1495149117347991682>",
             UI_Cross: "<:ui_cross:1495148489452290088>",
             UI_Warn: "<:ui_warn:1495148637993566399>",
-            UI_Plus: "<:ui_plus:1495148566833004665>"
+            UI_Plus: "<:ui_plus:1495148566833004665>",
+            UI_Questionmark: "<:ui_questionmark:1501443513106042951>",
         },
 
         /* =========================================
@@ -1235,17 +1241,20 @@ module.exports = {
         // BASE SECTION
         // -------------------
 
-        PASSIVE: {
-
-        },
-
         WORK: {
-            IDLE_COMMANDS: [
-                "FARM",
-                "MINING",
-                "FISHING",
-                "COOKING"
-            ],
+            COMMAND_SETTINGS: {
+                FARM: { LEVEL_LOCK: 0, MULTIPLIER: { CURRENCY: 1, EXPERIENCE: 1.25, COOLDOWN: 1 } },
+
+                FISHING: { LEVEL_LOCK: 2, MULTIPLIER: { CURRENCY: 1.25, EXPERIENCE: 1.75, COOLDOWN: 1.5 } },
+                HUNTING: { LEVEL_LOCK: 2, MULTIPLIER: { CURRENCY: 1.25, EXPERIENCE: 1.75, COOLDOWN: 1.5 } },
+
+                MINING: { LEVEL_LOCK: 5, MULTIPLIER: { CURRENCY: 2, EXPERIENCE: 2.5, COOLDOWN: 2 } },
+                CHOP: { LEVEL_LOCK: 5, MULTIPLIER: { CURRENCY: 2, EXPERIENCE: 2.5, COOLDOWN: 2 } },
+
+                COOKING: { LEVEL_LOCK: 10, MULTIPLIER: { CURRENCY: 3, EXPERIENCE: 3.75, COOLDOWN: 3 } },
+                SMITH: { LEVEL_LOCK: 10, MULTIPLIER: { CURRENCY: 3, EXPERIENCE: 3.75, COOLDOWN: 3 } },
+            },
+
             RARITIES: {
                 COMMON: { WORTH: 100, AMOUNT_MAX: 35, PERCENTAGE: 150, COOLDOWN: 30 },
                 RARE: { WORTH: 500, AMOUNT_MAX: 20, PERCENTAGE: 75, COOLDOWN: 60 },
@@ -1253,10 +1262,7 @@ module.exports = {
                 LEGENDARY: { WORTH: 5_000, AMOUNT_MAX: 6, PERCENTAGE: 5, COOLDOWN: 300 },
                 MYTHIC: { WORTH: 10_000, AMOUNT_MAX: 3, PERCENTAGE: 0.5, COOLDOWN: 600 }
             },
-            MULTIPLIER: {
-                LVL_0: { CASH: 1, EXPERIENCE: 1.25, COOLDOWN: 1 },
-                LVL_5: { CASH: 2, EXPERIENCE: 2.5, COOLDOWN: 1.5 }
-            },
+
             MESSAGES: {
                 EXPERIENCE_ATTACH: "\n{emoji_BlueStar} +{xp} XP",
                 LEVEL_UP_ATTACH: ", {emoji_GreenUpgrade} Level Up! New lvl.: **{level}**",
@@ -1268,53 +1274,52 @@ module.exports = {
 
                 ACTION: { // ECONOMY.WORK.MESSAGES.ACTION
                     FISHING: {
-                        SUMMER: "{emoji_FishBait} You cast your line from the pier and caught **{amount}x {material}**!\n{emoji_Box} Added to collection, claimable in `{time}`.",
-                        WINTER: "{emoji_FishBait} You fished through the ice and pulled up **{amount}x {material}**!\n{emoji_Box} Added to collection, claimable in `{time}`.",
-                        HALLOWEEN: "{emoji_FishBait} You fished in the murky swamp and snagged **{amount}x {material}**!\n{emoji_Box} Added to collection, claimable in `{time}`.",
-                        DEFAULT: "{emoji_FishBait} You went fishing and caught **{amount}x {material}**!\n{emoji_Box} Added to collection, claimable in `{time}`."
+                        SUMMER: "{emoji_FishBait} You cast your line from the sun-drenched pier and caught **{material_amount}x {material}**! This **{rarity}** find earned you **{amount}**. \n⏳ Next cast available in: `{cooldownTime}`",
+                        WINTER: "{emoji_FishBait} You drilled through the thick ice and pulled up **{material_amount}x {material}**! A **{rarity}** catch worth **{amount}**. \n⏳ Next cast available in: `{cooldownTime}`",
+                        HALLOWEEN: "{emoji_FishBait} You cast into the glowing green swamp and snagged **{material_amount}x {material}**! This eerie **{rarity}** item sold for **{amount}**. \n⏳ Next cast available in: `{cooldownTime}`",
+                        DEFAULT: "{emoji_FishBait} You spent some time by the water and caught **{material_amount}x {material}**! Your **{rarity}** loot earned you **{amount}**. \n⏳ Next cast available in: `{cooldownTime}`"
                     },
 
                     MINING: {
-                        SUMMER: "⛏️ You mined through the heat and found **{amount}x {material}**!\n{emoji_Box} Added to collection, claimable in `{time}`.",
-                        WINTER: "❄️ You cracked the permafrost and extracted **{amount}x {material}**!\n{emoji_Box} Added to collection, claimable in `{time}`.",
-                        HALLOWEEN: "🏮 You mined a haunted vein and discovered **{amount}x {material}**!\n{emoji_Box} Added to collection, claimable in `{time}`.",
-                        DEFAULT: "⛏️ You went mining and gathered **{amount}x {material}**!\n{emoji_Box} Added to collection, claimable in `{time}`."
+                        SUMMER: "⛏️ You braved the heat of the deep tunnels and found **{material_amount}x {material}**! This **{rarity}** ore is worth **{amount}**. \n⏳ Next swing available in: `{cooldownTime}`",
+                        WINTER: "❄️ You shattered the permafrost to extract **{material_amount}x {material}**! A frosty **{rarity}** haul worth **{amount}**. \n⏳ Next swing available in: `{cooldownTime}`",
+                        HALLOWEEN: "🏮 You cracked open a haunted vein and discovered **{material_amount}x {material}**! This spooky **{rarity}** find gave you **{amount}**. \n⏳ Next swing available in: `{cooldownTime}`",
+                        DEFAULT: "⛏️ You descended into the mines and gathered **{material_amount}x {material}**! Your **{rarity}** discovery earned you **{amount}**. \n⏳ Next swing available in: `{cooldownTime}`"
                     },
 
                     COOKING: {
-                        SUMMER: "🍳 You fired up the grill and prepared **{amount}x {material}**!\n{emoji_Box} Added to collection, claimable in `{time}`.",
-                        WINTER: "🍲 You cooked a hearty winter stew of **{amount}x {material}**!\n{emoji_Box} Added to collection, claimable in `{time}`.",
-                        HALLOWEEN: "🧪 You brewed a spooky concoction of **{amount}x {material}**!\n{emoji_Box} Added to collection, claimable in `{time}`.",
-                        DEFAULT: "🍳 You cooked up **{amount}x {material}**!\n{emoji_Box} Added to collection, claimable in `{time}`."
+                        SUMMER: "🍳 You fired up the grill and served **{material_amount}x {material}**! This **{rarity}** dish earned you a tip of **{amount}**. \n⏳ Kitchen reopens in: `{cooldownTime}`",
+                        WINTER: "🍲 You simmered a hearty winter stew of **{material_amount}x {material}**! A **{rarity}** meal worth **{amount}**. \n⏳ Kitchen reopens in: `{cooldownTime}`",
+                        HALLOWEEN: "🧪 You stirred a bubbling cauldron and produced **{material_amount}x {material}**! This **{rarity}** concoction sold for **{amount}**. \n⏳ Kitchen reopens in: `{cooldownTime}`",
+                        DEFAULT: "🍳 You donned your apron and cooked **{material_amount}x {material}**! Your **{rarity}** creation earned you **{amount}**. \n⏳ Kitchen reopens in: `{cooldownTime}`"
                     },
 
                     FARM: {
-                        SUMMER: "{emoji_Wheat} You harvested **{amount}x {material}** under the summer sun!\n{emoji_Box} Added to collection, claimable in `{time}`.",
-                        WINTER: "{emoji_Wheat} You gathered a winter yield of **{amount}x {material}**!\n{emoji_Box} Added to collection, claimable in `{time}`.",
-                        HALLOWEEN: "{emoji_Wheat} You harvested a cursed patch of **{amount}x {material}**!\n{emoji_Box} Added to collection, claimable in `{time}`.",
-                        DEFAULT: "{emoji_Wheat} You farmed **{amount}x {material}**!\n{emoji_Box} Added to collection, claimable in `{time}`."
+                        SUMMER: "{emoji_Wheat} You harvested **{material_amount}x {material}** under the blistering sun! This **{rarity}** yield earned you **{amount}**. \n⏳ Next harvest in: `{cooldownTime}`",
+                        WINTER: "{emoji_Wheat} You cleared the snow to gather **{material_amount}x {material}**! A rare **{rarity}** winter crop worth **{amount}**. \n⏳ Next harvest in: `{cooldownTime}`",
+                        HALLOWEEN: "{emoji_Wheat} You braved the cursed patch to pick **{material_amount}x {material}**! This **{rarity}** harvest gave you **{amount}**. \n⏳ Next harvest in: `{cooldownTime}`",
+                        DEFAULT: "{emoji_Wheat} You worked the fields and gathered **{material_amount}x {material}**! Your **{rarity}** produce sold for **{amount}**. \n⏳ Next harvest in: `{cooldownTime}`"
                     },
 
-                    // Non-Idle Commands (Regular immediate reward style)
                     HUNTING: {
-                        SUMMER: "🏹 You tracked prey through the lush forest and caught **{amount}x {material}** for **{totalValue} {mainCurrency_name}**",
-                        WINTER: "❄️ Tracking footprints in the snow, you caught **{amount}x {material}** worth **{totalValue} {mainCurrency_name}**",
-                        HALLOWEEN: "🧛 You hunted a shadow beast in the dark! Gained **{amount}x {material}** worth **{totalValue} {mainCurrency_name}**",
-                        DEFAULT: "🏹 You went hunting and brought back **{amount}x {material}** worth **{totalValue} {mainCurrency_name}**"
+                        SUMMER: "🏹 You tracked your prey through the thick brush and caught **{material_amount}x {material}**! This **{rarity}** trophy earned you **{amount}**. \n⏳ Next hunt in: `{cooldownTime}`",
+                        WINTER: "❄️ Following tracks through the deep snow, you caught **{material_amount}x {material}**! A **{rarity}** catch worth **{amount}**. \n⏳ Next hunt in: `{cooldownTime}`",
+                        HALLOWEEN: "🧛 You stalked a shadow beast and claimed **{material_amount}x {material}**! This **{rarity}** essence is worth **{amount}**. \n⏳ Next hunt in: `{cooldownTime}`",
+                        DEFAULT: "🏹 You returned from the wild with **{material_amount}x {material}**! Your **{rarity}** hunt earned you **{amount}**. \n⏳ Next hunt in: `{cooldownTime}`"
                     },
 
                     CHOP: {
-                        SUMMER: "{emoji_Axe} You chopped down sun-dried trees for **{amount}x {material}**, earning **{totalValue} {mainCurrency_name}**",
-                        WINTER: "{emoji_Axe} You split frozen logs to get **{amount}x {material}** worth **{totalValue} {mainCurrency_name}**",
-                        HALLOWEEN: "{emoji_Axe} You chopped an ancient, gnarled tree! Gained **{amount}x {material}** worth **{totalValue} {mainCurrency_name}**",
-                        DEFAULT: "{emoji_Axe} You chopped wood and got **{amount}x {material}** for **{totalValue} {mainCurrency_name}**"
+                        SUMMER: "{emoji_Axe} You felled sun-dried timber to get **{material_amount}x {material}**! This **{rarity}** wood earned you **{amount}**. \n⏳ Next swing in: `{cooldownTime}`",
+                        WINTER: "{emoji_Axe} You split frozen logs to recover **{material_amount}x {material}**! A **{rarity}** haul worth **{amount}**. \n⏳ Next swing in: `{cooldownTime}`",
+                        HALLOWEEN: "{emoji_Axe} You hacked at a gnarled, screaming tree for **{material_amount}x {material}**! This **{rarity}** lumber gave you **{amount}**. \n⏳ Next swing in: `{cooldownTime}`",
+                        DEFAULT: "{emoji_Axe} You chopped down a sturdy tree and got **{material_amount}x {material}**! Your **{rarity}** work earned you **{amount}**. \n⏳ Next swing in: `{cooldownTime}`"
                     },
 
                     SMITH: {
-                        SUMMER: "{emoji_Sword} You forged **{amount}x {material}** in the scorching heat for **{totalValue} {mainCurrency_name}**",
-                        WINTER: "{emoji_Sword} Using the forge's warmth, you crafted **{amount}x {material}** worth **{totalValue} {mainCurrency_name}**",
-                        HALLOWEEN: "{emoji_Sword} You forged a cursed blade from **{amount}x {material}** worth **{totalValue} {mainCurrency_name}**",
-                        DEFAULT: "{emoji_Sword} You smithed **{amount}x {material}** and earned **{totalValue} {mainCurrency_name}**"
+                        SUMMER: "{emoji_Sword} You hammered away in the scorching heat to forge **{material_amount}x {material}**! This **{rarity}** craft sold for **{amount}**. \n⏳ Forge cools in: `{cooldownTime}`",
+                        WINTER: "{emoji_Sword} Using the forge's heat against the chill, you made **{material_amount}x {material}**! A **{rarity}** piece worth **{amount}**. \n⏳ Forge cools in: `{cooldownTime}`",
+                        HALLOWEEN: "{emoji_Sword} You hammered souls into iron to create **{material_amount}x {material}**! This **{rarity}** artifact earned you **{amount}**. \n⏳ Forge cools in: `{cooldownTime}`",
+                        DEFAULT: "{emoji_Sword} You fired up the forge and crafted **{material_amount}x {material}**! Your **{rarity}** smithing earned you **{amount}**. \n⏳ Forge cools in: `{cooldownTime}`"
                     }
                 }
             },
@@ -1412,8 +1417,8 @@ module.exports = {
 
         DAILY: {
             REWARD: {
-                MIN: 200,
-                MAX: 400,
+                MIN: 1_000,
+                MAX: 5_000,
                 WEEKEND_MULTIPLIER: 1.5
             },
             MESSAGES: {
@@ -1433,71 +1438,56 @@ module.exports = {
                 TOO_RICH: "You cannot gift candy to {username} because they already have too much!"
             }
         },
+    },
 
-        // -------------------
-        // GAMBLING SECTION
-        // -------------------
-
-        ROCK_PAPER_SCISSORS: {
+    GAMBLING: {
+        COINFLIP: {
             MIN_BET: 1,
-            MAX_BET: 50_000,
-            WIN_CHANCE: { WIN: 40, LOSE: 50, ULTIMATE_LOSE: 10 },
-
-            MESSAGES: {
-                INVALID_CHOICE: "⚠️ Invalid choice. Pick one of: {choices}.",
-                RESULT_WIN: "You: {player}\nBot: {bot}\n🎉 You win **{amount}** {mainCurrency_emoji}!",
-                RESULT_LOSE: "You: {player}\nBot: {bot}\n😢 You lose **{amount}** {mainCurrency_emoji}.",
-                RESULT_ULTIMATE_LOSE: "You: {player}\nBot: {bot}\n💀 Ultimate loss! You lose **{amount}** {mainCurrency_emoji}."
-            },
-
-            ULTIMATE_LOSE: [
-                "a flip-flop",
-                "grandma’s slipper",
-                "a rubber duck",
-                "your internet provider",
-                "an angry goose",
-                "Shrek",
-                "a Windows update",
-                "your last brain cell",
-                "a Discord mod",
-                "an Uno reverse card",
-                "a screaming goat",
-                "a cursed AI response",
-            ]
+            WIN_CHANCE: 40,
+            LOSE_CHANCE: 60,
+            ULTIMATE_LOSE_CHANCE: 10,
+            RESPONSES: {
+                WIN: [
+                    "{emoji_Gambled} The coin spins and lands on **{selection}**! You walked away with **{amount} {mainCurrency_name} {mainCurrency_emoji}**!",
+                    "{emoji_Gambled} Pure luck! **{selection}** was the winner, granting you **{amount} {mainCurrency_name} {mainCurrency_emoji}**.",
+                    "{emoji_Gambled} You beat the odds! The coin shows **{selection}**. You pocketed **{amount} {mainCurrency_name} {mainCurrency_emoji}**.",
+                    "{emoji_Gambled} Luck is on your side! **{selection}** lands face up, and you win **{amount} {mainCurrency_name} {mainCurrency_emoji}**!"
+                ],
+                LOSE: [
+                    "❌ Ouch. It landed on the opposite side. You lost your bet of **{amount} {mainCurrency_name}**.",
+                    "❌ The coin hit the floor and showed the wrong face. There goes **{amount} {mainCurrency_name}**.",
+                    "❌ Not your lucky day. You bet on {selection}, but the coin had other plans. (-**{amount}**)",
+                    "❌ Close, but no cigar. The house takes your **{amount} {mainCurrency_name}**.",
+                    "❌ You watched the coin spin... and watched your **{amount} {mainCurrency_name}** vanish."
+                ],
+                ULTIMATE_LOSE: [
+                    "💀 **CRITICAL FAIL:** The coin rolled into a sewer grate. You didn't just lose **{amount} {mainCurrency_name}**, you lost your dignity.",
+                    "💀 **BRUTAL:** The coin landed on its edge for a second before falling against you. The house laughs as they take your **{amount} {mainCurrency_name}**.",
+                    "💀 **BANKRUPT VIBES:** You bet big on {selection} and lost it all. Maybe it's time for a career change? (-**{amount}**)",
+                    "💀 **ROBBED:** The coin didn't even land; a seagull snatched it mid-air. That's **{amount} {mainCurrency_name}** you're never seeing again.",
+                    "💀 **DEVASTATED:** You put your heart into that flip, and the coin just broke it. You're out **{amount} {mainCurrency_name}**."
+                ]
+            }
         },
 
         SLOTS: {
             MIN_BET: 1,
-            MAX_BET: 50_000,
             SYMBOLS: [
-                { emoji: "🍒", weight: 3 },
-                { emoji: "🍋", weight: 3 },
-                { emoji: "🍉", weight: 2 },
-                { emoji: "🍇", weight: 2 },
-                { emoji: "🔔", weight: 2 },
-                { emoji: "⭐", weight: 1 },
-                { emoji: "💎", weight: 1 },
-            ],
-            JACKPOTS: {
-                "🍒": 3,
-                "🍋": 6,
-                "🍉": 9,
-                "🍇": 12,
-                "🔔": 25,
-                "⭐": 45,
-                "💎": 90,
-            }
-        },
-
-        DICE: {
-            MIN_BET: 1,
-            MAX_GET: 50_000,
+                { emoji: "{emoji_Carrot}", weight: 3, jackpot: 3 },
+                { emoji: "{emoji_Lemon}", weight: 3, jackpot: 6 },
+                { emoji: "{emoji_Blueberry}", weight: 2, jackpot: 9 },
+                { emoji: "{emoji_RedLightning}", weight: 2, jackpot: 12 },
+                { emoji: "{emoji_PurpleFire}", weight: 2, jackpot: 25 },
+                { emoji: "{emoji_YellowStar}", weight: 1, jackpot: 45 },
+                { emoji: "{emoji_BlueDiamond}", weight: 1, jackpot: 90 },
+            ]
         },
     },
     
     FUN: {
         BONK: {
             GIFS: [
+                "https://tenor.com/view/teto-utau-sansansanxu-vocaloid-i%27m-talking-to-you-gif-2641126725330411734",
                 "https://tenor.com/view/bonk-meme-dog-gif-9935778472248450901",
                 "https://tenor.com/view/bonk-gif-20931372",
                 "https://tenor.com/view/chainsawman-anime-slap-gif-26953570",
@@ -1527,7 +1517,8 @@ module.exports = {
                 "https://media.tenor.com/nRRVfDVrTksAAAAM/sengoku-youko-tsukiko.gif",
                 "https://media.tenor.com/P3ncSta36A8AAAAM/miku-hatsune-miku.gif",
                 "https://media.tenor.com/GnafzH7LqWsAAAAm/rina-bonk-love-live.webp",
-                "https://media.tenor.com/vd9BRgtG56oAAAAm/pepe-bonk-bonk.webp"
+                "https://media.tenor.com/vd9BRgtG56oAAAAm/pepe-bonk-bonk.webp",
+                "https://tenor.com/view/triple-baka-akita-neru-miku-gif-13058394147293592939"
             ],
             RESPONSES: [
                 "🔨 {user} [bonked]({gif}) {target} into the next century!",
@@ -1588,14 +1579,17 @@ module.exports = {
             RESPONSES: [
                 "🌪️ {user} is making {target} [spin]({gif}) right round, baby, right round!",
                 "🌀 Look at them go! {user} [spun]({gif}) {target} into a dizzy mess.",
-                "📡 {user} put {target} in the [microwave]({gif})! *Ding!*",
+                "📡 {user} put {target} in the [microwave]({gif}) ! *Ding!*",
                 "💫 {user} [rotated]({gif}) {target} at 7200 RPM!",
-                "🎠 {user} turned {target} into a [human fidget spinner]({gif})!",
+                "🎠 {user} turned {target} into a [human fidget spinner]({gif}) !",
             ]
         },
         
         PATPAT: {
             GIFS: [
+                "https://tenor.com/view/anime-girl-pet-gif-9096264",
+                "https://tenor.com/view/panko-cat-pankocat-fatfatpankocat-pet-gif-228857265189960783",
+                "https://tenor.com/view/bunny-gif-4514864",
                 "https://tenor.com/view/pat-good-job-patpat-gif-25554349",
                 "https://tenor.com/view/pat-dinosaurs-plushies-gif-24417567",
                 "https://tenor.com/view/pat-cat-pat-pat-gif-25250101",
@@ -1616,6 +1610,9 @@ module.exports = {
         
         POKE: {
             GIFS: [
+                "https://tenor.com/view/poke-gif-22830562",
+                "https://tenor.com/view/my-next-life-as-a-villainess-hamefura-fray-randall-ginger-tucker-anime-gif-9774539607484472320",
+                "https://tenor.com/view/nekone-utawarerumono-poke-anime-gif-26470052",
                 "https://tenor.com/view/lol-gif-10326322287539089286",
                 "https://tenor.com/view/mochi-poke-poke-cute-cat-cat-cartoon-gif-27137384",
                 "https://tenor.com/view/bird-cute-poke-sweet-gif-16818145",

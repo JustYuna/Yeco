@@ -27,6 +27,8 @@ const defaultData = {
   PASSIVE_WORK_COLLECTION: {},
 
   SETTING_HIDDEN_FROM_LEADERBOARD: false,
+
+  ONBOARDING_COMPLETED: true,
 };
 
 const defaultGlobalData = {

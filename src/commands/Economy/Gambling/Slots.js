@@ -1,12 +1,12 @@
-const { GetAsync, AddToAsync } = require('../../DataStorage/Datastore');
-const { editCooldown } = require('../../Utils/Cooldown');
+const { GetAsync, AddToAsync } = require('../../../DataStorage/Datastore');
+const { editCooldown } = require('../../../Utilities/Cooldown');
 const { EmbedBuilder } = require('discord.js');
 
-const ConfigManager = require("../../Core/configManager");
-const CommandHelper = require('../../helpers/commandHelper');
+const ConfigManager = require("../../../Core/configManager");
+const CommandHelper = require("../../..//Utilities/CommandHelper");
 
-const SLOTS = ConfigManager.raw.ECONOMY.SLOTS;
-const { MIN_BET, MAX_BET, SYMBOLS, JACKPOTS } = SLOTS;
+const SLOTS = ConfigManager.raw.GAMBLING.SLOTS;
+const { MIN_BET, SYMBOLS, JACKPOTS } = SLOTS;
 
 // Pick a random symbol based on weight
 function getRandomSymbol() {
@@ -25,7 +25,7 @@ async function slots(interaction, client, bet, viewInfo) {
     const userId = interaction.user.id;
 
     let Currency = await GetAsync(userId, 'MAIN_CURRENCY') || 0;
-    const validationError = await CommandHelper.VALIDATE_CURRENCY(interaction, bet, { min: MIN_BET, max: MAX_BET, userBalance: Currency, command: "slots" });
+    const validationError = await CommandHelper.VALIDATE_CURRENCY(interaction, bet, { min: MIN_BET, userBalance: Currency, command: "slots" });
     if (validationError) return;
 
     // ===== Show info first if requested =====
@@ -33,22 +33,20 @@ async function slots(interaction, client, bet, viewInfo) {
         console.log(viewInfo);
         const totalWeight = SYMBOLS.reduce((sum, s) => sum + s.weight, 0);
         const infoLines = SYMBOLS
-            .map(s => `${s.emoji}: ${((s.weight / totalWeight) * 100).toFixed(1)}% chance`);
-
-        const jackpotLines = Object.entries(JACKPOTS)
-            .map(([emoji, mult]) => `${emoji} = ${mult}x`).join(' | ');
+            .map(s => `${s.emoji}: ${((s.weight / totalWeight) * 100).toFixed(1)}% chance - Jackpot: ${s.jackpot}`);
         
-        const infoEmbed = new EmbedBuilder()
+        let infoEmbed = new EmbedBuilder()
             .setTitle('🎰 Slot Machine Info')
             .setDescription(`Here’s how this slot machine works:`)
             .addFields(
                 { name: 'Reel size', value: `${SYMBOLS.length}`, inline: true },
                 { name: 'Symbol distribution', value: infoLines.join('\n'), inline: false },
                 { name: 'Pair payout', value: '2x', inline: true },
-                { name: 'Jackpot payouts', value: jackpotLines, inline: false }
             )
             .setColor('Blurple')
             .setFooter({ text: `Requested by ${interaction.user.username}`, iconURL: interaction.user.displayAvatarURL() });
+
+        infoEmbed = ConfigManager.parseEmbed(infoEmbed) || infoEmbed;
         
         await interaction.editReply({ embeds: [infoEmbed] });
         await new Promise(res => setTimeout(res, 1500));
@@ -56,33 +54,45 @@ async function slots(interaction, client, bet, viewInfo) {
     }
 
     // ===== Main spin =====
-    const result = [getRandomSymbol(), getRandomSymbol(), getRandomSymbol()];
-    let display = ["❓", "❓", "❓"];
-    await interaction.editReply({ content: `🎰 ${display.join(" | ")}` });
+    const sleep = (ms) => new Promise(res => setTimeout(res, ms));
+
+    function buildMessage(display) {
+        let msg = `🎰 ${display.join(" | ")}`;
+        return ConfigManager.parseMsg(msg);
+    }
+
+    // ===== Main spin =====
+    const result = Array.from({ length: 3 }, getRandomSymbol);
+    let display = Array(3).fill("{emoji_UI_Questionmark}");
+
+    await interaction.editReply({ content: buildMessage(display) });
 
     // Reveal animation
     for (let i = 0; i < result.length; i++) {
-        await new Promise(res => setTimeout(res, 500));
+        await sleep(500);
         display[i] = result[i];
-        await interaction.editReply({ content: `🎰 ${display.join(" | ")}` });
+        await interaction.editReply({ content: buildMessage(display) });
     }
 
     // Check result
     const [a, b, c] = result;
     let multiplier = 0;
 
-    if (a === b && b === c) multiplier = JACKPOTS[a] || 5;
+    if (a === b && b === c) {
+        const symbolData = SYMBOLS.find(s => s.emoji === a);
+        multiplier = symbolData?.jackpot || 5;
+    }
     else if (a === b || b === c || a === c) multiplier = 2;
 
     // Always subtract bet first
-    await AddToAsync(userId, { MAIN_CURRENCY: -bet });
 
     let message;
     if (multiplier > 0) {
         const winnings = bet * multiplier;
-        await AddToAsync(userId, { MAIN_CURRENCY: winnings, GAMBLED: winnings });
+        await AddToAsync(userId, { MAIN_CURRENCY: winnings, GAMBLED: winnings / 2 });
         message = `🎰 ${result.join(" | ")}\n\nYou won **${winnings}**!`;
     } else {
+        await AddToAsync(userId, { MAIN_CURRENCY: -bet });
         message = `🎰 ${result.join(" | ")}\n\nYou lost **${bet}**.`;
     }
 

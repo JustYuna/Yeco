@@ -1,6 +1,6 @@
 const { removeUser } = require('../../DataStorage/Datastore');
 const ConfigManager = require("../../Core/configManager")
-const CacheMaid = require("../../Utils/CacheMaid");
+const CacheMaid = require("../../Utilities/CacheMaid");
 
 const pendingDeletes = CacheMaid.new("command_dataDeletion").map;
 

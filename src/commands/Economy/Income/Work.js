@@ -1,5 +1,5 @@
-const { GetAsync, AddToAsync, SetAsync } = require('../../DataStorage/Datastore');
-const ConfigManager = require('../../Core/configManager');
+const { GetAsync, AddToAsync, SetAsync } = require('../../../DataStorage/Datastore');
+const ConfigManager = require('../../../Core/configManager');
 
 const config = ConfigManager.raw;
 const theme = config.CORE.THEMES[config.CORE.THEMES.ACTIVE];
@@ -10,48 +10,23 @@ async function Work(interaction, client, type) {
     const userID = interaction.user.id;
 
     const workData = theme.COMMANDS[type];
-    if (!workData) return;
+    if (!workData) return interaction.editReply({ content: "Work type not found in theme config, use /report to get this resolved." });
 
-    const workLevelRequirement = config.CORE.COMMAND_LEVEL_REQUIREMENT[type] || 0;
+    const workSettings = config.ECONOMY.WORK.COMMAND_SETTINGS[type];
+    if (!workSettings) return interaction.editReply({ content: "Work type not found in work config, use /report to get this resolved." });
 
     // -----------------------------
     // Level check
     // -----------------------------
     let levelData = await GetAsync(userID, "LEVEL") || { LEVEL: 1, EXPERIENCE: 0 };
 
-    if (levelData.LEVEL < workLevelRequirement) {
+    if (levelData.LEVEL < workSettings.LEVEL_LOCK) {
         return interaction.editReply({
             content: ConfigManager.getMsg(
                 "CORE.MESSAGES.COMMAND_NOT_HIGH_ENOUGH_LEVEL",
-                { level: workLevelRequirement }
+                { level: workSettings.LEVEL_LOCK }
             )
         });
-    }
-
-    // -----------------------------
-    // Passive check
-    // -----------------------------
-    const isPassive = config.ECONOMY.WORK.IDLE_COMMANDS.includes(type);
-    const passiveData = await GetAsync(userID, "PASSIVE_WORK_COLLECTION") || {};
-
-    if (isPassive) {
-        if (type in passiveData) {
-            const remaining = passiveData[type].READY_AT - Date.now();
-            const secondsRemaining = Math.ceil(remaining / 1000);
-
-            if (remaining > 0) {
-                const msg = ConfigManager.getMsg(
-                    "ECONOMY.WORK.MESSAGES.PASSIVE_NOT_READY",
-                    { time: secondsRemaining }
-                );
-                return interaction.editReply({ content: msg });
-            } else {
-                const msg = ConfigManager.getMsg(
-                    "ECONOMY.WORK.MESSAGES.PASSIVE_READY"
-                );
-                return interaction.editReply({ content: msg });
-            }
-        }
     }
 
     // -----------------------------
@@ -98,14 +73,12 @@ async function Work(interaction, client, type) {
     // -----------------------------
     // Worth + Experience
     // -----------------------------
-    const workMultiplier =
-        config.ECONOMY.WORK.MULTIPLIER[workData.MULTIPLIER || "LVL_0"];
-
     const currencyFinal =
-        finalAmount * rarityData.WORTH * workMultiplier.CASH;
-
+        finalAmount * rarityData.WORTH * workSettings.MULTIPLIER.CURRENCY;
     const xpFinal =
-        finalAmount * rarityData.WORTH * workMultiplier.EXPERIENCE;
+        finalAmount * rarityData.WORTH * workSettings.MULTIPLIER.EXPERIENCE;
+    const cooldownFinal =
+        rarityData.COOLDOWN * workSettings.MULTIPLIER.COOLDOWN;
 
     // -----------------------------
     // Level system
@@ -140,47 +113,45 @@ async function Work(interaction, client, type) {
     // Save
     // -----------------------------
     await SetAsync(userID, { LEVEL: { LEVEL: level, EXPERIENCE: xp } });
-
-    if (!isPassive) {
-        await AddToAsync(userID, {
-            MAIN_CURRENCY: currencyFinal,
-            TOTAL_MAIN_CURRENCY: currencyFinal
-        });
-    } else {
-        const passiveData =
-            (await GetAsync(userID, "PASSIVE_WORK_COLLECTION")) || {};
-
-        passiveData[type] = passiveData[type] || {
-            READY_AT: 0,
-            CURRENCY: 0
-        };
-
-        passiveData[type].CURRENCY += currencyFinal;
-        passiveData[type].READY_AT =
-            Date.now() + rarityData.COOLDOWN * 1000;
-
-        await SetAsync(userID, {
-            PASSIVE_WORK_COLLECTION: passiveData
-        });
-    }
+    await AddToAsync(userID, {
+        MAIN_CURRENCY: currencyFinal,
+        TOTAL_MAIN_CURRENCY: currencyFinal
+    });
 
     // -----------------------------
     // Message
     // -----------------------------
+    
+    // We use the same 'type' (e.g., FISHING, MINING) 
+    // and the active theme (e.g., SUMMER, DEFAULT)
     let msg = ConfigManager.getMsg(
         `ECONOMY.WORK.MESSAGES.ACTION.${type}.${config.CORE.THEMES.ACTIVE}`,
         {
-            amount: finalAmount,
-            material,
-            rarity,
-            time: rarityData.COOLDOWN,
-            totalValue: currencyFinal,
+            // The tags we defined in the messages:
+            amount: currencyFinal.toLocaleString(), // The money earned
+            material_amount: finalAmount,           // The number of items found
+            material: material,                     // The name of the item
+            rarity: rarity,                         // COMMON, RARE, etc.
+            cooldownTime: `${cooldownFinal}s`,      // Formatted cooldown string
+            
+            // Keeping these for safety in case other messages use them:
             mainCurrency_name: theme.CURRENCY.MAIN.NAME,
             mainCurrency_emoji: theme.CURRENCY.MAIN.EMOJI
         }
     );
 
-    if (!msg) msg = "No work message could be fetched.";
+    if (!msg) {
+        // Fallback to DEFAULT if the seasonal theme message is missing
+        msg = ConfigManager.getMsg(`ECONOMY.WORK.MESSAGES.ACTION.${type}.DEFAULT`, {
+            amount: currencyFinal.toLocaleString(),
+            material_amount: finalAmount,
+            material: material,
+            rarity: rarity,
+            cooldownTime: `${cooldownFinal}s`
+        });
+    }
+
+    if (!msg) msg = "No work message could be fetched, work reward was still applied! use /report to get this resolved.";
 
     const xpMsg = ConfigManager.getMsg(
         "ECONOMY.WORK.MESSAGES.EXPERIENCE_ATTACH",

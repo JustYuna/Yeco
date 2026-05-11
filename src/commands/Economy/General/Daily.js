@@ -1,6 +1,6 @@
-const { GetAsync, SetAsync, AddToAsync } = require('../../DataStorage/Datastore');
-const Config = require("../../Core/config");
-const ConfigManager = require("../../Core/configManager");
+const { GetAsync, SetAsync, AddToAsync } = require('../../../DataStorage/Datastore');
+const Config = require("../../../Core/config");
+const ConfigManager = require("../../../Core/configManager");
 const { EmbedBuilder } = require("discord.js");
 
 const DAILY = Config.ECONOMY.DAILY;

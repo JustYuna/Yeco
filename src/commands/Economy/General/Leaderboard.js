@@ -1,7 +1,7 @@
-const { GetTopAsync, GetAsync } = require('../../DataStorage/Datastore');
+const { GetTopAsync, GetAsync } = require('../../../DataStorage/Datastore');
 const { EmbedBuilder } = require('discord.js');
-const colors = require('../../stats/colors');
-const configManager = require('../../Core/configManager');
+
+const configManager = require('../../../Core/configManager');
 
 const currentTheme = configManager.getActiveTheme();
 

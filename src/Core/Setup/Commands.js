@@ -36,6 +36,23 @@ const commands = [
         ]
     },
     {
+        name: "me",
+        description: "View important info",
+        options: [
+            {
+                name: "type",
+                description: "Type",
+                type: 3,
+                required: true,
+                choices: [
+                    { name: "Delete Data", value: "Delete Data" },
+                    { name: "Terms of Service", value: "tos" },
+                    { name: "Privacy Policy", value: "privacy_policy" }
+                ]
+            }
+        ]
+    },
+    {
         name: 'report',
         description: 'Send feedback or report an issue [Spamming will result in being blacklisted]',
         options: [
@@ -70,39 +87,23 @@ const commands = [
 
     // Work \\
     {
-        name: 'passive',
-        description: 'Claim your passive income',
-    },
-
-    {
-        name: 'hunt',
-        description: 'Hunt some animals for currency',
-    },
-    {
-        name: 'fish',
-        description: 'Lets go fishing for some currency',
-    },
-    {
-        name: 'mine',
-        description: 'Minecraft but you get payed?',
-    },
-    {
-        name: 'cook',
-        description: 'You are not gorden ramsey...',
-    },
-
-    // LVL. 5+ \\
-    {
-        name: 'chop',
-        description: 'Chop, chop, the lorax aint so happy...',
-    },
-    {
-        name: 'farm',
+        name: 'farm', // Lvl. 0
         description: 'Old MacDonald Had a Farm',
     },
+
     {
-        name: 'smith',
-        description: 'Can you realy smith tho?',
+        name: 'gather', // Lvl. 2
+        description: 'Head to the woods or the water to fish and hunt for basic materials.',
+    },
+
+    {
+        name: 'extract', // Lvl. 5
+        description: 'Put your back into it! Mine ores and chop timber for heavy-duty resources.',
+    },
+
+    {
+        name: 'craft', // Lvl. 10
+        description: 'Master the heat of the forge or the stove to create high-value items.',
     },
 
     // Other Economy \\
@@ -215,56 +216,29 @@ const commands = [
     // Gambling \\
 
     {
-        name: 'dice',
-        description: 'Roll some dice',
-        options: [
-            {
-                name: 'type',
-                description: 'Play type',
-                type: 3,
-                required: true,
-                choices: [
-                    { name: '1', value: '1' },
-                    { name: '2', value: '2' },
-                    { name: '3', value: '3' },
-                    { name: '4', value: '4' },
-                    { name: '5', value: '5' },
-                    { name: '6', value: '6' },
-                    { name: '< 3', value: 'higher' },
-                    { name: '> 3', value: 'lower' },
-                    { name: 'odd', value: 'odd' },
-                    { name: 'even', value: 'even' },
-                ],
-            },
-            { name: 'amount', type: 4, required: true, description: 'Gamble amount' },
-        ],
-    },
-
-    {
-        name: 'rock-paper-scissors',
-        description: 'Bet and play rps against the Trickster!',
-        options: [
-            {
-                name: 'type',
-                description: 'Play type',
-                type: 3,
-                required: true,
-                choices: [
-                    { name: '🪨 Rock', value: 'rock' },
-                    { name: '✂️ Scissors ', value: 'scissors' },
-                    { name: '📃 Paper', value: 'paper' },
-                ],
-            },
-            { name: 'amount', type: 4, required: true, description: 'Gamble amount' },
-        ],
-    },
-
-    {
         name: 'slots',
         description: 'gamble ur currency',
         options: [
             { name: 'amount', type: 4, required: true, description: 'Gamble amount' },
             { name: 'view', type: 5, required: false, description: 'View Info' },
+        ]
+    },
+
+    {
+        name: 'coinflip',
+        description: 'Come out as a winner or a loser for your whole life',
+        options: [
+            {
+                name: 'action',
+                description: 'Chose what you want todo',
+                type: 3,
+                required: true,
+                choices: [
+                    { name: '🪙 Head', value: 'head' },
+                    { name: '🪙 Tails', value: 'tails' }
+                ],
+            },
+            { name: 'amount', type: 4, required: true, description: 'Gamble amount' },
         ]
     },
 

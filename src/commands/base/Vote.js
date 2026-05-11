@@ -1,39 +1,38 @@
-// src/commands/vote.js
+// Vote.js
+
 require("dotenv").config();
+
 const { Api } = require("@top-gg/sdk");
-const { EmbedBuilder } = require("discord.js");
-const emojis = require("../../stats/emojis");
+const CacheMaid = require("../../Utils/CacheMaid");
+const ConfigManager = require("../../Core/configManager");
 
-const API_TOKEN = process.env.TOPGG_TOKEN?.trim();
-const topgg = new Api(API_TOKEN);
+const topgg = new Api(process.env.TOPGG_TOKEN);
+const claimedCache = CacheMaid.new("command_vote").map;
 
-const ConfigManager = require("../../Core/configManager")
+async function Vote(interaction) {
+    const userId = interaction.user.id;
 
-// /vote command — embed version
-async function Vote(interaction, client) {
-  try {
-    const stats = await topgg.getBot(client.user.id);
-    const totalVotes = (stats.monthlyPoints ?? stats.points ?? 0);
+    const hasVoted = await topgg.hasVoted(userId);
 
-    const embed = new EmbedBuilder()
-      .setTitle("🌟 Vote for the Bot!")
-      .setDescription(
-        `Help us reach our community goal of **${goal} votes** for the next event!\n` +
-        `[Click here to vote](https://top.gg/bot/${client.user.id}/vote)`
-      )
-      .addFields(
-        { name: "Current Votes", value: `${totalVotes} / ${goal} (${progress}%)`, inline: true },
-      )
-      .setColor("#FFD700")
-      .setTimestamp();
+    // User has not voted yet
+    if (!hasVoted) {
+        claimedCache.delete(userId);
 
-    await interaction.editReply({ embeds: [embed] });
-  } catch (err) {
-    console.error("Error fetching vote count:", err);
+        const msg = ConfigManager.getMsg("CORE.TOPGG.GO_VOTE");
+        return interaction.editReply({ content: msg });
+    }
 
-    const msg = ConfigManager.getMsg("CORE.MESSAGES.ACTION_UNAVAILABLE")
-    await interaction.editReply({ content: msg });
-  }
+    // User has voted, but already claimed this vote reward
+    if (claimedCache.has(userId)) {
+        const msg = ConfigManager.getMsg("CORE.TOPGG.CLAIMED_REWARD");
+        return interaction.editReply({ content: msg });
+    }
+
+    // First claim for the current vote
+    claimedCache.set(userId, true);
+
+    const msg = ConfigManager.getMsg("CORE.TOPGG.REWARD_APPLIED");
+    return interaction.editReply({ content: msg });
 }
 
 module.exports = Vote;

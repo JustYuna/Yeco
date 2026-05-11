@@ -2,6 +2,29 @@
 
 All notable changes to this project will be documented in this file.
 
+
+---
+## [2.5]
+> Temporary Update Title
+> Released: XX.XX.XXXX
+
+### ⚒️ Added
+- **/me** - View important data like: `Privacy Policy`, `Tearms of Service`, `Delete Data`
+- **/onboarding** - Is now forced as a tutorial to make users read tos/privacy policy before starting the economy.
+
+### 🔄 Changes
+- **/farm** – Lvl. 0
+- **/gather** – Lvl. 2 - Merged `/fish` + `/hunt`
+- **/extract** – Lvl. 5 - Merged `/mine` + `/chop`
+- **/craft** – Lvl. 10 - Merged `/cook` + `/smith`
+- **Max bets** - Gamble commands have now no max bet limitation
+- **/daily** - Buffed reward to feel more rewarding
+- **/ship** - Now is randomized between 0% - 100% instead of being userID based
+- **/spin** - Fixed gifs breaking
+
+### 🛠 Tech Yap
+- **/work system rewrite** - Merged commands, Removed /passive [due to it not being user friendly]
+- **Emojis** - Expanded custom emoji usage to replace default Discord styling  
 ---
 ## [2.4] - Work Commands Overhaul  
 > Idle System Introduction + Major Economy Rework  

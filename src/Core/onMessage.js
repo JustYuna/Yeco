@@ -7,9 +7,8 @@ const {
     GetTotalInCirculation 
 } = require("../DataStorage/Datastore");
 
-const CacheMaid = require("../Utils/CacheMaid")
-const refreshCommands = require('../helpers/refreshCommands');
-const colors = require('../stats/colors');
+const CacheMaid = require("../Utilities/CacheMaid")
+const refreshCommands = require('./Setup/RefreshCommands');
 const Config = require("../Core/config");
 const { EmbedBuilder } = require("discord.js");
 

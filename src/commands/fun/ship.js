@@ -2,17 +2,7 @@
 const ConfigManager = require("../../Core/configManager");
 
 async function ship(interaction, client, user1, user2) {
-    const ids = [user1.id, user2.id].sort();
-    const combined = ids.join("");
-
-    // deterministic hash
-    let seed = 0;
-    for (let i = 0; i < combined.length; i++) {
-        seed = (seed * 31 + combined.charCodeAt(i)) % 1000000007;
-    }
-
-    let percentage = seed % 101;
-
+    const percentage = Math.round(Math.round() * 100);
     let emoji = "❤️";
     if (percentage < 50) emoji = "💔";
     if (percentage < 25) emoji = "💀";

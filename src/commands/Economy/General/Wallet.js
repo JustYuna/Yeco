@@ -1,7 +1,7 @@
 const { EmbedBuilder } = require("discord.js");
-const { GetAsync } = require('../../DataStorage/Datastore');
-const ConfigManager = require('../../Core/configManager');
-const commandHelper = require("../../helpers/commandHelper");
+const { GetAsync } = require('../../../DataStorage/Datastore');
+const ConfigManager = require('../../../Core/configManager');
+const CommandHelper = require("../../..//Utilities/CommandHelper");
 
 // FETCH CONFIGS
 const CONFIG_BANK = ConfigManager.raw.ECONOMY.BANK;
@@ -37,17 +37,17 @@ async function Wallet(interaction, client, targetUser) {
     const level = upgrades.BANK ?? 0;
 
     const upgradeBank = CONFIG_BANK.UPGRADES[level];
-    const bankCapacity = await commandHelper.ABBREVIATE_NUMBER(upgradeBank.CAPACITY);
+    const bankCapacity = await CommandHelper.ABBREVIATE_NUMBER(upgradeBank.CAPACITY);
 
     // 2. Abrevviate numbers
-    mainBalance = await commandHelper.ABBREVIATE_NUMBER(mainBalance);
-    secBalance = await commandHelper.ABBREVIATE_NUMBER(secBalance);
-    deposited = await commandHelper.ABBREVIATE_NUMBER(deposited);
+    mainBalance = await CommandHelper.ABBREVIATE_NUMBER(mainBalance);
+    secBalance = await CommandHelper.ABBREVIATE_NUMBER(secBalance);
+    deposited = await CommandHelper.ABBREVIATE_NUMBER(deposited);
 
-    totalMainEarned = await commandHelper.ABBREVIATE_NUMBER(totalMainEarned);
-    totalSecondEarned = await commandHelper.ABBREVIATE_NUMBER(totalSecondEarned);
+    totalMainEarned = await CommandHelper.ABBREVIATE_NUMBER(totalMainEarned);
+    totalSecondEarned = await CommandHelper.ABBREVIATE_NUMBER(totalSecondEarned);
 
-    gambled = await commandHelper.ABBREVIATE_NUMBER(gambled);
+    gambled = await CommandHelper.ABBREVIATE_NUMBER(gambled);
 
     // 3. Create Embed
     const embed = new EmbedBuilder()
@@ -77,7 +77,7 @@ async function Wallet(interaction, client, targetUser) {
             { 
                 name: "Level", 
                 value: `⭐ **Level ${userLevel}**\n` +
-                    `XP: ${await commandHelper.ABBREVIATE_NUMBER(userXP)} / ${await commandHelper.ABBREVIATE_NUMBER(xpNeeded)}\n` +
+                    `XP: ${await CommandHelper.ABBREVIATE_NUMBER(userXP)} / ${await CommandHelper.ABBREVIATE_NUMBER(xpNeeded)}\n` +
                     `Progress: **${progress}%**`,
                 inline: true 
             }

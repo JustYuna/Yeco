@@ -106,74 +106,56 @@ module.exports = {
 
     // -- Economy -- \\
 
-    "passive": {
-        settings: {
-            cooldown: 30,
-            canShowCaptcha: true,
-            risk: 10
-        },
-        run: (i, c, m) => m.Passive(i, c),
-    },
-
-    "fish": {
-        settings: {
-            cooldown: 30,
-            canShowCaptcha: true,
-            risk: 10
-        },
-        run: (i, c, m) => m.Work(i, c, "FISHING"),
-    },
-    "mine": {
-        settings: {
-            cooldown: 30,
-            canShowCaptcha: true,
-            risk: 10
-        },
-        run: (i, c, m) => m.Work(i, c, "MINING"),
-    },
-    "cook": {
-        settings: {
-            cooldown: 30,
-            canShowCaptcha: true,
-            risk: 10
-        },
-        run: (i, c, m) => m.Work(i, c, "COOKING"),
-    },
-    "hunt": {
-        settings: {
-            cooldown: 30,
-            canShowCaptcha: true,
-            risk: 10
-        },
-        run: (i, c, m) => m.Work(i, c, "HUNTING"),
-    },
-    // -- LVL. 5+ -- \\
-    "chop": {
-        settings: {
-            cooldown: 120,
-            canShowCaptcha: true,
-            risk: 10,
-            guildSizeLockout: [ "MEDIUM", "LARGE", "HUGE" ]
-        },
-        run: (i, c, m) => m.Work(i, c, "CHOP"),
-    },
     "farm": {
         settings: {
-            cooldown: 120,
+            cooldown: 30,
             canShowCaptcha: true,
             risk: 10,
-            guildSizeLockout: [ "MEDIUM", "LARGE", "HUGE" ]
+            tags: [ "ONBOARDING" ]
         },
         run: (i, c, m) => m.Work(i, c, "FARM"),
     },
-    "smith": {
+    "gather": {
         settings: {
-            cooldown: 120,
+            cooldown: 30,
             canShowCaptcha: true,
             risk: 10,
-            guildSizeLockout: [ "MEDIUM", "LARGE", "HUGE" ]
+            tags: [ "ONBOARDING" ]
         },
-        run: (i, c, m) => m.Work(i, c, "SMITH"),
+        run: (i, c, m) => {
+            const jobs = ["FISHING", "HUNTING"];
+            const type = jobs[Math.floor(Math.random() * jobs.length)];
+
+            m.Work(i, c, type);
+        },
+    },
+    "extract": {
+        settings: {
+            cooldown: 30,
+            canShowCaptcha: true,
+            risk: 10,
+            tags: [ "ONBOARDING" ]
+        },
+        run: (i, c, m) => {
+            const jobs = ["MINING", "CHOP"];
+            const type = jobs[Math.floor(Math.random() * jobs.length)];
+
+            m.Work(i, c, type);
+        },
+    },
+    "craft": {
+        settings: {
+            cooldown: 30,
+            canShowCaptcha: true,
+            risk: 10,
+            tags: [ "ONBOARDING" ]
+        },
+        run: (i, c, m) => {
+            const jobs = ["COOKING", "SMITH"];
+            const type = jobs[Math.floor(Math.random() * jobs.length)];
+
+            m.Work(i, c, type);
+        },
     },
 
     // -- Other -- \\
@@ -183,7 +165,7 @@ module.exports = {
             cooldown: 300,
             canShowCaptcha: true,
             risk: 10,
-            tags: [ "DM_ENABLED" ]
+            tags: [ "DM_ENABLED", "ONBOARDING" ]
         },
         run: (i, c, m) => m.Daily(i, c),
     },
@@ -207,7 +189,8 @@ module.exports = {
             cooldown: 3600,
             canShowCaptcha: true,
             risk: 25,
-            guildSizeLockout: [ "LARGE", "HUGE" ]
+            guildSizeLockout: [ "LARGE", "HUGE" ],
+            tags: [ "ONBOARDING" ]
         },
         run: (i, c, m) => {
             const user = i.options.getUser('user');
@@ -222,7 +205,8 @@ module.exports = {
         settings: {
             cooldown: 10,
             canShowCaptcha: false,
-            risk: 0
+            risk: 0,
+            tags: [ "ONBOARDING" ]
         },
         run: (i, c, m) => {
             const amount = i.options.getInteger('amount');
@@ -235,7 +219,8 @@ module.exports = {
         settings: {
             cooldown: 5,
             canShowCaptcha: false,
-            risk: 0
+            risk: 0,
+            tags: [ "ONBOARDING" ]
         },
         run: (i, c, m) => {
             const target = i.options.getUser('target');
@@ -249,7 +234,8 @@ module.exports = {
         settings: {
             cooldown: 1500,
             canShowCaptcha: true,
-            risk: 25
+            risk: 25,
+            tags: [ "ONBOARDING" ]
         },
         run: async (i, c, m) => {
             const target = i.options.getUser('target');
@@ -262,7 +248,8 @@ module.exports = {
             cooldown: 1500,
             canShowCaptcha: true,
             risk: 25,
-            guildSizeLockout: [ "MEDIUM", "LARGE", "HUGE" ]
+            guildSizeLockout: [ "MEDIUM", "LARGE", "HUGE" ],
+            tags: [ "ONBOARDING" ]
         },
         run: async (i, c, m) => {
             const target = i.options.getString('target');
@@ -273,29 +260,17 @@ module.exports = {
 
     // -- Gambling -- \\
 
-    "dice": {
+    "coinflip": {
         settings: {
             cooldown: 90,
             canShowCaptcha: true,
-            risk: 10
+            risk: 10,
+            tags: [ "ONBOARDING" ]
         },
         run: (i, c, m) => {
             const amount = i.options.getInteger('amount');
             const type = i.options.getString('type');
-            return m.Dice(i, c, amount, type);
-        }
-    },
-
-    "rock-paper-scissors": {
-        settings: {
-            cooldown: 90,
-            canShowCaptcha: true,
-            risk: 10
-        },
-        run: (i, c, m) => {
-            const amount = i.options.getInteger('amount');
-            const type = i.options.getString('type');
-            return m.RPS(i, c, amount, type);
+            return m.Coinflip(i, c, amount, type);
         }
     },
 
@@ -304,7 +279,8 @@ module.exports = {
             cooldown: 90,
             canShowCaptcha: true,
             risk: 10,
-            guildSizeLockout: [ "MEDIUM", "LARGE", "HUGE" ]
+            guildSizeLockout: [ "MEDIUM", "LARGE", "HUGE" ],
+            tags: [ "ONBOARDING" ]
         },
         run: (i, c, m) => {
             const amount = i.options.getInteger('amount');

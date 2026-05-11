@@ -1,5 +1,5 @@
 const { EmbedBuilder } = require("discord.js");
-const { getCooldowns } = require("../../Utils/Cooldown");
+const { getCooldowns } = require("../../Utilities/Cooldown");
 
 async function help(interaction, client) {
     const cooldowns = getCooldowns(interaction.user.id);

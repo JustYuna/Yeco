@@ -1,5 +1,5 @@
-const { GetAsync, SetAsync, AddToAsync } = require('../../DataStorage/Datastore');
-const ConfigManager = require('../../Core/configManager');
+const { GetAsync, SetAsync, AddToAsync } = require('../../../DataStorage/Datastore');
+const ConfigManager = require('../../../Core/configManager');
 
 async function Passive(interaction) {
     const userID = interaction.user.id;

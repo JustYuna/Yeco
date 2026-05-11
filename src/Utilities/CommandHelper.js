@@ -1,5 +1,5 @@
 const ConfigManager = require("../Core/configManager");
-const { editCooldown } = require("../Utils/Cooldown");
+const { editCooldown } = require("./Cooldown");
 
 module.exports = {
     VALIDATE_CURRENCY: async (interaction, amount, { min, max, userBalance, command = "action" }) => {

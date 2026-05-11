@@ -3,11 +3,11 @@
 // Main modules
 const result = require('dotenv').config();
 
-const { setCooldown, checkCooldown, editCooldown } = require('./Utils/Cooldown');
-const { AddToGlobalAsync, initDB, initGlobals } = require("./DataStorage/Datastore");
+const { setCooldown, checkCooldown, editCooldown } = require('./Utilities/Cooldown');
+const { AddToGlobalAsync, initDB, initGlobals, GetAsync } = require("./DataStorage/Datastore");
 const config = require('./Core/config');
 const configManager = require('./Core/configManager');
-const CacheMaid = require("./Utils/CacheMaid")
+const CacheMaid = require("./Utilities/CacheMaid")
 const botMAP = CacheMaid.new("bot");
 const guildSizeCache = CacheMaid.new("core_guildSizeCache");
 
@@ -22,14 +22,15 @@ CacheMaid.patch("bot", {
     initGlobals().catch(console.error);
 }
 
-const { GetRate, AddRate } = require("./Utils/Ratelimit");
-const confirmInteraction = require("./Utils/Captcha");
+const { GetRate, AddRate } = require("./Utilities/Ratelimit");
+const confirmInteraction = require("./Utilities/Captcha");
 
-const loadModules = require('./helpers/loadCommandsModules');
+const loadModules = require('./Utilities/LoadCommandsModules');
 const commandModules = loadModules('./src/commands');
 
 const onMessage = require('./Core/onMessage');
 const onCommand = require('./Core/onCommand');
+const onboarding = require("./Commands/Base/Onboarding");
 
 let token;
 let botId;
@@ -212,7 +213,7 @@ client.on('interactionCreate', async (interaction) => {
     ) {
         const display = tier.charAt(0) + tier.slice(1).toLowerCase();
 
-        return interaction.reply({
+        return interaction.editReply({
             content: `❌ Disabled in ${display} servers (hardware limits)\n💡 Support development or contribute here: https://github.com/JustYuna/Yeco`,
         });
     }
@@ -271,6 +272,11 @@ client.on('interactionCreate', async (interaction) => {
                     content: "This command is not available here.\n[Requirements]:\nMust be in a server\nServer must have 5+ members"
                 });
             }
+        }
+
+        if (tags.includes("ONBOARDING")) {
+            const onboardingCompleted = await GetAsync(userId, "ONBOARDING_COMPLETED");
+            return onboarding(interaction, client);
         }
 
         await handler.run(interaction, client, module);

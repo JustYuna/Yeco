@@ -1,7 +1,7 @@
-const { editCooldown } = require('../../Utils/Cooldown');
-const { GetAsync, SetAsync, AddToAsync } = require('../../DataStorage/Datastore');
-const ConfigManager = require("../../Core/configManager");
-const CommandHelper = require("../../helpers/commandHelper")
+const { editCooldown } = require('../../../Utilities/Cooldown');
+const { GetAsync, SetAsync, AddToAsync } = require('../../../DataStorage/Datastore');
+const ConfigManager = require("../../../Core/configManager");
+const CommandHelper = require("../../..//Utilities/CommandHelper");
 
 const GIFT = ConfigManager.raw.ECONOMY.GIFT;
 const { MIN, MAX, EXCLUDE, MESSAGES } = GIFT;

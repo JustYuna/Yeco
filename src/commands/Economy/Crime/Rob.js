@@ -1,7 +1,7 @@
 // Rob.js
-const { GetAsync, AddToAsync } = require('../../DataStorage/Datastore');
-const { editCooldown } = require('../../Utils/Cooldown');
-const ConfigManager = require("../../Core/configManager")
+const { GetAsync, AddToAsync } = require('../../../DataStorage/Datastore');
+const { editCooldown } = require('../../../Utilities/Cooldown');
+const ConfigManager = require("../../../Core/configManager")
 
 async function Rob(interaction, client, target) {
     const robConfig = ConfigManager.raw.ECONOMY.ROB;
