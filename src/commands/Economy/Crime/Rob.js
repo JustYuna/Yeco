@@ -36,7 +36,7 @@ async function Rob(interaction, client, target) {
         const stealPercent = robConfig.STEAL_RATIO.MIN + Math.random() * (robConfig.STEAL_RATIO.MAX - robConfig.STEAL_RATIO.MIN);
         const amount = Math.floor(targetBalance * (stealPercent / 100));
 
-        await AddToAsync(interaction.user.id, { MAIN_CURRENCY: amount });
+        await AddToAsync(interaction.user.id, { SECOND_CURRENCY: amount });
         await AddToAsync(target.id, { MAIN_CURRENCY: -amount });
 
         const msg = ConfigManager.parseMsg(robConfig.MESSAGES.SUCCESS, { amount, target: `<@${target.id}>` });

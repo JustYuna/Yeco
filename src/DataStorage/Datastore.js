@@ -28,7 +28,7 @@ const defaultData = {
 
   SETTING_HIDDEN_FROM_LEADERBOARD: false,
 
-  ONBOARDING_COMPLETED: true,
+  ONBOARDING_COMPLETED: false,
 };
 
 const defaultGlobalData = {

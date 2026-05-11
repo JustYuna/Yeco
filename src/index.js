@@ -276,8 +276,11 @@ client.on('interactionCreate', async (interaction) => {
         }
 
         if (tags.includes("ONBOARDING")) {
-            const onboardingCompleted = await GetAsync(userId, "ONBOARDING_COMPLETED");
-            return onboarding(interaction, client);
+            const onboardingCompleted = await GetAsync(userId, "ONBOARDING_COMPLETED") || false;
+
+            if (!onboardingCompleted) {
+                return onboarding(interaction, client);
+            }
         }
 
         await handler.run(interaction, client, module);

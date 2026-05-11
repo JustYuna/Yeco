@@ -91,7 +91,7 @@ async function heist(interaction, client, option, difficulty) {
 
     if (result === "success") {
         const reward = Math.round(Required * Difficulty.Reward);
-        await AddToAsync(userId, { MAIN_CURRENCY: reward, ROBBED: reward });
+        await AddToAsync(userId, { SECOND_CURRENCY: reward, ROBBED: reward });
 
         const msg = ConfigManager.getEmbed("ECONOMY.HEIST.MESSAGES.SUCCESS", { amount: reward, target: option, difficulty: difficulty });
         return interaction.editReply({ embeds: [msg] });
