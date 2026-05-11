@@ -46,17 +46,6 @@ module.exports = {
             COMMAND_NOT_HIGH_ENOUGH_LEVEL: "⚠️ Your level is not high enough to use this command.\nRequired: **Level {level}**",
         },
 
-        COMMAND_LEVEL_REQUIREMENT: {
-            COOK: 0,
-            MINE: 0,
-            HUNT: 0,
-            FISH: 0,
-
-            CHOP: 5,
-            FARM: 5,
-            SMITH: 5,
-        },
-
         EMOJIS: {
             // theme halloween
             Candy: "<:emoji_candycorn:1495154991135064115>",
@@ -1232,6 +1221,9 @@ module.exports = {
         DATA_DELETION: {
             CONFIRM: "{emoji_UI_Warn} This will delete ALL your data.\nRun `/delete-data` again within 20 seconds to confirm.",
             DELETED: "{emoji_Trashcan} Your data has been permanently deleted."
+        },
+        TOPGG: {
+            
         }
     },
 
