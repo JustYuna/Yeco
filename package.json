@@ -13,7 +13,7 @@
     "type": "git",
     "url": "git+https://github.com/JustYuna/Yeco.git"
   },
-  "license": "GPL v3",
+  "license": "AGPL v3",
   "author": "Yuna",
   "type": "commonjs",
   "main": "src/index.js",

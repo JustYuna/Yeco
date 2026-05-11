@@ -11,29 +11,32 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v4
         with:
-          fetch-depth: 2  # Get the last 2 commits to compare
+          fetch-depth: 2
 
       - name: Get diff stats
         id: diff
         run: |
-          # Get file changes between previous commit and current
-          FILES_CHANGED=$(git diff --name-only HEAD~1 HEAD | wc -l)
-          INSERTIONS=$(git diff --shortstat HEAD~1 HEAD | grep -oP '(?<=insertion\(s\) )\d+' || echo "0")
-          DELETIONS=$(git diff --shortstat HEAD~1 HEAD | grep -oP '(?<=deletion\(s\) )\d+' || echo "0")
+          # Get the diff stats as a variable
+          DIFF_STAT=$(git diff --shortstat HEAD~1 HEAD)
           
-          # Get list of changed files (limited to 10 for Discord embed)
-          FILE_LIST=$(git diff --name-only HEAD~1 HEAD | head -10 | sed 's/^/- /' | tr '\n' '\n')
-          if [ $(git diff --name-only HEAD~1 HEAD | wc -l) -gt 10 ]; then
-            FILE_LIST="${FILE_LIST}\n- *and $(( $(git diff --name-only HEAD~1 HEAD | wc -l) - 10 )) more...*"
-          fi
+          # Extract numbers using grep -E (more compatible)
+          FILES_CHANGED=$(echo "$DIFF_STAT" | grep -oE '[0-9]+ file' | grep -oE '[0-9]+' || echo "0")
+          INSERTIONS=$(echo "$DIFF_STAT" | grep -oE '[0-9]+ insertion' | grep -oE '[0-9]+' || echo "0")
+          DELETIONS=$(echo "$DIFF_STAT" | grep -oE '[0-9]+ deletion' | grep -oE '[0-9]+' || echo "0")
+          
+          # Get list of changed files
+          FILE_LIST=$(git diff --name-only HEAD~1 HEAD | head -10 | sed 's/^/- /' | tr '\n' '|')
+          # Convert | to newline for JSON
+          FILE_LIST_JSON=$(echo "$FILE_LIST" | sed 's/|/\\n/g' | sed 's/"/\\"/g')
           
           echo "files_changed=$FILES_CHANGED" >> $GITHUB_OUTPUT
           echo "insertions=$INSERTIONS" >> $GITHUB_OUTPUT
           echo "deletions=$DELETIONS" >> $GITHUB_OUTPUT
+          echo "file_list=$FILE_LIST_JSON" >> $GITHUB_OUTPUT
           
-          # Escape for JSON
-          FILE_LIST_ESCAPED=$(echo "$FILE_LIST" | jq -Rsa .)
-          echo "file_list=$FILE_LIST_ESCAPED" >> $GITHUB_OUTPUT
+          # Debug: Print what we found
+          echo "DEBUG: DIFF_STAT = $DIFF_STAT"
+          echo "DEBUG: Files=$FILES_CHANGED, +$INSERTIONS, -$DELETIONS"
 
       - name: Send to Discord
         env:
@@ -48,30 +51,34 @@ jobs:
           FILE_LIST: ${{ steps.diff.outputs.file_list }}
           REPO_NAME: ${{ github.repository }}
         run: |
-          curl -X POST -H "Content-Type: application/json" \
-          -d "{
-            \"embeds\": [{
-              \"title\": \"📦 New push to \`${GITHUB_REF_NAME}\`\",
-              \"url\": \"${COMMIT_URL}\",
-              \"description\": \"**${COMMIT_MSG}**\n\n**👤 Author:** ${AUTHOR}\n**🔗 Commit:** \`${SHA:0:7}\`\",
-              \"color\": 5793266,
-              \"fields\": [
+          # Build the JSON payload
+          cat > payload.json << EOF
+          {
+            "embeds": [{
+              "title": "📦 New push to \`${GITHUB_REF_NAME}\`",
+              "url": "${COMMIT_URL}",
+              "description": "**${COMMIT_MSG}**\n\n**👤 Author:** ${AUTHOR}\n**🔗 Commit:** \`${SHA:0:7}\`",
+              "color": 5793266,
+              "fields": [
                 {
-                  \"name\": \"📊 Diff Stats\",
-                  \"value\": \"🟢 +${INSERTIONS} insertions\\n🔴 -${DELETIONS} deletions\\n📁 ${FILES_CHANGED} file(s) changed\",
-                  \"inline\": true
+                  "name": "📊 Diff Stats",
+                  "value": "🟢 +${INSERTIONS} insertions\n🔴 -${DELETIONS} deletions\n📁 ${FILES_CHANGED} file(s) changed",
+                  "inline": true
                 },
                 {
-                  \"name\": \"📝 Changed Files\",
-                  \"value\": ${FILE_LIST},
-                  \"inline\": false
+                  "name": "📝 Changed Files",
+                  "value": "${FILE_LIST}",
+                  "inline": false
                 }
               ],
-              \"footer\": {
-                \"text\": \"${REPO_NAME}\",
-                \"icon_url\": \"https://github.githubassets.com/favicon.ico\"
+              "footer": {
+                "text": "${REPO_NAME}",
+                "icon_url": "https://github.githubassets.com/favicon.ico"
               },
-              \"timestamp\": \"$(date -u +"%Y-%m-%dT%H:%M:%SZ")\"
+              "timestamp": "$(date -u +"%Y-%m-%dT%H:%M:%SZ")"
             }]
-          }" \
-          $WEBHOOK_URL
+          }
+          EOF
+          
+          # Send to Discord
+          curl -X POST -H "Content-Type: application/json" -d @payload.json $WEBHOOK_URL

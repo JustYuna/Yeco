@@ -7,7 +7,7 @@
 [![Node.js](https://img.shields.io/badge/Node.js-18%2B-339933?style=for-the-badge&logo=node.js&logoColor=white)](https://nodejs.org/)
 [![discord.js](https://img.shields.io/badge/discord.js-v14-5865F2?style=for-the-badge&logo=discord&logoColor=white)](https://discord.js.org/)
 [![SQLite](https://img.shields.io/badge/SQLite-003B57?style=for-the-badge&logo=sqlite&logoColor=white)](https://sqlite.org/)
-[![License](https://img.shields.io/badge/License-MIT-F5B041?style=for-the-badge)](LICENSE)
+[![License: AGPL v3](https://img.shields.io/badge/License-AGPLv3-blue.svg)](https://www.gnu.org/licenses/agpl-3.0)
 
 ![Yeco Banner](https://github.com/JustYuna/Yeco/blob/main/other/YECO-Banner.png?raw=true) <!-- Replace with your actual banner image -->
 
