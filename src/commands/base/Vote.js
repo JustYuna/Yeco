@@ -5,6 +5,7 @@ require("dotenv").config();
 const { Api } = require("@top-gg/sdk");
 const CacheMaid = require("../../Utils/CacheMaid");
 const ConfigManager = require("../../Core/configManager");
+const { SetAsync } = require("../../DataStorage/Datastore");
 
 const topgg = new Api(process.env.TOPGG_TOKEN);
 const claimedCache = CacheMaid.new("command_vote").map;
@@ -30,6 +31,9 @@ async function Vote(interaction) {
 
     // First claim for the current vote
     claimedCache.set(userId, true);
+
+    const boostEndDate = Date.now() + (1000 * 60 * 120); // 2 hours from now
+    await SetAsync(userId, { VOTE_BOOST: boostEndDate });
 
     const msg = ConfigManager.getMsg("CORE.TOPGG.REWARD_APPLIED");
     return interaction.editReply({ content: msg });
