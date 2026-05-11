@@ -1,0 +1,26 @@
+name: Discord Webhook
+
+on:
+  push:
+    branches: [ main, master ]
+  pull_request:
+    types: [ opened, synchronize ]
+
+jobs:
+  send-discord-webhook:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Send GitHub push event to Discord
+        uses: tsickert/discord-webhook@v6
+        with:
+          webhook-url: ${{ secrets.DISCORD_WEBHOOK_URL }}
+          content: |
+            📦 **New push to `${{ github.ref_name }}`**
+          embed-title: ${{ github.event.head_commit.message }}
+          embed-description: |
+            **Author:** ${{ github.actor }}
+            **Repository:** [${{ github.repository }}](${{ github.server_url }}/${{ github.repository }})
+            **Commit:** [`${{ github.sha }}`](${{ github.event.head_commit.url }})
+          embed-color: 0x5865F2
+          embed-footer-text: GitHub
+          embed-timestamp: ${{ github.event.head_commit.timestamp }}
