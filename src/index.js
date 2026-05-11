@@ -3,13 +3,14 @@
 // Main modules
 const result = require('dotenv').config();
 
-const { setCooldown, checkCooldown, editCooldown } = require('./Utilities/Cooldown');
-const { AddToGlobalAsync, initDB, initGlobals, GetAsync } = require("./DataStorage/Datastore");
 const config = require('./Core/config');
 const configManager = require('./Core/configManager');
 const CacheMaid = require("./Utilities/CacheMaid")
 const botMAP = CacheMaid.new("bot");
 const guildSizeCache = CacheMaid.new("core_guildSizeCache");
+
+const { setCooldown, checkCooldown, editCooldown } = require('./Utilities/Cooldown');
+const { AddToGlobalAsync, initDB, initGlobals, GetAsync } = require("./DataStorage/Datastore");
 
 CacheMaid.patch("bot", {
     startTime: Date.now(),

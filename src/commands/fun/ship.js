@@ -2,7 +2,7 @@
 const ConfigManager = require("../../Core/configManager");
 
 async function ship(interaction, client, user1, user2) {
-    const percentage = Math.round(Math.round() * 100);
+    const percentage = Math.round(Math.random() * 101);
     let emoji = "❤️";
     if (percentage < 50) emoji = "💔";
     if (percentage < 25) emoji = "💀";
