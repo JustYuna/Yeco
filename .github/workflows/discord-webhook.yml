@@ -3,24 +3,27 @@ name: Discord Webhook
 on:
   push:
     branches: [ main, master ]
-  pull_request:
-    types: [ opened, synchronize ]
 
 jobs:
-  send-discord-webhook:
+  notify:
     runs-on: ubuntu-latest
     steps:
-      - name: Send GitHub push event to Discord
-        uses: tsickert/discord-webhook@v6
-        with:
-          webhook-url: ${{ secrets.DISCORD_WEBHOOK_URL }}
-          content: |
-            📦 **New push to `${{ github.ref_name }}`**
-          embed-title: ${{ github.event.head_commit.message }}
-          embed-description: |
-            **Author:** ${{ github.actor }}
-            **Repository:** [${{ github.repository }}](${{ github.server_url }}/${{ github.repository }})
-            **Commit:** [`${{ github.sha }}`](${{ github.event.head_commit.url }})
-          embed-color: 0x5865F2
-          embed-footer-text: GitHub
-          embed-timestamp: ${{ github.event.head_commit.timestamp }}
+      - name: Send to Discord
+        env:
+          WEBHOOK_URL: ${{ secrets.DISCORD_WEBHOOK_URL }}
+          COMMIT_MSG: ${{ github.event.head_commit.message }}
+          AUTHOR: ${{ github.actor }}
+          COMMIT_URL: ${{ github.event.head_commit.url }}
+          SHA: ${{ github.sha }}
+        run: |
+          curl -X POST -H "Content-Type: application/json" \
+          -d "{
+            \"content\": \"📦 **New commit!**\",
+            \"embeds\": [{
+              \"title\": \"${COMMIT_MSG}\",
+              \"url\": \"${COMMIT_URL}\",
+              \"description\": \"**Author:** ${AUTHOR}\\n**Commit:** \`${SHA:0:7}\`\",
+              \"color\": 5793266
+            }]
+          }" \
+          $WEBHOOK_URL
