@@ -1,4 +1,12 @@
-const config = require("./config");
+const config = {
+    CORE: require("./Configs/Core"),
+    CRIME: require("./Configs/Crime"),
+    ECONOMY: require("./Configs/Economy"),
+    FUN: require("./Configs/Fun"),
+    GAMBLING: require("./Configs/Gambling"),
+    OTHER: require("./Configs/Other"),
+    PROGRESSION: require("./Configs/Progression"),
+};
 const { EmbedBuilder } = require('discord.js');
 
 const configManager = {

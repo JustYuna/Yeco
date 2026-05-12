@@ -9,7 +9,8 @@ const {
 
 const CacheMaid = require("../Utilities/CacheMaid")
 const refreshCommands = require('./Setup/RefreshCommands');
-const Config = require("../Core/config");
+const ConfigManager = require("../Core/configManager");
+const Config = ConfigManager.raw;
 const { EmbedBuilder } = require("discord.js");
 
 const WebhookHandler = require("../commands/actions/webhook");

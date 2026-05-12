@@ -3,7 +3,7 @@
 require("dotenv").config();
 
 const { Api } = require("@top-gg/sdk");
-const CacheMaid = require("../../Utils/CacheMaid");
+const CacheMaid = require("../../Utilities/CacheMaid");
 const ConfigManager = require("../../Core/configManager");
 const { SetAsync } = require("../../DataStorage/Datastore");
 

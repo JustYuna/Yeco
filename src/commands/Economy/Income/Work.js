@@ -1,7 +1,7 @@
 const { GetAsync, AddToAsync, SetAsync } = require('../../../DataStorage/Datastore');
 const ConfigManager = require('../../../Core/configManager');
-
 const config = ConfigManager.raw;
+
 const theme = config.CORE.THEMES[config.CORE.THEMES.ACTIVE];
 
 async function Work(interaction, client, type) {

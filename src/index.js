@@ -3,8 +3,8 @@
 // Main modules
 const result = require('dotenv').config();
 
-const config = require('./Core/config');
 const configManager = require('./Core/configManager');
+const config = configManager.raw;
 const CacheMaid = require("./Utilities/CacheMaid")
 const botMAP = CacheMaid.new("bot");
 const guildSizeCache = CacheMaid.new("core_guildSizeCache");
