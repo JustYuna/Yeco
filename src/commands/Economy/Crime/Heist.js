@@ -6,7 +6,7 @@ const ConfigManager = require("../../../Core/configManager");
 const { EmbedBuilder } = require("discord.js");
 
 // --- Data ---
-const HEIST = Config.ECONOMY.HEIST;
+const HEIST = Config.CRIME.HEIST;
 const { REQUIREMENTS, DIFFICULTY_DATA } = HEIST;
 
 // --- Visual helpers ---
