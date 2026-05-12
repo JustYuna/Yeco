@@ -1425,10 +1425,11 @@ module.exports = {
             MAX: 5_000,
             MAX_RECIEVER: 100_000,
             MESSAGES: {
-                EXCLUDED: "You cannot gift candy to this user.",
-                TO_BOT: "You cannot gift candy to bots.",
+                EXCLUDED: "You cannot gift {mainCurrency_name} to this user.",
+                TO_BOT: "You cannot gift {mainCurrency_name} to bots.",
                 SUCCESS: "Successfully gifted {amount} {mainCurrency_name} to {username}!",
-                TOO_RICH: "You cannot gift candy to {username} because they already have too much!"
+                TOO_RICH: "You cannot gift {mainCurrency_name} to {username} because they already have too much!",
+                ONBOARDING: "You cannot gift to a user that has not completed the onboarding."
             }
         },
     },
