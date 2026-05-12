@@ -75,14 +75,9 @@ const commands = [
         ]
     },
 
-    //{
-    //    name: 'vote',
-    //    description: 'Vote and contribute to the goal!',
-    //},
-
     {
-        name: 'delete-data',
-        description: 'Request deletion of all your stored data. This action cannot be undone.',
+        name: 'vote',
+        description: 'Vote and contribute to the goal!',
     },
 
     // Work \\
@@ -144,6 +139,23 @@ const commands = [
     },
 
     // Rob \\
+    {
+        name: 'laundry',
+        description: 'Launder some of your currency',
+        options: [
+            {
+                name: 'type',
+                description: 'Leaderboard type',
+                type: 3,
+                required: true,
+                choices: [
+                    { name: 'View rates', value: 'view' },
+                    { name: 'Wash money', value: 'wash' },
+                ],
+            },
+            { name: 'amount', type: 4, required: false, description: 'Amount' },
+        ]
+    },
     {
         name: 'rob',
         description: 'Rob someone',

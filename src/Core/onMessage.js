@@ -79,10 +79,10 @@ const commandsMap = {
 
     // Updated to destructure the context object
     refresh: async (message, args, { restClient, clientID }) => {
-        await sendEmbed(message, 'Refreshing...', 'Reloading application (/) commands...', colors.blue);
+        await sendEmbed(message, 'Refreshing...', 'Reloading application (/) commands...', [100,200,250]);
         // restClient.put will now work because we are passing the correct object
         await refreshCommands(restClient, clientID);
-        await sendEmbed(message, 'Refreshed!', '✅ Successfully reloaded application (/) commands.', colors.green);
+        await sendEmbed(message, 'Refreshed!', '✅ Successfully reloaded application (/) commands.', [100,250,100]);
     },
 
     stats: async (message) => {

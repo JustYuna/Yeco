@@ -230,6 +230,20 @@ module.exports = {
 
     // -- Criminal -- \\
 
+    "laundry": {
+        settings: {
+            cooldown: 1500,
+            canShowCaptcha: true,
+            risk: 25,
+            tags: [ "ONBOARDING" ]
+        },
+        run: async (i, c, m) => {
+            const type = i.options.getString('type');
+            const amount = i.options.getInteger('amount') || 0;
+            m.Laundry(i, c, { type: type, amount: amount })
+        }
+    },
+
     "rob": {
         settings: {
             cooldown: 1500,

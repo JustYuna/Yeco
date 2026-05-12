@@ -22,7 +22,8 @@ async function gift(interaction, client, user, amount) {
     }
 
     // Finalize validation
-    CommandHelper.VALIDATE_CURRENCY(interaction, amount, { min: MIN, max: MAX, userBalance: userBalance, command: "gift" });
+    const validateError = CommandHelper.VALIDATE_CURRENCY(interaction, amount, { min: MIN, max: MAX, userBalance: userBalance, command: "gift" });
+    if (validateError) return;
 
     // Execute gift
     await AddToAsync(userId, { MAIN_CURRENCY: -amount });

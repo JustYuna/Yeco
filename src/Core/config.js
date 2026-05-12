@@ -78,6 +78,7 @@ module.exports = {
             Blueberry: "<:emoji_blueberry:1501441146881314857>",
             Lemon: "<:emoji_lemon:1501441317237166141>",
             Carrot: "<:emoji_carrot:1501441471822430290>",
+            Skul: "<:emoji_skull:1498017352820850932>",
 
             // social
             SOCIAL_Discord: "<:social_discord:1496168648283394171>",
@@ -1430,6 +1431,42 @@ module.exports = {
                 TOO_RICH: "You cannot gift candy to {username} because they already have too much!"
             }
         },
+    },
+
+    CRIME: {
+        LAUNDRY: {
+            UPDATE_AFTER: 1000 * 60 * 20, // 20 Mins
+            RATE_MAX: 35,
+            RATE_LOWEST: 10,
+            CATCH_CHANCE_BASE: 35, // If Rate: 10 then Catch Chance -10 // making is its easier on higher rates
+
+            MESSAGES: {
+                VIEW: {
+                    color: [100,200,250],
+                    title: "laundry rates",
+                    description: "",
+                    fields: [
+                        { name: "Fee:", value: "{wash_rate}%", inline: true },
+                        { name: "Catch chance", value: "{chance}%", inline: true }
+                    ]
+                },
+                WASHED: {
+                    color: [100,250,100],
+                    title: "Laundry washed",
+                    description: "",
+                    fields: [
+                        { name: "Converted:", value: "{emoji_Skull} {washed} {secondaryCurrency_emoji}", inline: true },
+                        { name: "Fee:", value: "{wash_rate} %", inline: true },
+                        { name: "Received:", value: "{recieved} {mainCurrency_emoji}", inline: true }
+                    ]
+                },
+                CATCHED: {
+                    color: [250,100,100],
+                    title: "Laundry Failed!",
+                    description: "While laundering {amount} {secondaryCurrency_emoji}, the FBI kicked down your door and seized all the evidence before you could finish."
+                },
+            }
+        }
     },
 
     GAMBLING: {
