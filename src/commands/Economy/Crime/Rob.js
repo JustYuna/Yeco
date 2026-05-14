@@ -21,7 +21,7 @@ async function Rob(interaction, client, target) {
 
     const targetOnboarding = await GetAsync(target.id, "ONBOARDING_COMPLETED") || false;
     if (!targetOnboarding) {
-        interaction.editReply({ content: ConfigManager.getMsg("CORE.MESSAGES.TARGET_ONBOARDIN") })
+        interaction.editReply({ content: ConfigManager.getMsg("CORE.MESSAGES.TARGET_ONBOARDING") })
     };
 
     const robberBalance = await GetAsync(interaction.user.id, "MAIN_CURRENCY")
