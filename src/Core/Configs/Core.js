@@ -86,6 +86,7 @@ module.exports = {
         UI_Warn: "<:ui_warn:1495148637993566399>",
         UI_Plus: "<:ui_plus:1495148566833004665>",
         UI_Questionmark: "<:ui_questionmark:1501443513106042951>",
+        UI_Minus: "<:ui_minus:1504545595426344990>"
     },
 
     /* =========================================

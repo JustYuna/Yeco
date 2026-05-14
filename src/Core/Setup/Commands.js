@@ -118,6 +118,24 @@ const commands = [
     },
 
     {
+        name: 'reputation',
+        description: 'Give or take reputation of someone',
+        options: [
+            { name: 'target', type: 6, required: true, description: 'User' },
+            {
+                name: 'action',
+                description: 'Actiong',
+                type: 3,
+                required: true,
+                choices: [
+                    { name: 'Like', value: 'like' },
+                    { name: 'Dislike', value: 'dislike' },
+                ]
+            }
+        ]
+    },
+
+    {
         name: 'leaderboard',
         description: 'View the leaderboards',
         options: [

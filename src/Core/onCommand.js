@@ -184,6 +184,20 @@ module.exports = {
         }
     },
 
+    "reputation": {
+        settings: {
+            cooldown: 30,
+            canShowCaptcha: true,
+            risk: 10,
+            guildSizeLockout: [ "LARGE", "HUGE" ]
+        },
+        run: (i, c, m) => {
+            const target = i.options.getUser('target');
+            const action = i.options.getString('action');
+            return m.Reputation(i, c, { action: action, target: target });
+        }
+    },
+
     "gift": {
         settings: {
             cooldown: 3600,
