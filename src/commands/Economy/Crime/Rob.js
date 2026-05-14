@@ -6,6 +6,11 @@ const robConfig = ConfigManager.raw.CRIME.ROB;
 
 async function Rob(interaction, client, target) {
 
+    const targetOnboarding = await GetAsync(target.id, "ONBOARDING_COMPLETED") || false;
+    if (!targetOnboarding) {
+        interaction.editReply({ content: ConfigManager.getMsg("CORE.MESSAGES.TARGET_ONBOARDIN") })
+    };
+
     // Precheck
     if (interaction.user.id === target.id) {
         const msg = ConfigManager.parseMsg(robConfig.MESSAGES.IS_YOU);
