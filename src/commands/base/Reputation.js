@@ -18,7 +18,7 @@ async function Reputation(interaction, client, { target, action }) {
 
     const targetOnboarding = await GetAsync(target.id, "ONBOARDING_COMPLETED") || false;
     if (!targetOnboarding) {
-        return interaction.editReply({ content: ConfigManager.getMsg("CORE.MESSAGES.TARGET_ONBOARDIN") })
+        return interaction.editReply({ content: ConfigManager.getMsg("CORE.MESSAGES.TARGET_ONBOARDING") })
     };
 
     const cooldown = await GetAsync(interaction.user.id, "REPUTATION_COOLDOWN") || 0;
