@@ -89,7 +89,6 @@ const commandsMap = {
     stats: async (message) => {
         const os = require("os");
 
-        const MemoryUsage = (process.memoryUsage().rss / 1024 / 1024).toFixed(2);
         const HeapUsed = (process.memoryUsage().heapUsed / 1024 / 1024).toFixed(2);
         const HeapTotal = (process.memoryUsage().heapTotal / 1024 / 1024).toFixed(2);
 
@@ -108,6 +107,8 @@ const commandsMap = {
         // 🧠 System stats (important for Pi)
         const totalMem = (os.totalmem() / 1024 / 1024).toFixed(0);
         const freeMem = (os.freemem() / 1024 / 1024).toFixed(0);
+        const heapTotal = (mem.heapTotal / 1024 / 1024).toFixed(2);
+        const rss = (mem.rss / 1024 / 1024).toFixed(2);
 
         const load = os.loadavg(); // 1m, 5m, 15m
 
@@ -129,8 +130,8 @@ const commandsMap = {
                 { name: '👥 Users', value: `${TotalUsers}`, inline: true },
                 { name: '🌍 Guilds', value: `${guildCount}`, inline: true },
                 { name: '📡 Ping', value: `${ping}ms`, inline: true },
+                { name: "💾 Ram", value: `RSS: **${rss} MB**\nHeap: **${heapUsed}/${heapTotal} MB**`, inline: true },
 
-                { name: '💾 RAM (Bot)', value: `${MemoryUsage} MB`, inline: true },
                 { name: '🧠 Heap Used', value: `${HeapUsed} MB`, inline: true },
                 { name: '📦 Heap Total', value: `${HeapTotal} MB`, inline: true },
 

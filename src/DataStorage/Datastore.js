@@ -29,6 +29,9 @@ const defaultData = {
   SETTING_HIDDEN_FROM_LEADERBOARD: false,
 
   ONBOARDING_COMPLETED: false,
+
+  REPUTATION_COUNT: 0,
+  REPUTATION_COOLDOWN: 0,
 };
 
 const defaultGlobalData = {

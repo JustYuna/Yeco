@@ -39,6 +39,7 @@ module.exports = {
         ACTION_RATE_LIMIT: "⚠️ You are currently being rate limited... please wait a moment.",
 
         COMMAND_NOT_HIGH_ENOUGH_LEVEL: "⚠️ Your level is not high enough to use this command.\nRequired: **Level {level}**",
+        TARGET_ONBOARDING: "⚠️ Your target doesnt have completed the onboarding yet, please chose another target."
     },
 
     EMOJIS: {
