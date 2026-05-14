@@ -1,6 +1,6 @@
 # Privacy Policy - Yeco
 
-**Last Updated:** April 29, 2026
+**Last Updated:** Mai 14, 2026
 **Support Server:** [https://discord.gg/43kaQUsUjf](https://discord.gg/43kaQUsUjf)
 
 Yeco respects your privacy and is committed to being transparent about the data we process. By using the bot, you agree to the terms outlined in this policy.
@@ -29,6 +29,7 @@ Collected data is used strictly for:
 * Economy system functionality and command processing.
 * Displaying global statistics (e.g., leaderboards or public profiles).
 * Preventing abuse of internal systems and ensuring fair gameplay.
+* Debugging technical issues, maintaining system stability, and restoring corrupted or missing user data.
 
 Global visibility can be toggled via `/settings <Leaderboard Visibility>`.
 
