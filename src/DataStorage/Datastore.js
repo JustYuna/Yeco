@@ -29,7 +29,7 @@ const defaultData = {
   SETTING_HIDDEN_FROM_LEADERBOARD: false,
 
   ONBOARDING_COMPLETED: false,
-
+ 
   REPUTATION_COUNT: 0,
   REPUTATION_COOLDOWN: 0,
 };
@@ -112,7 +112,7 @@ async function initDB() {
 
 // ------------------ Create / Get / Set ------------------
 async function createUser(userId) {
-  await runAsync(`INSERT OR IGNORE INTO users (id) VALUES (?)`, [userId]);
+  await runAsync(`INSERT OR IGNORE INTO users (id, onboarding_completed, setting_hidden_from_leaderboard) VALUES (?, 0, 0)`, [userId]);
 }
 
 async function GetAsync(userId, key) {
