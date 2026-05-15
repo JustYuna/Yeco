@@ -11,6 +11,7 @@ All notable changes to this project will be documented in this file.
 ### ⚒️ Added
 - **/me** - View important data like: `Privacy Policy`, `Tearms of Service`, `Delete Data`
 - **/onboarding** - Is now forced as a tutorial to make users read tos/privacy policy before starting the economy.
+- **/laundry** - Can be used to launder `dirty` money earned from crime commands
 
 ### 🔄 Changes
 - **/farm** – Lvl. 0
@@ -21,6 +22,7 @@ All notable changes to this project will be documented in this file.
 - **/daily** - Buffed reward to feel more rewarding
 - **/ship** - Now is randomized between 0% - 100% instead of being userID based
 - **/spin** - Fixed gifs breaking
+- **Crime** - Now gives a secondary currency
 
 ### 🛠 Tech Yap
 - **/work system rewrite** - Merged commands, Removed /passive [due to it not being user friendly]

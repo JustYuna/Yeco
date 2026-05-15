@@ -4,7 +4,15 @@ module.exports = {
         DELETED: "{emoji_Trashcan} Your data has been permanently deleted."
     },
     TOPGG: {
-
+        BOOST: {
+            NUMBER: 1000 * 60 * 120, // 2hrs
+            TEXT: "2 Hours"
+        },
+        MESSAGES: {
+            REWARD_APPLIED: "{emoji_UI_Plus} Thanks for boosting, you now have a {duration} income boost!",
+            CLAIMED_REWARD: "{emoji_UI_Warn} You already claimed your vote boost, come back later again!",
+            GO_VOTE: "{emoji_UI_Warn} Vote before claiming your boost at: https://top.gg/bot/1494448936654475414",
+        }
     },
     REPUTATION: {
         LIKE_ADDS: 1,
