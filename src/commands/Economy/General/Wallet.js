@@ -5,6 +5,7 @@ const CommandHelper = require("../../../Utilities/CommandHelper");
 
 // FETCH CONFIGS
 const CONFIG_BANK = ConfigManager.raw.ECONOMY.BANK;
+const currentTheme = configManager.getActiveTheme();
 
 async function Wallet(interaction, client, targetUser) {
     if (targetUser && targetUser.bot) {
@@ -55,7 +56,7 @@ async function Wallet(interaction, client, targetUser) {
 
     // 3. Create Embed
     const embed = new EmbedBuilder()
-        .setColor(ConfigManager.getColor())
+        .setColor(currentTheme.COLORS.MAIN)
         .setTitle(ConfigManager.parseMsg(walletConfig.TITLE, { username: user.username }))
         .setThumbnail(user.displayAvatarURL({ forceStatic: false, size: 256 }))
         .addFields(
