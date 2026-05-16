@@ -2,6 +2,7 @@
 
 const { EmbedBuilder } = require("discord.js");
 const { GetAsync, AddToAsync } = require("../../../DataStorage/Datastore");
+const { editCooldown } = require("../../../Utilities/Cooldown");
 const CommandHelper = require("../../../Utilities/CommandHelper");
 const ConfigManager = require("../../../Core/configManager");
 const CacheMaid = require("../../../Utilities/CacheMaid");
@@ -29,6 +30,7 @@ async function Laundry(interaction, client, { type, amount = 0 }) {
 
     switch (type) {
         case "view":
+            editCooldown(interaction, "laundry", 10);
             const viewEmbed = ConfigManager.getEmbed("CRIME.LAUNDRY.MESSAGES.VIEW", {
                 wash_rate: currentRate,
                 chance: currentCatchRate
