@@ -51,7 +51,8 @@ async function heist(interaction, client, option, difficulty) {
     const Candy = await GetAsync(userId, "MAIN_CURRENCY");
 
     if (option === "seek") {
-        editCooldown(interaction, "rob", 10);
+        editCooldown(interaction, "heist", 10);
+
         const embed = new EmbedBuilder()
             .setTitle("🔍 Scouting Targets")
             .setDescription("Choose a target to attempt robbing.")

@@ -1,7 +1,7 @@
 const { EmbedBuilder } = require("discord.js");
 const { GetAsync } = require('../../../DataStorage/Datastore');
 const ConfigManager = require('../../../Core/configManager');
-const CommandHelper = require("../../..//Utilities/CommandHelper");
+const CommandHelper = require("../../../Utilities/CommandHelper");
 
 // FETCH CONFIGS
 const CONFIG_BANK = ConfigManager.raw.ECONOMY.BANK;
