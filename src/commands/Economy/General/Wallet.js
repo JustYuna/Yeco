@@ -8,7 +8,7 @@ const CONFIG_BANK = ConfigManager.raw.ECONOMY.BANK;
 
 async function Wallet(interaction, client, targetUser) {
     if (targetUser && targetUser.bot) {
-        return interaction.editReply({ content: ConfigManager.getMsg("ConfigManager.raw.ECONOMY.WALLET.MESSAGES.IS_BOT")});
+        return interaction.editReply({ content: ConfigManager.getMsg("ECONOMY.WALLET.MESSAGES.IS_BOT")});
     }
 
     const user = targetUser || interaction.user;
