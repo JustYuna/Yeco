@@ -257,7 +257,7 @@ module.exports = {
             tags: [ "ONBOARDING" ]
         },
         run: (i, c, m) => {
-            const target = i.options.getUser('target');
+            const target = i.options.getUser('user');
             return m.Wallet(i, c, target);
         }
     },
