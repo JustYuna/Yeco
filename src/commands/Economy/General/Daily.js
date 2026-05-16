@@ -2,7 +2,7 @@ const { GetAsync, SetAsync, AddToAsync } = require('../../../DataStorage/Datasto
 const { EmbedBuilder } = require("discord.js");
 const ConfigManager = require("../../../Core/configManager");
 const Config = ConfigManager.raw
-const currentTheme = configManager.getActiveTheme();
+const currentTheme = ConfigManager.getActiveTheme();
 
 const DAILY = Config.ECONOMY.DAILY;
 const { REWARD, MESSAGES } = DAILY;
@@ -31,8 +31,11 @@ async function daily(interaction, client) {
         DailyData = { LAST: "1999-01-01", STREAK: 0 };
     }
 
+    const nextClaim = new Date(today);
+    nextClaim.setHours(24, 0, 0, 0);
+    const nextClaimTimestamp = Math.floor(nextClaim.getTime() / 1000);
     if (DailyData.LAST === todayStr) {
-        const msg = ConfigManager.parseMsg(MESSAGES.ALREADY_CLAIMED)
+        const msg = ConfigManager.parseMsg(MESSAGES.ALREADY_CLAIMED, { next_claim: `<t:${nextClaimTimestamp}:F>` })
         return interaction.editReply({
             content: msg,
             flags: 64

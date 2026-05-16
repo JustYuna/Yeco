@@ -126,7 +126,7 @@ module.exports = {
             WEEKEND_MULTIPLIER: 1.5
         },
         MESSAGES: {
-            ALREADY_CLAIMED: `{emoji_UI_Cross} You already used \`/daily\` today!`,
+            ALREADY_CLAIMED: `{emoji_UI_Cross} You already used \`/daily\` today!\nNext claim at: {next_claim}`,
             RECIEVED: "{emoji_Calender} {mainCurrency_emoji} You received **{reward} {mainCurrency_name}**",
         }
     },
