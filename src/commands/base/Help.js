@@ -11,7 +11,7 @@ async function help(interaction, client) {
         .setDescription(
             "━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━\n" +
             "🎯 **Essential Commands**\n" +
-            "`/help` • `/info` • `/me` • `/report`" +
+            "`/help` • `/info` • `/me` • `/report`\n" +
             "`/onboarding`\n\n" +
             
             "━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━\n" +
