@@ -2,7 +2,13 @@
 
 All notable changes to this project will be documented in this file.
 
+---
+## [2.6]
+> Temporary Update Title
+> Released: XX.XX.XXXX
 
+### 🏦 Fixes
+- **onboarding** - not resetting the command attempted to used cooldown
 ---
 ## [2.5]
 > Temporary Update Title
