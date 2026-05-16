@@ -5,7 +5,7 @@ const CommandHelper = require("../../../Utilities/CommandHelper");
 
 // FETCH CONFIGS
 const CONFIG_BANK = ConfigManager.raw.ECONOMY.BANK;
-const currentTheme = configManager.getActiveTheme();
+const currentTheme = ConfigManager.getActiveTheme();
 
 async function Wallet(interaction, client, targetUser) {
     if (targetUser && targetUser.bot) {
