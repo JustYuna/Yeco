@@ -1,3 +1,5 @@
+const ConfigManager = require("./configManager");
+
 module.exports = {
     // -- Base -- \\
     "help": {
@@ -94,14 +96,23 @@ module.exports = {
         run: (i, c, m) => m.Vote(i, c),
     },
 
-    "delete-data": {
+    "me": {
         settings: {
             cooldown: 5,
-            canShowCaptcha: true,
+            canShowCaptcha: false,
             risk: 0,
             tags: [ "DM_ENABLED" ]
         },
-        run: (i, c, m) => m.DataDeletion(i, c),
+        run: (i, c, m) => {
+            const type = i.options.getString("type");
+
+            switch (type) {
+                case "delete_data": return m.DataDeletion(i, c);
+                case "tos": return i.editReply({ content: ConfigManager.raw.OTHER.TOS.TEXT });
+                case "privacy_policy": return i.editReply({ content: ConfigManager.raw.OTHER.PRIVACY_POLICY.TEXT });
+                default: return i.editReply({ content: ConfigManager.raw.CORE.MESSAGES.ACTION_UNAVAILABLE });
+            }
+        },
     },
 
     // -- Economy -- \\

@@ -45,7 +45,7 @@ const commands = [
                 type: 3,
                 required: true,
                 choices: [
-                    { name: "Delete Data", value: "Delete Data" },
+                    { name: "Delete Data", value: "delete_data" },
                     { name: "Terms of Service", value: "tos" },
                     { name: "Privacy Policy", value: "privacy_policy" }
                 ]

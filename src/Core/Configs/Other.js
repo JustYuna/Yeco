@@ -24,5 +24,13 @@ module.exports = {
             IS_BOT: "{emoji_UI_Warn} You cannot give or take reputation from bots...",
             IS_YOU: "{emoji_UI_Cross} Are you desperate? you cannot take or give reputation from yourself."
         }
-    }
+    },
+    TOS: {
+        RAW: "https://github.com/JustYuna/Yeco/blob/main/ToS.md",
+        TEXT: "Yeco's Terms of Service: https://github.com/JustYuna/Yeco/blob/main/ToS.md"
+    },
+    PRIVACY_POLICY: {
+        RAW: "https://github.com/JustYuna/Yeco/blob/main/PrivacyPolicy.md",
+        TEXT: "Yeco's Privacy Policy: https://github.com/JustYuna/Yeco/blob/main/PrivacyPolicy.md"
+    },
 }
