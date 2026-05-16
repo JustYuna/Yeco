@@ -279,6 +279,7 @@ client.on('interactionCreate', async (interaction) => {
             const onboardingCompleted = await GetAsync(userId, "ONBOARDING_COMPLETED") || false;
 
             if (!onboardingCompleted) {
+                editCooldown(interaction, commandName, 10);
                 return onboarding(interaction, client);
             }
         }
