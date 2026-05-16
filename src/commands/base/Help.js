@@ -11,7 +11,8 @@ async function help(interaction, client) {
         .setDescription(
             "━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━\n" +
             "🎯 **Essential Commands**\n" +
-            "`/help` • `/info` • `/delete-data` • `/report`\n\n" +
+            "`/help` • `/info` • `/me` • `/report`" +
+            "`/onboarding`\n\n" +
             
             "━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━\n" +
             "💰 **Economy & Progression**\n" +
@@ -24,7 +25,7 @@ async function help(interaction, client) {
             
             "━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━\n" +
             "⚔️ **Crime System**\n" +
-            "`/rob` • `/heist`\n\n" +
+            "`/rob` • `/heist` • `/laundry`\n\n" +
             
             "━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━\n" +
             "🏦 **Banking & Wealth**\n" +
