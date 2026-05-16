@@ -266,7 +266,7 @@ module.exports = {
 
     "laundry": {
         settings: {
-            cooldown: 1500,
+            cooldown: 30,
             canShowCaptcha: true,
             risk: 25,
             tags: [ "ONBOARDING" ]

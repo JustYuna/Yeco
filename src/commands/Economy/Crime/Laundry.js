@@ -43,7 +43,7 @@ async function Laundry(interaction, client, { type, amount = 0 }) {
             const catchRate = currentCatchRate;
             const currency = await GetAsync(userID, "SECOND_CURRENCY");
 
-            const validateError = CommandHelper.VALIDATE_CURRENCY(interaction, amount, { userBalance: currency, command: "laundry" });
+            const validateError = await CommandHelper.VALIDATE_CURRENCY(interaction, amount, { userBalance: currency, command: "laundry" });
             if (validateError) return;
 
             await AddToAsync(userID, { "SECOND_CURRENCY": -amount });

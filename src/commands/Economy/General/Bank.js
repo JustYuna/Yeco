@@ -71,7 +71,8 @@ const actionMap = {
         const level = upgrades.BANK ?? 0;
         const capacity = UPGRADES[level].CAPACITY;
 
-        await CommandHelper.VALIDATE_CURRENCY(interaction, amount, { userBalance: balance, command: "bank" });
+        const validateError = await CommandHelper.VALIDATE_CURRENCY(interaction, amount, { userBalance: balance, command: "bank" });
+        if (validateError) return;
 
         if (deposited + amount > capacity) {
             const msg = ConfigManager.getMsg("ECONOMY.BANK.MESSAGES.BANK_FULL");
@@ -92,7 +93,8 @@ const actionMap = {
 
         const deposited = await GetAsync(interaction.user.id, "DEPOSITED") || 0;
 
-        await CommandHelper.VALIDATE_CURRENCY(interaction, amount, { userBalance: deposited, command: "bank" });
+        const validateError = await CommandHelper.VALIDATE_CURRENCY(interaction, amount, { userBalance: deposited, command: "bank" });
+        if (validateError) return;
 
         await AddToAsync(interaction.user.id, { MAIN_CURRENCY: amount, DEPOSITED: -amount });
 
