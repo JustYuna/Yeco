@@ -13,7 +13,7 @@ const ConfigManager = require("../Core/configManager");
 const Config = ConfigManager.raw;
 const { EmbedBuilder } = require("discord.js");
 
-const WebhookHandler = require("../commands/actions/webhook");
+const WebhookHandler = require("../Commands/Actions/webhook");
 
 const commandsMap = {
     give: async (message, args) => {
