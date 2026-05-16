@@ -40,17 +40,16 @@ async function Coinflip(interaction, client, { amount, selection }) {
 
     if (result === "win") { // get msg and parse data here to save resources
         await AddToAsync(userId, { "MAIN_CURRENCY": amount, "GAMBLED": amount })
-        msg = RESPONSES.WIN[Math.floor(Math.random() * messages.length)] || "No response found...";
+        msg = RESPONSES.WIN[Math.floor(Math.random() * RESPONSES.WIN.length)] || "No response found...";
     } else if (result === "lose") {
         await AddToAsync(userId, { "MAIN_CURRENCY": -amount })
-        msg = RESPONSES.LOSE[Math.floor(Math.random() * messages.length)] || "No response found...";
+        msg = RESPONSES.LOSE[Math.floor(Math.random() * RESPONSES.LOSE.length)] || "No response found...";
     } else if (result === "ultimate") {
         await AddToAsync(userId, { "MAIN_CURRENCY": -amount })
-        msg = RESPONSES.ULTIMATE_LOSE[Math.floor(Math.random() * messages.length)] || "No response found...";
+        msg = RESPONSES.ULTIMATE_LOSE[Math.floor(Math.random() * RESPONSES.ULTIMATE_LOSE.length)] || "No response found...";
     }
 
-    msg = ConfigManager.parseMsg(msg, { selection: selection, amount: amount })
-    interaction.editReply({ content: msg })
+    return interaction.editReply({ content: ConfigManager.parseMsg(msg, { selection: selection, amount: amount }) })
 }
 
 module.exports = Coinflip;

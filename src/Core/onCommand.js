@@ -318,7 +318,7 @@ module.exports = {
         run: (i, c, m) => {
             const amount = i.options.getInteger('amount');
             const type = i.options.getString('type');
-            return m.Coinflip(i, c, amount, type);
+            return m.Coinflip(i, c, { amount: amount, selection: type });
         }
     },
 
