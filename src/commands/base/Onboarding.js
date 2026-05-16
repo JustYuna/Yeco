@@ -51,7 +51,7 @@ async function Onboarding(interaction, client) {
         .setColor(ConfigManager.getColor())
         .setTitle("Welcome to Yeco 🌱")
         .setDescription(`
-Before you can start printing money (legally, of course), I need you to look over the boring—but important—stuff.
+Before you can start printing money (legally, of course), I need you to look over the important stuff.
 
 **By clicking the button below, you confirm you've read and agreed to:**
 📜 [Terms of Service](https://github.com/JustYuna/Yeco/blob/main/ToS.md)
