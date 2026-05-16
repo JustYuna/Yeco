@@ -7,6 +7,10 @@ const CommandHelper = require("../../..//Utilities/CommandHelper");
 const CONFIG_BANK = ConfigManager.raw.ECONOMY.BANK;
 
 async function Wallet(interaction, client, targetUser) {
+    if (targetUser && targetUser.bot) {
+        return interaction.editReply({ content: ConfigManager.getMsg("ConfigManager.raw.ECONOMY.WALLET.MESSAGES.IS_BOT")});
+    }
+
     const user = targetUser || interaction.user;
     const config = ConfigManager.raw;
     const activeKey = config.CORE.THEMES.ACTIVE;
@@ -28,7 +32,7 @@ async function Wallet(interaction, client, targetUser) {
     const levelData = await GetAsync(user.id, "LEVEL") || { LEVEL: 1, EXPERIENCE: 0 };
     const userLevel = levelData.LEVEL;
     const userXP = levelData.EXPERIENCE;
-    const xpNeeded = ConfigManager.raw.PROGRESSION.LEVEL.XP_TABLE[userLevel] || 0;
+    const xpNeeded = ConfigManager.raw.PROGRESSION.LEVELS.XP_TABLE[userLevel] || 0;
     const progress = xpNeeded > 0 
         ? Math.floor((userXP / xpNeeded) * 100) 
         : 100;

@@ -143,4 +143,10 @@ module.exports = {
             ONBOARDING: "You cannot gift to a user that has not completed the onboarding."
         }
     },
+
+    WALLET: {
+        MESSAGES: {
+            IS_BOT: "{emoji_UI_Warn} You cannot view the wallet of a bot... everyone knows they cheat anyways."
+        }
+    }
 }
