@@ -90,10 +90,10 @@ async function slots(interaction, client, bet, viewInfo) {
     if (multiplier > 0) {
         const winnings = bet * multiplier;
         await AddToAsync(userId, { MAIN_CURRENCY: winnings, GAMBLED: winnings / 2 });
-        message = `🎰 ${result.join(" | ")}\n\nYou won **${winnings}**!`;
+        message = `${buildMessage(display)}\n\nYou won **${winnings}**!`;
     } else {
         await AddToAsync(userId, { MAIN_CURRENCY: -bet });
-        message = `🎰 ${result.join(" | ")}\n\nYou lost **${bet}**.`;
+        message = `${buildMessage(display)}\n\nYou lost **${bet}**.`;
     }
 
     await interaction.editReply({ content: message });
