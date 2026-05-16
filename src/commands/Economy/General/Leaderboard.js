@@ -95,7 +95,7 @@ async function leaderboard(interaction, client, type) {
     );
 
     const embed = new EmbedBuilder()
-        .setColor(colors.green)
+        .setColor(currentTheme.COLORS.MAIN)
         .setTitle(`${convertedName} Leaderboard`)
         .setDescription(lines.join("\n"))
         .setFooter({
