@@ -1,7 +1,8 @@
 const { GetAsync, SetAsync, AddToAsync } = require('../../../DataStorage/Datastore');
+const { EmbedBuilder } = require("discord.js");
 const ConfigManager = require("../../../Core/configManager");
 const Config = ConfigManager.raw
-const { EmbedBuilder } = require("discord.js");
+const currentTheme = configManager.getActiveTheme();
 
 const DAILY = Config.ECONOMY.DAILY;
 const { REWARD, MESSAGES } = DAILY;
@@ -49,7 +50,7 @@ async function daily(interaction, client) {
 
     const msg = ConfigManager.parseMsg(MESSAGES.RECIEVED, { reward: reward })
     const embed = new EmbedBuilder()
-        .setColor("Green")
+        .setColor(currentTheme.COLORS.MAIN)
         .setTitle("🎁 Daily Reward Claimed!")
         .setDescription(msg)
         .addFields(
