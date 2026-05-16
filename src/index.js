@@ -27,7 +27,7 @@ const { GetRate, AddRate } = require("./Utilities/Ratelimit");
 const confirmInteraction = require("./Utilities/Captcha");
 
 const loadModules = require('./Utilities/LoadCommandsModules');
-const commandModules = loadModules('./src/commands');
+const commandModules = loadModules('./src/Commands');
 
 const onMessage = require('./Core/onMessage');
 const onCommand = require('./Core/onCommand');
