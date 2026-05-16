@@ -94,13 +94,13 @@ async function heist(interaction, client, option, difficulty) {
         const reward = Math.round(Required * Difficulty.Reward);
         await AddToAsync(userId, { SECOND_CURRENCY: reward, ROBBED: reward });
 
-        const msg = ConfigManager.getEmbed("ECONOMY.HEIST.MESSAGES.SUCCESS", { amount: reward, target: option, difficulty: difficulty });
+        const msg = ConfigManager.getEmbed("CRIME.HEIST.MESSAGES.SUCCESS", { amount: reward, target: option, difficulty: difficulty });
         return interaction.editReply({ embeds: [msg] });
     } else {
         const fine = Required;
         await AddToAsync(userId, { MAIN_CURRENCY: fine });
 
-        const msg = ConfigManager.getEmbed("ECONOMY.HEIST.MESSAGES.FAILED", { amount: fine, target: option, difficulty: difficulty });
+        const msg = ConfigManager.getEmbed("CRIME.HEIST.MESSAGES.FAILED", { amount: fine, target: option, difficulty: difficulty });
         return interaction.editReply({ embeds: [msg] });
     }
 }
