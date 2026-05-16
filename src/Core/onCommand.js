@@ -28,6 +28,15 @@ module.exports = {
         },
         run: (i, c, m) => m.Cooldowns(i, c),
     },
+    "onboarding": {
+        settings: {
+            cooldown: 5,
+            canShowCaptcha: false,
+            risk: 0,
+            guildSizeLockout: [ "MEDIUM", "LARGE", "HUGE" ]
+        },
+        run: (i, c, m) => m.Onboarding(i, c),
+    },
     "settings": {
         settings: {
             cooldown: 5,

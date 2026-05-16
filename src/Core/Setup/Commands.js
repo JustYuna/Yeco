@@ -21,6 +21,10 @@ const commands = [
         description: 'View what cooldowns you are one currently',
     },
     {
+        name: 'onboarding',
+        description: 'View the onboarding message again',
+    },
+    {
         name: "settings",
         description: "Toggle some settings",
         options: [
