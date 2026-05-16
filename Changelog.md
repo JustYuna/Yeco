@@ -6,7 +6,7 @@ All notable changes to this project will be documented in this file.
 ---
 ## [2.5]
 > Temporary Update Title
-> Released: XX.XX.XXXX
+> Released: 16.05.2026
 
 ### ⚒️ Added
 - **/me** - View important data like: `Privacy Policy`, `Tearms of Service`, `Delete Data`
