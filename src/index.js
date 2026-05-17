@@ -2,12 +2,24 @@
 
 // Main modules
 const result = require('dotenv').config();
+const Testers = process.env.TESTER?.split(',') || [];
 
 const configManager = require('./Core/configManager');
 const config = configManager.raw;
+const CORE_SETTINGS = config.CORE.SETTINGS;
+const COMMANDS_PER_MINUTE = CORE_SETTINGS.COMMANDS_PER_MINUTE;
+const GUILD_SIZE_SPEC = CORE_SETTINGS.GUILD_SIZE_SPEC;
+const GUILD_CACHE_TTL = CORE_SETTINGS.GUILD_CACHE_TTL;
+
+const DISCORD_ERRORS = {
+    UNKNOWN_INTERACTION: 10062,
+    INTERACTION_ALREADY_ACKNOWLEDGED: 40060
+};
+
 const CacheMaid = require("./Utilities/CacheMaid")
 const botMAP = CacheMaid.new("bot");
 const guildSizeCache = CacheMaid.new("core_guildSizeCache");
+CacheMaid.autoEvict("core_guildSizeCache", 25, 3600000)
 
 const { setCooldown, checkCooldown, editCooldown } = require('./Utilities/Cooldown');
 const { AddToGlobalAsync, initDB, initGlobals, initGuilds, GetAsync } = require("./DataStorage/Datastore");
@@ -134,13 +146,13 @@ function getGuildTier(guild) {
     const now = Date.now();
 
     // use cache if valid
-    if (cached && (now - cached.updated < config.CORE.SETTINGS.GUILD_CACHE_TTL)) {
+    if (cached && (now - cached.updated < GUILD_CACHE_TTL)) {
         return cached.tier;
     }
 
     const size = guild.memberCount;
 
-    const tiers = Object.values(config.CORE.SETTINGS.GUILD_SIZE_SPEC)
+    const tiers = Object.values(GUILD_SIZE_SPEC)
         .sort((a, b) => a.COUNT - b.COUNT);
 
     let currentTier = "OVERSIZED";
@@ -177,9 +189,7 @@ client.on('interactionCreate', async (interaction) => {
         try {
             await interaction.deferReply(); 
         } catch (err) {
-            // Error Code 10062 = Unknown Interaction (Expired)
-            // Error Code 40060 = Interaction has already been acknowledged
-            if (err.code === 10062 || err.code === 40060) {
+            if (err.code === DISCORD_ERRORS.UNKNOWN_INTERACTION || err.code === DISCORD_ERRORS.INTERACTION_ALREADY_ACKNOWLEDGED) {
                 console.log(`[Interaction Log] ${interaction.user.tag} interaction expired or was already handled.`);
                 return;
             }
@@ -226,7 +236,7 @@ client.on('interactionCreate', async (interaction) => {
     
      {
         const Rate = AddRate(user.id)
-        if (Rate > config.CORE.SETTINGS.COMMANDS_PER_MINUTE) {
+        if (Rate > COMMANDS_PER_MINUTE) {
             return interaction.editReply({ content: config.CORE.MESSAGES.ACTION_RATE_LIMIT });
         };
      }
@@ -243,7 +253,7 @@ client.on('interactionCreate', async (interaction) => {
     if (settings.canShowCaptcha) {
         const riskScore = settings.risk / 100 || 0;
         const userRate = GetRate(user.id);
-        const shouldShow = (Math.random() < riskScore) || (userRate >= configManager.raw.CORE.SETTINGS.COMMANDS_PER_MINUTE);
+        const shouldShow = (Math.random() < riskScore) || (userRate >= COMMANDS_PER_MINUTE);
 
         if (shouldShow) {
             try {
@@ -263,8 +273,6 @@ client.on('interactionCreate', async (interaction) => {
     // ========================
     // Command
     // ========================
-    const required = config.CORE.SETTINGS.GUILD_SIZE_SPEC
-
     try {
         const tags = handler.settings.tags || [];
 
@@ -285,7 +293,14 @@ client.on('interactionCreate', async (interaction) => {
             }
         }
 
-        await handler.run(interaction, client, module);
+        const timeoutPromise = new Promise((_, reject) =>
+            setTimeout(() => reject(new Error("Command timeout")), 10000)
+        );
+
+        await Promise.race([
+            handler.run(interaction, client, module),
+            timeoutPromise
+        ])
 
         AddToGlobalAsync({ "COMMANDS_USED": 1 })
         CacheMaid.patchAdvanced("bot", {
