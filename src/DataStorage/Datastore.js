@@ -41,6 +41,17 @@ const defaultGlobalData = {
   GLOBAL_MULTIPLIER: 1
 };
 
+const defaultGuildDAta = {
+  NAME: "",
+  OWNER_ID: "",
+
+  LEVEL: 1,
+  BANK: 0,
+  MEMBERS: [],
+  INVITES: [],
+  CREATED_AT: Date.now(),
+};
+
 // ------------------ Helpers ------------------
 function runAsync(sql, params = []) {
   return new Promise((resolve, reject) => {
@@ -215,6 +226,24 @@ async function SetGlobalAsync(newData) {
   }
 }
 
+// ------------------ Guild Helpers ------------------
+async function initGuilds() {
+  await runAsync(`
+    CREATE TABLE IF NOT EXISTS guilds (
+      id TEXT PRIMARY KEY,
+      name TEXT NOT NULL,
+      owner_id TEXT NOT NULL,
+      bank INTEGER DEFAULT 0,
+      level INTEGER DEFAULT 1,
+      experience INTEGER DEFAULT 0,
+      members TEXT DEFAULT '[]',
+      invites TEXT DEFAULT '[]',
+      created_at INTEGER DEFAULT 0,
+      settings TEXT DEFAULT '{}'
+    );
+  `);
+}
+
 // ------------------ Remove User ------------------
 async function removeUser(userId) {
     return new Promise((resolve, reject) => {
@@ -283,5 +312,5 @@ module.exports = {
   removeUser,
 
   // Startup
-  initDB, initGlobals
+  initDB, initGlobals, initGuilds
 };

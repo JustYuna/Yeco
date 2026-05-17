@@ -10,7 +10,7 @@ const botMAP = CacheMaid.new("bot");
 const guildSizeCache = CacheMaid.new("core_guildSizeCache");
 
 const { setCooldown, checkCooldown, editCooldown } = require('./Utilities/Cooldown');
-const { AddToGlobalAsync, initDB, initGlobals, GetAsync } = require("./DataStorage/Datastore");
+const { AddToGlobalAsync, initDB, initGlobals, initGuilds, GetAsync } = require("./DataStorage/Datastore");
 
 CacheMaid.patch("bot", {
     startTime: Date.now(),
@@ -21,6 +21,7 @@ CacheMaid.patch("bot", {
 {
     initDB().catch(console.error);
     initGlobals().catch(console.error);
+    initGuilds().catch(console.error);
 }
 
 const { GetRate, AddRate } = require("./Utilities/Ratelimit");
