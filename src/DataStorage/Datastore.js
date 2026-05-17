@@ -10,6 +10,7 @@ let db = new sqlite3.Database(dbPath, (err) => {
 
 // Single-table structure, nested objects stored as JSON
 const defaultData = {
+  GUILD: "NONE",
   MAIN_CURRENCY: 0,
   SECOND_CURRENCY: 0,
   DEPOSITED: 0,
