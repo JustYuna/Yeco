@@ -139,6 +139,9 @@ client.on('messageCreate', (message) => {
 });
 
 // -- Command handler helper
+const tiers = Object.values(GUILD_SIZE_SPEC)
+        .sort((a, b) => a.COUNT - b.COUNT);
+
 function getGuildTier(guild) {
     if (!guild) return "OVERSIZED";
 
@@ -151,9 +154,6 @@ function getGuildTier(guild) {
     }
 
     const size = guild.memberCount;
-
-    const tiers = Object.values(GUILD_SIZE_SPEC)
-        .sort((a, b) => a.COUNT - b.COUNT);
 
     let currentTier = "OVERSIZED";
 
