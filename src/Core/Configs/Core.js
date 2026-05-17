@@ -29,6 +29,7 @@ module.exports = {
             },
         }, // Limits what command can be used for what server
     },
+
     MESSAGES: {
         NOT_ENOUGH_CURRENCY: "❌ You do not have enough **{mainCurrency_name}** {mainCurrency_emoji} to perform this action!",
         MIN_CURRENCY_REQUIRED: "⚠️ You need a minimum of **{amount} {mainCurrency_name}** {mainCurrency_emoji}!",
@@ -39,7 +40,8 @@ module.exports = {
         ACTION_RATE_LIMIT: "⚠️ You are currently being rate limited... please wait a moment.",
 
         COMMAND_NOT_HIGH_ENOUGH_LEVEL: "⚠️ Your level is not high enough to use this command.\nRequired: **Level {level}**",
-        TARGET_ONBOARDING: "⚠️ Your target doesnt have completed the onboarding yet, please chose another target."
+        TARGET_ONBOARDING: "⚠️ Your target doesnt have completed the onboarding yet, please chose another target.",
+        SERVER_LOCKOUT_MESSAGE = "{emoji_UI_Cross} Disabled in {tier} servers (hardware limits)\n💡 Support development or contribute here: https://github.com/JustYuna/Yeco"
     },
 
     EMOJIS: {

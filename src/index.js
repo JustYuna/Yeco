@@ -226,7 +226,7 @@ client.on('interactionCreate', async (interaction) => {
         const display = tier.charAt(0) + tier.slice(1).toLowerCase();
 
         return interaction.editReply({
-            content: `❌ Disabled in ${display} servers (hardware limits)\n💡 Support development or contribute here: https://github.com/JustYuna/Yeco`,
+            content: configManager.getMsg("CORE.MESSAGES.SERVER_LOCKOUT_MESSAGE", { tier: tier }),
         });
     }
 
