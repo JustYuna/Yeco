@@ -10,6 +10,7 @@ const CORE_SETTINGS = config.CORE.SETTINGS;
 const COMMANDS_PER_MINUTE = CORE_SETTINGS.COMMANDS_PER_MINUTE;
 const GUILD_SIZE_SPEC = CORE_SETTINGS.GUILD_SIZE_SPEC;
 const GUILD_CACHE_TTL = CORE_SETTINGS.GUILD_CACHE_TTL;
+const CORE_MESSAGES = config.CORE.MESSAGES;
 
 const DISCORD_ERRORS = {
     UNKNOWN_INTERACTION: 10062,
@@ -179,7 +180,7 @@ client.on('interactionCreate', async (interaction) => {
 
     const { commandName, user, guild } = interaction;
 
-    if (config.CORE.SETTINGS.DEVELOPER_MODE && user.id !== OwnerID && !Testers.includes(user.id))
+    if (CORE_SETTINGS.DEVELOPER_MODE && user.id !== OwnerID && !Testers.includes(user.id))
         return interaction.reply({ content: "This bot is currently being maintained, please try again later!", flags: 64 });
 
     // ========================
@@ -237,7 +238,7 @@ client.on('interactionCreate', async (interaction) => {
      {
         const Rate = AddRate(user.id)
         if (Rate > COMMANDS_PER_MINUTE) {
-            return interaction.editReply({ content: config.CORE.MESSAGES.ACTION_RATE_LIMIT });
+            return interaction.editReply({ content: configManager.getMsg("CORE.MESSAGES.ACTION_RATE_LIMIT") });
         };
      }
 
@@ -265,7 +266,7 @@ client.on('interactionCreate', async (interaction) => {
                 }
             } catch (err) {
                 console.error(`Captcha Error:`, err);
-                return interaction.editReply("There was an error verifying your interaction.");
+                return interaction.editReply({ content: configManager.getMsg("CORE.MESSAGES.CAPTCHA_FAIL") });
             }
         }
     }
@@ -278,9 +279,7 @@ client.on('interactionCreate', async (interaction) => {
 
         if (!tags.includes("DM_ENABLED")) {
             if (!guild || guild.memberCount < 5 && !devMode) {
-                return interaction.editReply({
-                    content: "This command is not available here.\n[Requirements]:\nMust be in a server\nServer must have 5+ members"
-                });
+                return interaction.editReply({ content: configManager.getMsg("CORE.MESSAGES.MEMBER_REQUIREMENT") });
             }
         }
 
@@ -320,7 +319,7 @@ client.on('interactionCreate', async (interaction) => {
         });
 
         await interaction.editReply({
-            content: "An error occurred while processing the command."
+            content: configManager.getMsg("CORE.MESSAGES.COMMAND_ERROR_PROCESS")
         }).catch(() => {});
     }
 });
