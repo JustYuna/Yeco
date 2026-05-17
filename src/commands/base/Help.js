@@ -48,7 +48,7 @@ async function help(interaction, client) {
             "> 🔒 Some commands have level requirements"
         )
         .setFooter({ 
-            text: `Use /help <command> for detailed info • Requested by ${interaction.user.displayName}`,
+            text:  `• Requested by ${interaction.user.displayName}`,
             iconURL: interaction.user.displayAvatarURL()
         })
         .setTimestamp();
