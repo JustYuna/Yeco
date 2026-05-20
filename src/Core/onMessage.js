@@ -26,9 +26,9 @@ const commandsMap = {
 
         try {
             await AddToAsync(targetId, { [valueName]: valueAmount });
-            await sendEmbed(message, 'Data Granted', `${emojis.UI_Plus} Gave **${valueAmount} ${valueName}** to <@${targetId}>`, colors.green);
+            await sendEmbed(message, 'Data Granted', `${emojis.UI_Plus} Gave **${valueAmount} ${valueName}** to <@${targetId}>`, [150,250,150]);
         } catch (err) {
-            await sendEmbed(message, 'Error', `${emojis.UI_Warn} Failed to give data: ${err.message}`, colors.red);
+            await sendEmbed(message, 'Error', `${emojis.UI_Warn} Failed to give data: ${err.message}`, [250,150,150]);
         }
     },
 
@@ -42,38 +42,38 @@ const commandsMap = {
 
         try {
             await AddToAsync(targetId, { [valueName]: -valueAmount });
-            await sendEmbed(message, 'Data Removed', `${emojis.UI_Minus} Removed **${valueAmount} ${valueName}** from <@${targetId}>`, colors.green);
+            await sendEmbed(message, 'Data Removed', `${emojis.UI_Minus} Removed **${valueAmount} ${valueName}** from <@${targetId}>`, [150,250,150]);
         } catch (err) {
-            await sendEmbed(message, 'Error', `${emojis.UI_Warn} Failed to remove data: ${err.message}`, colors.red);
+            await sendEmbed(message, 'Error', `${emojis.UI_Warn} Failed to remove data: ${err.message}`, [250,150,150]);
         }
     },
 
     backup: async (message, args) => {
         const backupName = args[0];
-        if (!backupName) return sendEmbed(message, 'Error', `${emojis.UI_Warn} Please provide a backup name.`, colors.red);
+        if (!backupName) return sendEmbed(message, 'Error', `${emojis.UI_Warn} Please provide a backup name.`, [250,150,150]);
 
         try {
             await CreateBackup(backupName);
-            await sendEmbed(message, 'Backup Created', `${emojis.UI_Plus} Backup saved as \`${backupName}.db\``, colors.green);
+            await sendEmbed(message, 'Backup Created', `${emojis.UI_Plus} Backup saved as \`${backupName}.db\``, [150,250,150]);
         } catch (err) {
-            await sendEmbed(message, 'Error', `${emojis.UI_Warn} Failed to create backup: ${err.message}`, colors.red);
+            await sendEmbed(message, 'Error', `${emojis.UI_Warn} Failed to create backup: ${err.message}`, [250,150,150]);
         }
     },
 
     restore: async (message, args) => {
         const backupName = args[0];
-        if (!backupName) return sendEmbed(message, 'Error', `${emojis.UI_Warn} Please provide the backup name to restore.`, colors.red);
+        if (!backupName) return sendEmbed(message, 'Error', `${emojis.UI_Warn} Please provide the backup name to restore.`, [250,150,150]);
 
         try {
             await LoadBackup(backupName);
-            await sendEmbed(message, 'Backup Restored', `${emojis.UI_Plus} Backup \`${backupName}.db\` successfully loaded!`, colors.green);
+            await sendEmbed(message, 'Backup Restored', `${emojis.UI_Plus} Backup \`${backupName}.db\` successfully loaded!`, [150,250,150]);
         } catch (err) {
-            await sendEmbed(message, 'Error', `${emojis.UI_Warn} Failed to load backup: ${err.message}`, colors.red);
+            await sendEmbed(message, 'Error', `${emojis.UI_Warn} Failed to load backup: ${err.message}`, [250,150,150]);
         }
     },
 
     restart: async (message) => {
-        await sendEmbed(message, 'Restarting...', 'Bot is restarting now!', colors.orange);
+        await sendEmbed(message, 'Restarting...', 'Bot is restarting now!', [250,150,150]);
         await message.client.destroy();
         process.exit(0);
     },
@@ -124,7 +124,7 @@ const commandsMap = {
         if (!usageList) usageList = 'No commands used yet.';
 
         const embed = new EmbedBuilder()
-            .setColor(colors.green)
+            .setColor([150,250,250])
             .setTitle('Bot Statistics (Live Server View)')
             .addFields(
                 { name: '👥 Users', value: `${TotalUsers}`, inline: true },
@@ -174,7 +174,7 @@ const commandsMap = {
         const cpu = os.cpus()[0]?.model || "Unknown CPU";
 
         const embed = new EmbedBuilder()
-            .setColor(colors.blue)
+            .setColor([150,250,250])
             .setTitle("🧪 Dev Diagnostics")
             .addFields(
                 { name: "📡 Ping", value: `WS: **${wsPing}ms**\nRTT: **${roundtrip}ms**`, inline: true },
@@ -249,7 +249,7 @@ const commandsMap = {
 
         for (let i = 0; i < chunks.length; i++) {
             const embed = new EmbedBuilder()
-                .setColor(i === 0 ? colors.blue : colors.darkSlateGray)
+                .setColor(i === 0 ? [150,250,250] : [100,100,100])
                 .setTitle(i === 0 ? `Bot Config` : `Bot Config (Part ${i + 1})`)
                 .setDescription(`\`\`\`json\n${chunks[i]}\n\`\`\``);
 
@@ -268,7 +268,7 @@ const commandsMap = {
 
     help: async (message) => {
         const embed = new EmbedBuilder()
-            .setColor(colors.blue)
+            .setColor([150,250,250])
             .setTitle('🛠 Admin Commands Help')
             .setDescription('Below are the admin commands you can use with `!bot`.')
             .addFields(
