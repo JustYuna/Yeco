@@ -307,8 +307,8 @@ const commands = [
         description: 'Get a random video from youtube',
         options: [
             {
-                name: 'action',
-                description: 'Chose what you want todo',
+                name: 'type',
+                description: 'Type',
                 type: 3,
                 required: true,
                 choices: [

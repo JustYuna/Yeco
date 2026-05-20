@@ -347,9 +347,21 @@ module.exports = {
             tags: [ "DM_ENABLED" ]
         },
         run: async (i, c, m) => {
-            // Changed i.option to i.options
             const target = i.options.getUser("target");
             return m.socialActions.Bonk(i, c, target);
+        }
+    },
+
+    "randomvideo": {
+        settings: {
+            cooldown: 5,
+            canShowCaptcha: false,
+            risk: 0,
+            tags: [ "DM_ENABLED" ]
+        },
+        run: async (i, c, m) => {
+            const type = i.options.getString("type");
+            return m.socialActions.RandomVideo(i, c, { type: type });
         }
     },
 
