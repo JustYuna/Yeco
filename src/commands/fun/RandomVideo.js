@@ -3,8 +3,6 @@
 require("dotenv").config();
 const { google } = require("googleapis");
 
-const YOUTUBE_DATA_API_V3 = process.env.YOUTUBE_DATA_API_V3;
-
 const validTypes = [
     "normal",
     "cursed",
@@ -25,7 +23,7 @@ const searchQueries = {
 
 const youtube = google.youtube({
     version: "v3",
-    auth: process.env.YOUTUBE_API_KEY,
+    auth: process.env.YOUTUBE_DATA_API_V3,
 });
 
 function getRandomItem(array) {
