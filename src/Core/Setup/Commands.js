@@ -302,6 +302,28 @@ const commands = [
     },
 
     {
+        name: 'randomvideo',
+        dm_permission: true,
+        description: 'Get a random video from youtube',
+        options: [
+            {
+                name: 'action',
+                description: 'Chose what you want todo',
+                type: 3,
+                required: true,
+                choices: [
+                    { name: 'Normal', value: 'normal' },
+                    { name: 'Cursed', value: 'cursed' },
+                    { name: 'Old Tube (before 2010)', value: 'oldtube' },
+                    { name: 'Educate', value: 'educate' },
+                    { name: 'Brainrot', value: 'brainrot' },
+                    { name: 'Under Two', value: 'undertwo' },
+                ],
+            },
+        ]
+    },
+
+    {
         name: 'ship',
         dm_permission: true,
         description: 'Lets ship some people shall we?',
