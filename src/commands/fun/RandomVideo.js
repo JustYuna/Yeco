@@ -2,66 +2,12 @@
 require("dotenv").config();
 const { google } = require("googleapis");
 const { EmbedBuilder } = require("discord.js");
+const ConfigManager = require("../../Core/configManager")
 
-const validTypes = [
-    "normal",
-    "cursed",
-    "oldtube",
-    "educate",
-    "brainrot",
-    "undertwo",
-];
-
-const searchQueries = {
-    normal: [
-        "interesting random video",
-        "cool video you havent seen",
-        "underrated youtube video",
-        "hidden gem video",
-        "fascinating video essay",
-        "unique content video"
-    ],
-    cursed: [
-        "weird cursed video",
-        "disturbing animation",
-        "unsettling youtube",
-        "cursed memes compilation",
-        "strange internet video",
-        "deep web vibes video"
-    ],
-    oldtube: [
-        "classic youtube 2008",
-        "old youtube meme",
-        "viral video 2009",
-        "retro youtube",
-        "early youtube classic",
-        "youtube nostalgia 2007"
-    ],
-    educate: [
-        "educational science video",
-        "mind blowing facts",
-        "interesting documentary short",
-        "how it works explained",
-        "fascinating history video",
-        "cool science experiment"
-    ],
-    brainrot: [
-        "absurd meme video",
-        "tiktok brainrot compilation",
-        "cursed meme",
-        "chaotic funny video",
-        "internet brainrot",
-        "unhinged content"
-    ],
-    undertwo: [
-        "under 2 minute funny video",
-        "short comedy skit",
-        "quick laugh video",
-        "1 minute funny clip",
-        "short viral video",
-        "quick meme video"
-    ],
-};
+const {
+    VALID_TYPES,
+    SEARCH_QUERIES
+} = ConfigManager.raw.FUN.RANDOM_VIDEO;
 
 const youtube = google.youtube({
     version: "v3",
@@ -98,19 +44,13 @@ async function searchYouTube(query, maxResults = 50) {
 
 async function RandomVideo(interaction, client, { type = "normal" }) {
     // Validate type
-    if (!validTypes.includes(type)) {
-        return interaction.editReply({
-            content: `❌ Invalid type. Valid types: ${validTypes.join(", ")}`,
-            ephemeral: true,
-        });
+    if (!VALID_TYPES.includes(type)) {
+        return interaction.editReply({  content: ConfigManager.getMsg("FUN.RANDOM_VIDEO.MESSAGES.INVALID_TYPE", { valid_types: VALID_TYPES.join(", ") }) });
     }
 
     // Check for API key
     if (!process.env.YOUTUBE_DATA_API_V3) {
-        return interaction.editReply({
-            content: "❌ Missing YouTube API key. Please contact the bot owner.",
-            ephemeral: true,
-        });
+            return interaction.editReply({  content: ConfigManager.getMsg("FUN.RANDOM_VIDEO.MESSAGES.NO_API_KEY") });
     }
 
     try {
@@ -118,19 +58,16 @@ async function RandomVideo(interaction, client, { type = "normal" }) {
         const userRecent = recentVideos.get(userId) || [];
         
         // Pick random sub-query for variety
-        const queryList = searchQueries[type];
+        const queryList = SEARCH_QUERIES[type];
         const query = getRandomItem(queryList);
         
         // Search YouTube
         const results = await searchYouTube(query, 50);
         
         if (!results.length) {
-            return interaction.editReply(
-                "😔 I couldn't find a video right now. Please try again!"
-            );
+            return interaction.editReply({  content: ConfigManager.getMsg("FUN.RANDOM_VIDEO.MESSAGES.NO_VIDEO") });
         }
-        
-        // Find a video not recently shown to this user
+
         let randomVideo = null;
         for (const video of results) {
             if (!userRecent.includes(video.id.videoId)) {
@@ -138,52 +75,36 @@ async function RandomVideo(interaction, client, { type = "normal" }) {
                 break;
             }
         }
-        
-        // Fallback if all videos were recent
+
         if (!randomVideo) {
             randomVideo = getRandomItem(results);
         }
-        
+
         const videoId = randomVideo.id.videoId;
         const title = randomVideo.snippet.title;
         const channel = randomVideo.snippet.channelTitle;
         const url = `https://www.youtube.com/watch?v=${videoId}`;
-        
-        // Update recent videos cache (keep last 15)
+
         const newRecent = [videoId, ...userRecent].slice(0, 15);
         recentVideos.set(userId, newRecent);
+
+        const msg = ConfigManager.getMsg("FUN.RANDOM_VIDEO.MESSAGES.VIDEO_FOUND", {
+            type: type.charAt(0).toUpperCase() + type.slice(1),
+            title: title,
+            channel: channel,
+            link: url
+        });
         
-        // Create embed for better presentation
-        const embed = new EmbedBuilder()
-            .setTitle(`🎲 Random ${type.charAt(0).toUpperCase() + type.slice(1)} Video`)
-            .setDescription(`**${title}**`)
-            .addFields(
-                { name: "👤 Channel", value: channel, inline: true },
-                { name: "📺 Watch", value: `[Click Here](${url})`, inline: true }
-            )
-            .setColor(0xFF0000)
-            .setURL(url)
-            .setFooter({ 
-                text: `Requested by ${interaction.user.username} • Type: ${type}`,
-                iconURL: interaction.user.displayAvatarURL()
-            })
-            .setTimestamp();
-        
-        await interaction.editReply({ embeds: [embed] });
+        await interaction.editReply({ content: msg });
         
     } catch (error) {
         console.error("RandomVideo error:", error);
-        
-        // Handle quota exceeded specifically
+
         if (error.code === 403 && error.message.includes("quota")) {
-            return interaction.editReply(
-                "❌ YouTube API quota exceeded. Please try again later!"
-            );
+            return interaction.editReply({  content: ConfigManager.getMsg("FUN.RANDOM_VIDEO.MESSAGES.API_QUOTA_EXCEEDED") });
         }
         
-        await interaction.editReply(
-            "❌ Something went wrong while fetching a video. Please try again!"
-        );
+        return interaction.editReply({  content: ConfigManager.getMsg("FUN.RANDOM_VIDEO.MESSAGES.FETCH_ERROR") });
     }
 }
 

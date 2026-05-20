@@ -164,5 +164,74 @@ module.exports = {
     TOWER: {
         BRICKS_PER_LAYER: 50,
         MESSAGE: "🧱 You have added 1 brick to the tower!\n**Layer:** {layer}\n**Total bricks:** {size}\n*[Each layer requires {needed} bricks]*"
+    },
+
+    RANDOM_VIDEO: {
+        VALID_TYPES: [
+            "normal",
+            "cursed",
+            "oldtube",
+            "educate",
+            "brainrot",
+            "undertwo",
+        ],
+        SEARCH_QUERIES: {     
+            normal: [
+                "interesting random video",
+                "cool video you havent seen",
+                "underrated youtube video",
+                "hidden gem video",
+                "fascinating video essay",
+                "unique content video"
+            ],
+            cursed: [
+                "weird cursed video",
+                "disturbing animation",
+                "unsettling youtube",
+                "cursed memes compilation",
+                "strange internet video",
+                "deep web vibes video"
+            ],
+            oldtube: [
+                "classic youtube 2008",
+                "old youtube meme",
+                "viral video 2009",
+                "retro youtube",
+                "early youtube classic",
+                "youtube nostalgia 2007"
+            ],
+            educate: [
+                "educational science video",
+                "mind blowing facts",
+                "interesting documentary short",
+                "how it works explained",
+                "fascinating history video",
+                "cool science experiment"
+            ],
+            brainrot: [
+                "absurd meme video",
+                "tiktok brainrot compilation",
+                "cursed meme",
+                "chaotic funny video",
+                "internet brainrot",
+                "unhinged content"
+            ],
+            undertwo: [
+                "under 2 minute funny video",
+                "short comedy skit",
+                "quick laugh video",
+                "1 minute funny clip",
+                "short viral video",
+                "quick meme video"
+            ],
+        },
+        MESSAGES: {
+            VIDEO_FOUND: "🎲 Random {type} Video\nTitle: {title}\nChannel: {channel}\n📺 Watch [Click Here]({link})",
+            API_QUOTA_EXCEEDED: "{emoji_UI_Cross} YouTube API quota exceeded. Please try again later!",
+            FETCH_ERROR: "{emoji_UI_Cross} Something went wrong while fetching a video. Please try again!",
+            NO_VIDEO: "{emoji_UI_Warn} I could not find a video at the time, please try later again.",
+            INVALID_TYPE: "{emoji_UI_Warn} Invalid random video type... please use on of following types: {valid_types}",
+            NO_API_KEY: "{emoji_UI_Warn} The Youtube API key is missing, please contact the owner via `/report`",
+        }
     }
 }
