@@ -361,7 +361,7 @@ module.exports = {
         },
         run: async (i, c, m) => {
             const type = i.options.getString("type");
-            return m.socialActions.RandomVideo(i, c, { type: type });
+            return m.RandomVideo(i, c, { type: type });
         }
     },
 
