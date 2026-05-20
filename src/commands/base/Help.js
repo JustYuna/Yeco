@@ -12,7 +12,7 @@ async function help(interaction, client) {
             "━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━\n" +
             "🎯 **Essential Commands**\n" +
             "`📩 /help` • `📩 /info` • `📩 /me` • `📩 /report`\n" +
-            "`📩 /onboarding` • `📩 /setting`\n\n" +
+            "`📩 /onboarding` • `📩 /setting` • `📩 /vote`\n\n" +
             
             "━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━\n" +
             "💰 **Economy & Progression**\n" +
@@ -29,7 +29,7 @@ async function help(interaction, client) {
             
             "━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━\n" +
             "🏦 **Banking & Wealth**\n" +
-            "`/daily` • `/wallet` • `/bank` • `/gift`\n\n" +
+            "`📩 /daily` • `/wallet` • `/bank` • `/gift`\n\n" +
             
             "━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━\n" +
             "🎰 **Gambling**\n" +

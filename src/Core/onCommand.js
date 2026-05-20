@@ -6,7 +6,8 @@ module.exports = {
         settings: {
             cooldown: 5,
             canShowCaptcha: false,
-            risk: 0
+            risk: 0,
+            tags: [ "DM_ENABLED" ]
         },
         run: (i, c, m) => m.Help(i, c),
     },
@@ -15,7 +16,8 @@ module.exports = {
             cooldown: 5,
             canShowCaptcha: false,
             risk: 0,
-            guildSizeLockout: [ "LARGE", "HUGE" ]
+            guildSizeLockout: [ "LARGE", "HUGE" ],
+            tags: [ "DM_ENABLED" ]
         },
         run: (i, c, m) => m.Info(i, c),
     },
@@ -24,7 +26,8 @@ module.exports = {
             cooldown: 5,
             canShowCaptcha: false,
             risk: 0,
-            guildSizeLockout: [ "MEDIUM", "LARGE", "HUGE" ]
+            guildSizeLockout: [ "MEDIUM", "LARGE", "HUGE" ],
+            tags: [ "DM_ENABLED" ]
         },
         run: (i, c, m) => m.Cooldowns(i, c),
     },
@@ -33,7 +36,8 @@ module.exports = {
             cooldown: 5,
             canShowCaptcha: false,
             risk: 0,
-            guildSizeLockout: [ "MEDIUM", "LARGE", "HUGE" ]
+            guildSizeLockout: [ "MEDIUM", "LARGE", "HUGE" ],
+            tags: [ "DM_ENABLED" ]
         },
         run: (i, c, m) => m.Onboarding(i, c),
     },
@@ -100,7 +104,8 @@ module.exports = {
         settings: {
             cooldown: 300,
             canShowCaptcha: false,
-            risk: 0
+            risk: 0,
+            tags: [ "DM_ENABLED" ]
         },
         run: (i, c, m) => m.Vote(i, c),
     },
