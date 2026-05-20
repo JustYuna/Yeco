@@ -21,7 +21,8 @@ async function Coinflip(interaction, client, { amount, selection }) {
     const userId = interaction.user.id;
 
     let Balance = await GetAsync(userId, "MAIN_CURRENCY") || 0;
-    await CommandHelper.VALIDATE_CURRENCY(interaction, amount, { min: MIN_BET, userBalance: Balance, command: "coinflip" });
+    const validateError = await CommandHelper.VALIDATE_CURRENCY(interaction, amount, { min: MIN_BET, userBalance: Balance, command: "coinflip" });
+    if (validateError) return;
 
     let rand = Math.random() * totalChance;
     let result = "lose";
