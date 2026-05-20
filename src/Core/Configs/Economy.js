@@ -1,10 +1,7 @@
 module.exports = {
     FACTORY: {
         LEVEL_LOCK: 12,
-        MAX_LEVEL: 4,
         LEVELS_MAP: {
-            // Balanced per-minute income values
-            // Total earnings if offline for max time:
             // Lv1: 0
             // Lv2: 10/min × 120 min = 1,200
             // Lv3: 35/min × 240 min = 8,400
@@ -29,7 +26,7 @@ module.exports = {
             VIEW: {
                 title: "{emoji_Factory} Your factory",
                 fields: [
-                    { name: "Level:", value: "**{new_level}**", inline: true },
+                    { name: "Level:", value: "**{level}**", inline: true },
                     { name: "Income per minute:", value: "**{income}**", inline: true },
                     { name: "Max offline time:", value: "**{max_away}**", inline: true },
                     { name: "Expansion cost:", value: "**{cost}**", inline: true },
