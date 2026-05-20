@@ -12,6 +12,10 @@ async function Factory(interaction, client, { type }) {
 
         };
 
+        case "claim": {
+            
+        }
+
         default: {
 
         };
