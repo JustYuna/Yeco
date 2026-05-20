@@ -308,7 +308,7 @@ const commands = [
         options: [
             {
                 name: 'type',
-                description: 'Type',
+                description: 'Presets',
                 type: 3,
                 required: true,
                 choices: [
@@ -319,6 +319,13 @@ const commands = [
                     { name: 'Brainrot', value: 'brainrot' },
                     { name: 'Under Two', value: 'undertwo' },
                 ],
+            },
+            {
+                name: 'input',
+                description: 'Custom overwrite',
+                type: 3,
+                required: false,
+                choices: [],
             },
         ]
     },

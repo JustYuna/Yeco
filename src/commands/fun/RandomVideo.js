@@ -42,7 +42,7 @@ async function searchYouTube(query, maxResults = 50) {
     return shuffleArray(response.data.items || []);
 }
 
-async function RandomVideo(interaction, client, { type = "normal" }) {
+async function RandomVideo(interaction, client, { type = "normal", input = null }) {
     // Validate type
     if (!VALID_TYPES.includes(type)) {
         return interaction.editReply({  content: ConfigManager.getMsg("FUN.RANDOM_VIDEO.MESSAGES.INVALID_TYPE", { valid_types: VALID_TYPES.join(", ") }) });
@@ -62,7 +62,12 @@ async function RandomVideo(interaction, client, { type = "normal" }) {
         const query = getRandomItem(queryList);
         
         // Search YouTube
-        const results = await searchYouTube(query, 50);
+        let results;
+        if (input) {
+            results = await searchYouTube(input, 50);
+        } else {
+            results = await searchYouTube(query, 50);
+        }
         
         if (!results.length) {
             return interaction.editReply({  content: ConfigManager.getMsg("FUN.RANDOM_VIDEO.MESSAGES.NO_VIDEO") });
