@@ -42,12 +42,12 @@ module.exports = {
         COMMAND_NOT_HIGH_ENOUGH_LEVEL: "⚠️ Your level is not high enough to use this command.\nRequired: **Level {level}**",
         TARGET_ONBOARDING: "⚠️ Your target doesnt have completed the onboarding yet, please chose another target.",
 
-        SERVER_LOCKOUT_MESSAGE = "{emoji_UI_Cross} Disabled in {tier} servers (hardware limits)\n💡 Support development or contribute here: https://github.com/JustYuna/Yeco",
-        MEMBER_REQUIREMENT = "{emoji_UI_Warning} This command is not available here.\n[Requirements]:\nMust be in a server\nServer must have 5+ members",
+        SERVER_LOCKOUT_MESSAGE:  "{emoji_UI_Cross} Disabled in {tier} servers (hardware limits)\n💡 Support development or contribute here: https://github.com/JustYuna/Yeco",
+        MEMBER_REQUIREMENT:  "{emoji_UI_Warning} This command is not available here.\n[Requirements]:\nMust be in a server\nServer must have 5+ members",
 
-        CAPTCHA_FAIL = "{emoji_UI_Warning} There was an error verifying your interaction.",
+        CAPTCHA_FAIL:  "{emoji_UI_Warning} There was an error verifying your interaction.",
 
-        COMMAND_ERROR_PROCESS = "{emoji_UI_Warning} An error occurred while processing the command."
+        COMMAND_ERROR_PROCESS:  "{emoji_UI_Warning} An error occurred while processing the command."
     },
 
     EMOJIS: {
