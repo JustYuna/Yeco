@@ -11,8 +11,8 @@ async function help(interaction, client) {
         .setDescription(
             "━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━\n" +
             "🎯 **Essential Commands**\n" +
-            "`/help` • `/info` • `/me` • `/report`\n" +
-            "`/onboarding`\n\n" +
+            "`📩 /help` • `📩 /info` • `📩 /me` • `📩 /report`\n" +
+            "`📩 /onboarding` • `📩 /setting`\n\n" +
             
             "━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━\n" +
             "💰 **Economy & Progression**\n" +
@@ -37,11 +37,12 @@ async function help(interaction, client) {
             
             "━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━\n" +
             "🎉 **Fun & Social**\n" +
-            "`/bonk` • `/hug` • `/patpat` • `/poke` • `/ship` • `/build-tower` • `/spin`\n\n" +
+            "`📩 /bonk` • `📩 /hug` • `📩 /patpat` • `📩 /poke` • `📩 /ship` • `📩 /build-tower` • `📩 /spin`\n" +
+            "`📩 /randomvideo`\n\n" +
             
             "━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━\n" +
             "📊 **Leaderboards & Stats**\n" +
-            "`/leaderboard` • `/cooldowns`\n\n" +
+            "`/leaderboard` • `📩 /cooldowns`\n\n" +
             
             "━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━\n" +
             "> 📩 Available in Direct Messages\n" +
