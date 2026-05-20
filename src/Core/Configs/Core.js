@@ -82,7 +82,8 @@ module.exports = {
         Blueberry: "<:emoji_blueberry:1501441146881314857>",
         Lemon: "<:emoji_lemon:1501441317237166141>",
         Carrot: "<:emoji_carrot:1501441471822430290>",
-        Skul: "<:emoji_skull:1498017352820850932>",
+        Skull: "<:emoji_skull:1498017352820850932>",
+        Factory: "<:emoji_factory:1506532909941784626>",
 
         // social
         SOCIAL_Discord: "<:social_discord:1496168648283394171>",

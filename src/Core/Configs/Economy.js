@@ -1,4 +1,50 @@
 module.exports = {
+    FACTORY: {
+        LEVEL_LOCK: 12,
+        MAX_LEVEL: 4,
+        LEVELS_MAP: {
+            // Balanced per-minute income values
+            // Total earnings if offline for max time:
+            // Lv1: 0
+            // Lv2: 10/min × 120 min = 1,200
+            // Lv3: 35/min × 240 min = 8,400
+            // Lv4: 100/min × 480 min = 48,000
+
+            1: { INCOME_PER_MINUTE: 0, UPGRADE_PRICE: 50_000, MAX_AWAY_TIME: 1000 * 60 * 60 },   // 1hr
+            2: { INCOME_PER_MINUTE: 10, UPGRADE_PRICE: 100_000, MAX_AWAY_TIME: 1000 * 60 * 120 }, // 2hr
+            3: { INCOME_PER_MINUTE: 35, UPGRADE_PRICE: 250_000, MAX_AWAY_TIME: 1000 * 60 * 240 }, // 4hr
+            4: { INCOME_PER_MINUTE: 100, UPGRADE_PRICE: 750_000, MAX_AWAY_TIME: 1000 * 60 * 480 }, // 8hr
+        },
+        MESSAGES: {
+            UPGRADE_SUCESS: {
+                title: "{emoji_GreenUpgrade} Upgrade success",
+                fields: [
+                    { name: "New level:", value: "**{new_level}**", inline: true },
+                    { name: "Income per minute:", value: "**{income}**", inline: true },
+                    { name: "Max offline time:", value: "**{max_away}**", inline: true },
+                ]
+            },
+            UPGRADE_CANT_AFFORD: "{emoji_UI_Cross} You cannot afford this upgrade!\nYou are missing **{amount} {mainCurrency_name} {mainCurrency_emoji}**\n### *Only {mainCurrency_name} outside the bank can be used to upgrade.*",
+            UPGRADE_MAXED: "{emoji_UI_Cross} Your factory is already at the maximum level!",
+            VIEW: {
+                title: "{emoji_Factory} Your factory",
+                fields: [
+                    { name: "Level:", value: "**{new_level}**", inline: true },
+                    { name: "Income per minute:", value: "**{income}**", inline: true },
+                    { name: "Max offline time:", value: "**{max_away}**", inline: true },
+                    { name: "Expansion cost:", value: "**{cost}**", inline: true },
+                ]
+            },
+            CLAIM: {
+                title: "{emoji_Factory} You claimed your factoried income",
+                fields: [
+                    { name: "Time away:", value: "**{time_away}**", inline: true },
+                    { name: "Earnings:", value: "**{earnings}**", inline: true },
+                ]
+            },
+        }
+    },
+
     WORK: {
         COMMAND_SETTINGS: {
             FARM: { LEVEL_LOCK: 0, MULTIPLIER: { CURRENCY: 1, EXPERIENCE: 1.25, COOLDOWN: 1 } },
