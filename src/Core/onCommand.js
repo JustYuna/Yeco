@@ -305,6 +305,39 @@ module.exports = {
         },
     },
 
+    "factory": {
+        data: {
+            name: "factory",
+            dm_permission: true,
+            description: "Manage your own factory",
+            options: [
+                {
+                    name: "type",
+                    description: "What do you wanna do with your factory?",
+                    type: 3,
+                    required: true,
+                    choices: [
+                        { name: "Claim Income", value: "claim_income" },
+                        { name: "View", value: "view" },
+                        { name: "Upgrade", value: "upgrade" },
+                    ],
+                }
+            ]
+        },
+
+        settings: {
+            cooldown: 5,
+            canShowCaptcha: false,
+            risk: 0,
+            tags: [ "DM_ENABLED" ]
+        },
+
+        run: async (i, c, m) => {
+            const type = i.options.getString("type");
+            return m.Factory(i, c, { type: type });
+        }
+    },
+
     // -- Other -- \\
 
     "daily": {
