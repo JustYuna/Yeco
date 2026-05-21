@@ -167,13 +167,19 @@ module.exports = {
     },
 
     RANDOM_VIDEO: {
+        SETTINGS: {
+            BLOCK_SHORTS: true,
+            BLACKLIST: [
+                "ai",
+                "nsfw"
+            ]
+        },
         VALID_TYPES: [
             "normal",
             "cursed",
             "oldtube",
             "educate",
             "brainrot",
-            "undertwo",
         ],
         SEARCH_QUERIES: {     
             normal: [
@@ -215,14 +221,6 @@ module.exports = {
                 "chaotic funny video",
                 "internet brainrot",
                 "unhinged content"
-            ],
-            undertwo: [
-                "under 2 minute funny video",
-                "short comedy skit",
-                "quick laugh video",
-                "1 minute funny clip",
-                "short viral video",
-                "quick meme video"
             ],
         },
         MESSAGES: {
