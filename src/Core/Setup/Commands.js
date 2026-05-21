@@ -317,15 +317,7 @@ const commands = [
                     { name: 'Old Tube (before 2010)', value: 'oldtube' },
                     { name: 'Educate', value: 'educate' },
                     { name: 'Brainrot', value: 'brainrot' },
-                    { name: 'Under Two', value: 'undertwo' },
                 ],
-            },
-            {
-                name: 'input',
-                description: 'Custom overwrite',
-                type: 3,
-                required: false,
-                choices: [],
             },
         ]
     },
