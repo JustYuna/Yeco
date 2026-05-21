@@ -7,8 +7,14 @@ All notable changes to this project will be documented in this file.
 > Temporary Update Title
 > Released: XX.XX.XXXX
 
+### ⚒️ Added
+- **/randomvideo** - fetches a random video from a few presets
+
 ### 🏦 Fixes
 - **onboarding** - not resetting the command attempted to used cooldown
+
+### 🛠 Tech Yap
+- **/randomvideo** - new field for this commands api was added to env "YOUTUBE_DATA_API_V3"
 ---
 ## [2.5]
 > Temporary Update Title
