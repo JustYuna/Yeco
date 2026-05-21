@@ -1,17 +1,36 @@
 const ConfigManager = require("./configManager");
 
 module.exports = {
+    // Types:
+    // 3: Predefined Choise / String
+    // 4: Number
+    // 5: Boolean
+    // 6: User
+    // 7: Channel
+    // 8: Role
+
     // -- Base -- \\
     "help": {
+        data: {
+            name: 'help',
+            description: 'View a list of all commands',
+        },
+
         settings: {
             cooldown: 5,
             canShowCaptcha: false,
             risk: 0,
             tags: [ "DM_ENABLED" ]
         },
+
         run: (i, c, m) => m.Help(i, c),
     },
     "info": {
+        data: {
+            name: 'info',
+            description: 'View core info about the bot',
+        },
+
         settings: {
             cooldown: 5,
             canShowCaptcha: false,
@@ -19,9 +38,15 @@ module.exports = {
             guildSizeLockout: [ "LARGE", "HUGE" ],
             tags: [ "DM_ENABLED" ]
         },
+
         run: (i, c, m) => m.Info(i, c),
     },
     "cooldown": {
+        data: {
+            name: 'cooldown',
+            description: 'View what cooldowns you are one currently',
+        },
+
         settings: {
             cooldown: 5,
             canShowCaptcha: false,
@@ -29,9 +54,15 @@ module.exports = {
             guildSizeLockout: [ "MEDIUM", "LARGE", "HUGE" ],
             tags: [ "DM_ENABLED" ]
         },
+
         run: (i, c, m) => m.Cooldowns(i, c),
     },
     "onboarding": {
+        data: {
+            name: 'onboarding',
+            description: 'View the onboarding message again',
+        },
+
         settings: {
             cooldown: 5,
             canShowCaptcha: false,
@@ -39,15 +70,33 @@ module.exports = {
             guildSizeLockout: [ "MEDIUM", "LARGE", "HUGE" ],
             tags: [ "DM_ENABLED" ]
         },
+
         run: (i, c, m) => m.Onboarding(i, c),
     },
     "settings": {
+        data: {
+            name: "settings",
+            description: "Toggle some settings",
+            options: [
+                {
+                    name: "setting",
+                    description: "what to toggle?",
+                    type: 3,
+                    required: true,
+                    choices: [
+                        { name: "Leaderboard Visibility", value: "setting_hidden_from_leaderboard" }
+                    ]
+                }
+            ]
+        },
+
         settings: {
             cooldown: 5,
             canShowCaptcha: false,
             risk: 0,
             tags: ["DM_ENABLED"]
         },
+
         run: async (i, c, m) => {
             const setting = i.options.getString("setting")?.toUpperCase();
 
@@ -61,12 +110,36 @@ module.exports = {
         },
     },
     "report": {
+        data: {
+            name: 'report',
+            description: 'Send feedback or report an issue [Spamming will result in being blacklisted]',
+            options: [
+                {
+                    name: 'type',
+                    description: 'What do you want to send?',
+                    type: 3,
+                    required: true,
+                    choices: [
+                        { name: '🐛 Bug Report', value: 'report' },
+                        { name: '💬 Feedback', value: 'feedback' }
+                    ],
+                },
+                {
+                    name: 'message',
+                    description: 'Describe your issue or feedback',
+                    type: 3,
+                    required: true,
+                }
+            ]
+        },
+
         settings: {
             cooldown: 300,
             canShowCaptcha: true,
             risk: 15,
             tags: ["DM_ENABLED"]
         },
+
         run: async (i, c, m) => {
             const type = i.options.getString("type");
             const message = i.options.getString("message");
@@ -101,22 +174,47 @@ module.exports = {
     },
 
     "vote": {
+        data: {
+            name: 'vote',
+            description: 'Vote and contribute to the goal!',
+        },
+
         settings: {
             cooldown: 300,
             canShowCaptcha: false,
             risk: 0,
             tags: [ "DM_ENABLED" ]
         },
+
         run: (i, c, m) => m.Vote(i, c),
     },
 
     "me": {
+        data: {
+            name: "me",
+            description: "View important info",
+            options: [
+                {
+                    name: "type",
+                    description: "Type",
+                    type: 3,
+                    required: true,
+                    choices: [
+                        { name: "Delete Data", value: "delete_data" },
+                        { name: "Terms of Service", value: "tos" },
+                        { name: "Privacy Policy", value: "privacy_policy" }
+                    ]
+                }
+            ]
+        },
+
         settings: {
             cooldown: 5,
             canShowCaptcha: false,
             risk: 0,
             tags: [ "DM_ENABLED" ]
         },
+
         run: (i, c, m) => {
             const type = i.options.getString("type");
 
@@ -132,21 +230,33 @@ module.exports = {
     // -- Economy -- \\
 
     "farm": {
+        data: {
+            name: 'farm', // Lvl. 0
+            description: 'Old MacDonald Had a Farm',
+        },
+
         settings: {
             cooldown: 30,
             canShowCaptcha: true,
             risk: 10,
             tags: [ "ONBOARDING" ]
         },
+
         run: (i, c, m) => m.Work(i, c, "FARM"),
     },
     "gather": {
+        data: {
+            name: 'gather', // Lvl. 2
+            description: 'Head to the woods or the water to fish and hunt for basic materials.',
+        },
+
         settings: {
             cooldown: 30,
             canShowCaptcha: true,
             risk: 10,
             tags: [ "ONBOARDING" ]
         },
+
         run: (i, c, m) => {
             const jobs = ["FISHING", "HUNTING"];
             const type = jobs[Math.floor(Math.random() * jobs.length)];
@@ -155,12 +265,18 @@ module.exports = {
         },
     },
     "extract": {
+        data: {
+            name: 'extract', // Lvl. 5
+            description: 'Put your back into it! Mine ores and chop timber for heavy-duty resources.',
+        },
+
         settings: {
             cooldown: 30,
             canShowCaptcha: true,
             risk: 10,
             tags: [ "ONBOARDING" ]
         },
+
         run: (i, c, m) => {
             const jobs = ["MINING", "CHOP"];
             const type = jobs[Math.floor(Math.random() * jobs.length)];
@@ -169,12 +285,18 @@ module.exports = {
         },
     },
     "craft": {
+        data: {
+            name: 'craft', // Lvl. 10
+            description: 'Master the heat of the forge or the stove to create high-value items.',
+        },
+
         settings: {
             cooldown: 30,
             canShowCaptcha: true,
             risk: 10,
             tags: [ "ONBOARDING" ]
         },
+
         run: (i, c, m) => {
             const jobs = ["COOKING", "SMITH"];
             const type = jobs[Math.floor(Math.random() * jobs.length)];
@@ -186,22 +308,50 @@ module.exports = {
     // -- Other -- \\
 
     "daily": {
+        data: {
+            name: 'daily',
+            description: 'Claim your daily amount of currency',
+        },
+
         settings: {
             cooldown: 300,
             canShowCaptcha: true,
             risk: 10,
             tags: [ "DM_ENABLED", "ONBOARDING" ]
         },
+
         run: (i, c, m) => m.Daily(i, c),
     },
 
     "leaderboard": {
+        data: {
+            name: 'leaderboard',
+            description: 'View the leaderboards',
+            options: [
+                {
+                    name: 'type',
+                    description: 'Leaderboard type',
+                    type: 3,
+                    required: true,
+                    choices: [
+                        { name: 'Main Currency', value: 'main_currency' },
+                        { name: 'Total Currency', value: 'total_main_currency' },
+                        { name: 'Second Currency', value: 'second_currency' },
+                        { name: 'Total Second Currency', value: 'total_second_currency' },
+                        { name: 'Gambled', value: 'gambled' },
+                        { name: 'Robbed', value: 'robbed' },
+                    ],
+                }
+            ]
+        },
+
         settings: {
             cooldown: 30,
             canShowCaptcha: true,
             risk: 10,
             guildSizeLockout: [ "LARGE", "HUGE" ]
         },
+
         run: (i, c, m) => {
             const type = i.options.getString('type');
             const upperType = type?.toUpperCase();
@@ -210,12 +360,31 @@ module.exports = {
     },
 
     "reputation": {
+        data: {
+            name: 'reputation',
+            description: 'Give or take reputation of someone',
+            options: [
+                { name: 'target', type: 6, required: true, description: 'User' },
+                {
+                    name: 'action',
+                    description: 'Actiong',
+                    type: 3,
+                    required: true,
+                    choices: [
+                        { name: 'Like', value: 'like' },
+                        { name: 'Dislike', value: 'dislike' },
+                    ]
+                }
+            ]
+        },
+
         settings: {
             cooldown: 30,
             canShowCaptcha: true,
             risk: 10,
             guildSizeLockout: [ "LARGE", "HUGE" ]
         },
+
         run: (i, c, m) => {
             const target = i.options.getUser('target');
             const action = i.options.getString('action');
@@ -224,6 +393,15 @@ module.exports = {
     },
 
     "gift": {
+        data: {
+            name: 'gift',
+            description: 'Give your currency to another user',
+            options: [
+                { name: 'amount', type: 4, required: true, description: 'Amount' },
+                { name: 'user', type: 6, required: true, description: 'User' },
+            ]
+        },
+
         settings: {
             cooldown: 3600,
             canShowCaptcha: true,
@@ -231,6 +409,7 @@ module.exports = {
             guildSizeLockout: [ "LARGE", "HUGE" ],
             tags: [ "ONBOARDING" ]
         },
+
         run: (i, c, m) => {
             const user = i.options.getUser('user');
             const amount = i.options.getInteger('amount');
@@ -241,12 +420,33 @@ module.exports = {
     // -- Inventory -- \\
 
     "bank": {
+        data: {
+            name: 'bank',
+            description: 'Interact with the bank',
+            options: [
+                {
+                    name: 'action',
+                    description: 'Chose what you want todo',
+                    type: 3,
+                    required: true,
+                    choices: [
+                        { name: 'Deposit', value: 'deposit' },
+                        { name: 'Withdraw', value: 'withdraw' },
+                        { name: 'Upgrade', value: 'upgrade' },
+                        { name: 'View Level', value: 'view' },
+                    ],
+                },
+                { name: 'amount', type: 4, required: false, description: 'Gamble amount' },
+            ]
+        },
+
         settings: {
             cooldown: 10,
             canShowCaptcha: false,
             risk: 0,
             tags: [ "ONBOARDING" ]
         },
+
         run: (i, c, m) => {
             const amount = i.options.getInteger('amount');
             const action = i.options.getString('action');
@@ -255,12 +455,21 @@ module.exports = {
     },
 
     "wallet": {
+        data: {
+            name: 'wallet',
+            description: 'Check your or another user wallet',
+            options: [
+                { name: 'user', type: 6, required: false, description: 'User' },
+            ]
+        },
+
         settings: {
             cooldown: 5,
             canShowCaptcha: false,
             risk: 0,
             tags: [ "ONBOARDING" ]
         },
+
         run: (i, c, m) => {
             const target = i.options.getUser('user');
             return m.Wallet(i, c, target);
@@ -270,12 +479,31 @@ module.exports = {
     // -- Criminal -- \\
 
     "laundry": {
+        data: {
+            name: 'laundry',
+            description: 'Launder some of your currency',
+            options: [
+                {
+                    name: 'type',
+                    description: 'Leaderboard type',
+                    type: 3,
+                    required: true,
+                    choices: [
+                        { name: 'View rates', value: 'view' },
+                        { name: 'Wash money', value: 'wash' },
+                    ],
+                },
+                { name: 'amount', type: 4, required: false, description: 'Amount' },
+            ]
+        },
+
         settings: {
             cooldown: 30,
             canShowCaptcha: true,
             risk: 25,
             tags: [ "ONBOARDING" ]
         },
+
         run: async (i, c, m) => {
             const type = i.options.getString('type');
             const amount = i.options.getInteger('amount') || 0;
@@ -284,12 +512,21 @@ module.exports = {
     },
 
     "rob": {
+        data: {
+            name: 'rob',
+            description: 'Rob someone',
+            options: [
+                { name: "target", type: 6, required: true, description: "Target" }
+            ]
+        },
+
         settings: {
             cooldown: 1500,
             canShowCaptcha: true,
             risk: 25,
             tags: [ "ONBOARDING" ]
         },
+
         run: async (i, c, m) => {
             const target = i.options.getUser('target');
             m.Rob(i, c, target)
@@ -297,6 +534,38 @@ module.exports = {
     },
     
     "heist": {
+        data: {
+            name: 'heist',
+            description: 'Plan a heist on targets',
+            options: [
+                {
+                    name: 'target',
+                    description: 'Target',
+                    type: 3,
+                    required: true,
+                    choices: [
+                        { name: 'Seek out', value: 'seek' },
+                        { name: 'Kids', value: 'kids' },
+                        { name: 'Candy Shop', value: 'candy_shop' },
+                        { name: 'Warehouse', value: 'warehouse' },
+                        { name: 'Candy Factory', value: 'candy_factory' },
+                        { name: 'Santa', value: 'santa' },
+                    ],
+                },
+                {
+                    name: 'difficulty',
+                    description: 'Difficulty',
+                    type: 3,
+                    required: true,
+                    choices: [
+                        { name: 'Easy [0.5x]', value: 'easy' },
+                        { name: 'Medium [1x]', value: 'medium' },
+                        { name: 'Hard [1.5x]', value: 'hard' },
+                    ],
+                }
+            ]
+        },
+
         settings: {
             cooldown: 1500,
             canShowCaptcha: true,
@@ -304,6 +573,7 @@ module.exports = {
             guildSizeLockout: [ "MEDIUM", "LARGE", "HUGE" ],
             tags: [ "ONBOARDING" ]
         },
+
         run: async (i, c, m) => {
             const target = i.options.getString('target');
             const difficulty = i.options.getString('difficulty');
@@ -314,12 +584,31 @@ module.exports = {
     // -- Gambling -- \\
 
     "coinflip": {
+        data: {
+            name: 'coinflip',
+            description: 'Come out as a winner or a loser for your whole life',
+            options: [
+                {
+                    name: 'action',
+                    description: 'Chose what you want todo',
+                    type: 3,
+                    required: true,
+                    choices: [
+                        { name: '🪙 Head', value: 'head' },
+                        { name: '🪙 Tails', value: 'tails' }
+                    ],
+                },
+                { name: 'amount', type: 4, required: true, description: 'Gamble amount' },
+            ]
+        },
+
         settings: {
             cooldown: 90,
             canShowCaptcha: true,
             risk: 10,
             tags: [ "ONBOARDING" ]
         },
+
         run: (i, c, m) => {
             const amount = i.options.getInteger('amount');
             const type = i.options.getString('type');
@@ -328,6 +617,15 @@ module.exports = {
     },
 
     "slots": {
+        data: {
+            name: 'slots',
+            description: 'gamble ur currency',
+            options: [
+                { name: 'amount', type: 4, required: true, description: 'Gamble amount' },
+                { name: 'view', type: 5, required: false, description: 'View Info' },
+            ]
+        },
+
         settings: {
             cooldown: 90,
             canShowCaptcha: true,
@@ -335,6 +633,7 @@ module.exports = {
             guildSizeLockout: [ "MEDIUM", "LARGE", "HUGE" ],
             tags: [ "ONBOARDING" ]
         },
+
         run: (i, c, m) => {
             const amount = i.options.getInteger('amount');
             const viewInfo = i.options.getBoolean('view') ?? false;
@@ -345,12 +644,22 @@ module.exports = {
     // -- Fun -- \\
 
     "bonk": {
+        data: {
+            name: 'bonk',
+            dm_permission: true,
+            description: 'Bonk someone on the head',
+            options: [
+                { name: "target", type: 6, required: true, description: "Target" }
+            ]
+        },
+
         settings: {
             cooldown: 5,
             canShowCaptcha: false,
             risk: 0,
             tags: [ "DM_ENABLED" ]
         },
+
         run: async (i, c, m) => {
             const target = i.options.getUser("target");
             return m.socialActions.Bonk(i, c, target);
@@ -358,12 +667,34 @@ module.exports = {
     },
 
     "randomvideo": {
+        data: {
+            name: 'randomvideo',
+            dm_permission: true,
+            description: 'Get a random video from youtube',
+            options: [
+                {
+                    name: 'type',
+                    description: 'Presets',
+                    type: 3,
+                    required: true,
+                    choices: [
+                        { name: 'Normal', value: 'normal' },
+                        { name: 'Cursed', value: 'cursed' },
+                        { name: 'Old Tube (before 2010)', value: 'oldtube' },
+                        { name: 'Educate', value: 'educate' },
+                        { name: 'Brainrot', value: 'brainrot' },
+                    ],
+                },
+            ]
+        },
+
         settings: {
             cooldown: 5,
             canShowCaptcha: false,
             risk: 0,
             tags: [ "DM_ENABLED" ]
         },
+
         run: async (i, c, m) => {
             const type = i.options.getString("type");
             return m.RandomVideo(i, c, { type: type, input: input });
@@ -371,24 +702,41 @@ module.exports = {
     },
 
     "build-tower": {
+        data: {
+            name: 'build-tower',
+            dm_permission: true,
+            description: 'Build a tower togheter with everyone else!',
+        },
+
         settings: {
             cooldown: 5,
             canShowCaptcha: false,
             risk: 0,
             tags: [ "DM_ENABLED" ]
         },
+
         run: async(i, c, m) => {
             return m.Tower(i, c);
         }
     },
 
     "patpat": {
+        data: {
+            name: 'patpat',
+            dm_permission: true,
+            description: 'Give someone some patpat’s',
+            options: [
+                { name: "target", type: 6, required: true, description: "User" }
+            ]
+        },
+
         settings: {
             cooldown: 5,
             canShowCaptcha: false,
             risk: 0,
             tags: [ "DM_ENABLED" ]
         },
+
         run: async (i, c, m) => {
             const target = i.options.getUser("target");
             return m.socialActions.PatPat(i, c, target);
@@ -396,12 +744,22 @@ module.exports = {
     },
 
     "spin": {
+        data: {
+            name: 'spin',
+            dm_permission: true,
+            description: 'Spin till you can’t no more!',
+            options: [
+                { name: "target", type: 6, required: true, description: "Target" }
+            ]
+        },
+
         settings: {
             cooldown: 5,
             canShowCaptcha: false,
             risk: 0,
             tags: [ "DM_ENABLED" ]
         },
+
         run: async (i, c, m) => {
             const target = i.options.getUser("target");
             return m.socialActions.Spin(i, c, target);
@@ -409,12 +767,22 @@ module.exports = {
     },
 
     "hug": {
+        data: {
+            name: 'hug',
+            dm_permissionm: true,
+            description: 'Hug someone',
+            options: [
+                { name: "target", type: 6, required: true, description: "User" }
+            ]
+        },
+
         settings: {
             cooldown: 5,
             canShowCaptcha: false,
             risk: 0,
             tags: [ "DM_ENABLED" ]
         },
+
         run: async (i, c, m) => {
             const target = i.options.getUser("target");
             return m.socialActions.Hug(i, c, target);
@@ -422,12 +790,22 @@ module.exports = {
     },
 
     "poke": {
+        data: {
+            name: 'poke',
+            dm_permission: true,
+            description: 'Poke a friend!!!',
+            options: [
+                { name: "target", type: 6, required: true, description: "User" }
+            ]
+        },
+
         settings: {
             cooldown: 5,
             canShowCaptcha: false,
             risk: 0,
             tags: [ "DM_ENABLED" ]
         },
+
         run: async (i, c, m) => {
             const target = i.options.getUser("target");
             return m.socialActions.Poke(i, c, target);
@@ -435,12 +813,23 @@ module.exports = {
     },
 
     "ship": {
+        data: {
+            name: 'ship',
+            dm_permission: true,
+            description: 'Lets ship some people shall we?',
+            options: [
+                { name: "target", type: 6, required: true, description: "Lover 1" },
+                { name: "target2", type: 6, required: true, description: "Lover 2" }
+            ]
+        },
+
         settings: {
             cooldown: 5,
             canShowCaptcha: false,
             risk: 0,
             tags: [ "DM_ENABLED" ]
         },
+
         run: async (i, c, m) => {
             // Changed i.option to i.options
             const user = i.options.getUser("target");
