@@ -21,6 +21,7 @@ async function help(interaction, client) {
             "/gather    • Level 2\n" +
             "/extract   • Level 5\n" +
             "/craft     • Level 10\n" +
+            "/factory   • Level 12\n" +
             "```\n" +
             
             "━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━\n" +
