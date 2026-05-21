@@ -27,15 +27,15 @@ async function Factory(interaction, client, { type }) {
     switch(type) {
         case "claim_income": {
 
-        }
+        };
 
         case "upgrade": {
             if (!expansionLevelData) {
-                interaction.editReply({ content = ConfigManger.getMsg("ECONOMY.FACTORY.MESSAGES.UPGRADE_MAXED") });
+                interaction.editReply({ content: ConfigManger.getMsg("ECONOMY.FACTORY.MESSAGES.UPGRADE_MAXED") });
             };
 
             if (expansionLevelData.UPGRADE_PRICE > currency) {
-                interaction.editReply({ content = ConfigManger.getMsg("ECONOMY.FACTORY.MESSAGES.UPGRADE_CANT_AFFORD") });
+                interaction.editReply({ content: ConfigManger.getMsg("ECONOMY.FACTORY.MESSAGES.UPGRADE_CANT_AFFORD") });
             };
 
             await AddToAsync(userID, -expansionLevelData.UPGRADE_PRICE);
