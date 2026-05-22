@@ -16,6 +16,14 @@ All notable changes to this project will be documented in this file.
 ### 🛠 Tech Yap
 - **/randomvideo** - new field for this commands api was added to env "YOUTUBE_DATA_API_V3"
 ---
+## [2.5.1]
+> Forced Hotfix
+> 22.05.2026
+
+### :bank: Fixes
+- **/coinflip** - validation being off
+- **admin commands** - still wip
+---
 ## [2.5]
 > Temporary Update Title
 > Released: 16.05.2026

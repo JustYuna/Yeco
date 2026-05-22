@@ -4,7 +4,8 @@ const {
     LoadBackup, 
     AddToAsync, 
     GetGlobalAsync, 
-    GetTotalInCirculation 
+    GetTotalInCirculation,
+    SetAsync
 } = require("../DataStorage/Datastore");
 
 const CacheMaid = require("../Utilities/CacheMaid")
@@ -32,19 +33,19 @@ const commandsMap = {
         }
     },
 
-    remove: async (message, args) => {
+    set: async (message, args) => {
         const [targetId, rawValue, rawAmount] = args;
         const valueName = rawValue?.toUpperCase();
         const valueAmount = parseInt(rawAmount);
 
         if (!targetId || !valueName || isNaN(valueAmount)) 
-            return message.reply(`${emojis.UI_Warn} Usage: \`!bot remove <userID> <ValueName> <ValueAmount>\``);
+            return message.reply(`${emojis.UI_Warn} Usage: \`!bot give <userID> <ValueName> <ValueAmount>\``);
 
         try {
-            await AddToAsync(targetId, { [valueName]: -valueAmount });
-            await sendEmbed(message, 'Data Removed', `${emojis.UI_Minus} Removed **${valueAmount} ${valueName}** from <@${targetId}>`, [150,250,150]);
+            await SetAsync(targetId, { [valueName]: valueAmount });
+            await sendEmbed(message, 'Data Granted', `${emojis.UI_Plus} Gave **${valueAmount} ${valueName}** to <@${targetId}>`, [150,250,150]);
         } catch (err) {
-            await sendEmbed(message, 'Error', `${emojis.UI_Warn} Failed to remove data: ${err.message}`, [250,150,150]);
+            await sendEmbed(message, 'Error', `${emojis.UI_Warn} Failed to give data: ${err.message}`, [250,150,150]);
         }
     },
 
@@ -272,8 +273,8 @@ const commandsMap = {
             .setTitle('🛠 Admin Commands Help')
             .setDescription('Below are the admin commands you can use with `!bot`.')
             .addFields(
-                { name: '`!bot give <userID> <ValueName> <ValueAmount>`', value: 'Give a user a specific value.', inline: false },
-                { name: '`!bot remove <userID> <ValueName> <ValueAmount>`', value: 'Remove a specific value from a user.', inline: false },
+                { name: '`!bot add <userID> <ValueName> <ValueAmount>`', value: 'Give a user a specific value.', inline: false },
+                { name: '`!bot set <userID> <ValueName> <ValueAmount>`', value: 'Set a user a specific value.', inline: false },
                 { name: '`!bot restart`', value: 'Restart the bot safely.', inline: false },
                 { name: '`!bot refresh`', value: 'Reload all slash (/) commands.', inline: false },
                 { name: '`!bot stats`', value: 'Show bot statistics (RAM, total users).', inline: false },

@@ -730,7 +730,7 @@ module.exports = {
 
         run: async (i, c, m) => {
             const type = i.options.getString("type");
-            return m.RandomVideo(i, c, { type: type, input: input });
+            return m.RandomVideo(i, c, { type: type });
         }
     },
 
