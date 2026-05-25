@@ -1,11 +1,12 @@
-const { 
-    GetTotalUserCount, 
-    CreateBackup, 
-    LoadBackup, 
-    AddToAsync, 
-    GetGlobalAsync, 
+const {
+    GetTotalUserCount,
+    CreateBackup,
+    LoadBackup,
+    AddToAsync,
+    GetGlobalAsync,
     GetTotalInCirculation,
-    SetAsync
+    SetAsync,
+    GetAsync
 } = require("../DataStorage/Datastore");
 
 const CacheMaid = require("../Utilities/CacheMaid")
@@ -17,84 +18,105 @@ const { EmbedBuilder } = require("discord.js");
 const WebhookHandler = require("../Commands/Actions/webhook");
 
 const commandsMap = {
-    give: async (message, args) => {
+    "add-data": async (message, args) => {
         const [targetId, rawValue, rawAmount] = args;
         const valueName = rawValue?.toUpperCase();
         const valueAmount = parseInt(rawAmount);
 
-        if (!targetId || !valueName || isNaN(valueAmount)) 
-            return message.reply(`${emojis.UI_Warn} Usage: \`!bot give <userID> <ValueName> <ValueAmount>\``);
+        if (!targetId || !valueName || isNaN(valueAmount))
+            return message.reply(`Usage: \`!bot give <userID> <ValueName> <ValueAmount>\``);
 
         try {
             await AddToAsync(targetId, { [valueName]: valueAmount });
-            await sendEmbed(message, 'Data Granted', `${emojis.UI_Plus} Gave **${valueAmount} ${valueName}** to <@${targetId}>`, [150,250,150]);
+            await sendEmbed(message, 'Data Granted', `Gave **${valueAmount} ${valueName}** to <@${targetId}>`, [150, 250, 150]);
         } catch (err) {
-            await sendEmbed(message, 'Error', `${emojis.UI_Warn} Failed to give data: ${err.message}`, [250,150,150]);
+            await sendEmbed(message, 'Error', `Failed to give data: ${err.message}`, [250, 150, 150]);
         }
     },
 
-    set: async (message, args) => {
+    "set-data": async (message, args) => {
         const [targetId, rawValue, rawAmount] = args;
         const valueName = rawValue?.toUpperCase();
         const valueAmount = parseInt(rawAmount);
 
-        if (!targetId || !valueName || isNaN(valueAmount)) 
-            return message.reply(`${emojis.UI_Warn} Usage: \`!bot give <userID> <ValueName> <ValueAmount>\``);
+        if (!targetId || !valueName || isNaN(valueAmount))
+            return message.reply(`Usage: \`!bot give <userID> <ValueName> <ValueAmount>\``);
 
         try {
             await SetAsync(targetId, { [valueName]: valueAmount });
-            await sendEmbed(message, 'Data Granted', `${emojis.UI_Plus} Gave **${valueAmount} ${valueName}** to <@${targetId}>`, [150,250,150]);
+            await sendEmbed(message, 'Data Granted', `Gave **${valueAmount} ${valueName}** to <@${targetId}>`, [150, 250, 150]);
         } catch (err) {
-            await sendEmbed(message, 'Error', `${emojis.UI_Warn} Failed to give data: ${err.message}`, [250,150,150]);
+            await sendEmbed(message, 'Error', `Failed to give data: ${err.message}`, [250, 150, 150]);
         }
     },
 
-    backup: async (message, args) => {
+    "create-backup": async (message, args) => {
         const backupName = args[0];
-        if (!backupName) return sendEmbed(message, 'Error', `${emojis.UI_Warn} Please provide a backup name.`, [250,150,150]);
+        if (!backupName) return sendEmbed(message, 'Error', `Please provide a backup name.`, [250, 150, 150]);
 
         try {
             await CreateBackup(backupName);
-            await sendEmbed(message, 'Backup Created', `${emojis.UI_Plus} Backup saved as \`${backupName}.db\``, [150,250,150]);
+            await sendEmbed(message, 'Backup Created', `Backup saved as \`${backupName}.db\``, [150, 250, 150]);
         } catch (err) {
-            await sendEmbed(message, 'Error', `${emojis.UI_Warn} Failed to create backup: ${err.message}`, [250,150,150]);
+            await sendEmbed(message, 'Error', `Failed to create backup: ${err.message}`, [250, 150, 150]);
         }
     },
 
-    restore: async (message, args) => {
+    "restore-backup": async (message, args) => {
         const backupName = args[0];
-        if (!backupName) return sendEmbed(message, 'Error', `${emojis.UI_Warn} Please provide the backup name to restore.`, [250,150,150]);
+        if (!backupName) return sendEmbed(message, 'Error', `Please provide the backup name to restore.`, [250, 150, 150]);
 
         try {
             await LoadBackup(backupName);
-            await sendEmbed(message, 'Backup Restored', `${emojis.UI_Plus} Backup \`${backupName}.db\` successfully loaded!`, [150,250,150]);
+            await sendEmbed(message, 'Backup Restored', `Backup \`${backupName}.db\` successfully loaded!`, [150, 250, 150]);
         } catch (err) {
-            await sendEmbed(message, 'Error', `${emojis.UI_Warn} Failed to load backup: ${err.message}`, [250,150,150]);
+            await sendEmbed(message, 'Error', `Failed to load backup: ${err.message}`, [250, 150, 150]);
         }
     },
 
     restart: async (message) => {
-        await sendEmbed(message, 'Restarting...', 'Bot is restarting now!', [250,150,150]);
+        await sendEmbed(message, 'Restarting...', 'Bot is restarting now!', [250, 150, 150]);
         await message.client.destroy();
         process.exit(0);
     },
 
     // Updated to destructure the context object
-    refresh: async (message, args, { restClient, clientID }) => {
-        await sendEmbed(message, 'Refreshing...', 'Reloading application (/) commands...', [100,200,250]);
+    "refresh-commands": async (message, args, { restClient, clientID }) => {
+        await sendEmbed(message, 'Refreshing...', 'Reloading application (/) commands...', [100, 200, 250]);
         // restClient.put will now work because we are passing the correct object
         await refreshCommands(restClient, clientID);
-        await sendEmbed(message, 'Refreshed!', '✅ Successfully reloaded application (/) commands.', [100,250,100]);
+        await sendEmbed(message, 'Refreshed!', '✅ Successfully reloaded application (/) commands.', [100, 250, 100]);
     },
 
     stats: async (message) => {
         const os = require("os");
+        const start = Date.now();
 
-        const HeapUsed = (process.memoryUsage().heapUsed / 1024 / 1024).toFixed(2);
-        const HeapTotal = (process.memoryUsage().heapTotal / 1024 / 1024).toFixed(2);
+        // 🌐 Ping check (roundtrip)
+        const tempMsg = await message.reply("🏓 Gathering statistics...");
+        const roundtrip = Date.now() - start;
 
+        // 📡 WS Ping
+        const wsPing = message.client.ws.ping;
+
+        // 💾 Memory stats
+        const mem = process.memoryUsage();
+        const rss = (mem.rss / 1024 / 1024).toFixed(2);
+        const heapUsed = (mem.heapUsed / 1024 / 1024).toFixed(2);
+        const heapTotal = (mem.heapTotal / 1024 / 1024).toFixed(2);
+
+        // 🖥 System stats
+        const totalMem = (os.totalmem() / 1024 / 1024).toFixed(0);
+        const freeMem = (os.freemem() / 1024 / 1024).toFixed(0);
+        const load = os.loadavg();
+
+        // 🧵 CPU info
+        const cpu = os.cpus()[0]?.model || "Unknown CPU";
+
+        // 📊 Bot stats from CacheMaid
         const TotalUsers = await GetTotalUserCount() || 0;
         const CommandsUsedTotal = await GetGlobalAsync("COMMANDS_USED") || 0;
+        const TotalInCirculation = await GetTotalInCirculation("MAIN_CURRENCY") || 0;
 
         const botEntry = CacheMaid.get("bot");
         const botStats = botEntry?.map;
@@ -104,121 +126,64 @@ const commandsMap = {
         const startTime = botStats?.get("startTime") || Date.now();
 
         const uptimeSeconds = Math.floor((Date.now() - startTime) / 1000);
+        const uptimeHours = Math.floor(uptimeSeconds / 3600);
+        const uptimeMinutes = Math.floor((uptimeSeconds % 3600) / 60);
+        const uptimeDays = Math.floor(uptimeHours / 24);
 
-        // 🧠 System stats (important for Pi)
-        const totalMem = (os.totalmem() / 1024 / 1024).toFixed(0);
-        const freeMem = (os.freemem() / 1024 / 1024).toFixed(0);
-        const heapTotal = (mem.heapTotal / 1024 / 1024).toFixed(2);
-        const rss = (mem.rss / 1024 / 1024).toFixed(2);
-
-        const load = os.loadavg(); // 1m, 5m, 15m
+        let uptimeString = "";
+        if (uptimeDays > 0) uptimeString += `${uptimeDays}d `;
+        if (uptimeHours % 24 > 0) uptimeString += `${uptimeHours % 24}h `;
+        if (uptimeMinutes > 0) uptimeString += `${uptimeMinutes}m `;
+        uptimeString += `${uptimeSeconds % 60}s`;
 
         // 🌐 Discord runtime stats
         const guildCount = message.client.guilds.cache.size;
-        const ping = message.client.ws.ping;
 
         // 🧾 Command usage list
         let usageList = '';
-        for (const [cmd, count] of singleUsages.entries()) {
+        const sortedUsages = [...singleUsages.entries()].sort((a, b) => b[1] - a[1]);
+        for (const [cmd, count] of sortedUsages.slice(0, 15)) {
             usageList += `\`${cmd}\`: ${count}\n`;
         }
         if (!usageList) usageList = 'No commands used yet.';
 
-        const embed = new EmbedBuilder()
-            .setColor([150,250,250])
-            .setTitle('Bot Statistics (Live Server View)')
-            .addFields(
-                { name: '👥 Users', value: `${TotalUsers}`, inline: true },
-                { name: '🌍 Guilds', value: `${guildCount}`, inline: true },
-                { name: '📡 Ping', value: `${ping}ms`, inline: true },
-                { name: "💾 Ram", value: `RSS: **${rss} MB**\nHeap: **${heapUsed}/${heapTotal} MB**`, inline: true },
-
-                { name: '🧠 Heap Used', value: `${HeapUsed} MB`, inline: true },
-                { name: '📦 Heap Total', value: `${HeapTotal} MB`, inline: true },
-
-                { name: '🖥 System RAM', value: `${freeMem} MB free / ${totalMem} MB total`, inline: false },
-                { name: '📊 Load Avg', value: `${load[0].toFixed(2)} / ${load[1].toFixed(2)} / ${load[2].toFixed(2)}`, inline: false },
-
-                { name: '⏱ Uptime', value: `${uptimeSeconds}s`, inline: true },
-                { name: '👑 Total Commands', value: `${CommandsUsedTotal}`, inline: true },
-                { name: '⚡ Session Commands', value: `${CommandsUsedSinceUpdate}`, inline: true },
-
-                { name: '📝 Usage by Command', value: usageList, inline: false }
-            );
-
-        await message.reply({ embeds: [embed] });
-    },
-
-    test: async (message, args) => {
-        const os = require("os");
-        const start = Date.now();
-
-        // 🌐 Ping check (roundtrip)
-        const tempMsg = await message.reply("🏓 Testing...");
-        const roundtrip = Date.now() - start;
-
-        // 📡 WS Ping
-        const wsPing = message.client.ws.ping;
-
-        // 💾 Memory
-        const mem = process.memoryUsage();
-        const rss = (mem.rss / 1024 / 1024).toFixed(2);
-        const heapUsed = (mem.heapUsed / 1024 / 1024).toFixed(2);
-        const heapTotal = (mem.heapTotal / 1024 / 1024).toFixed(2);
-
-        // 🖥 System
-        const totalMem = (os.totalmem() / 1024 / 1024).toFixed(0);
-        const freeMem = (os.freemem() / 1024 / 1024).toFixed(0);
-        const load = os.loadavg();
-
-        // 🧵 CPU info
-        const cpu = os.cpus()[0]?.model || "Unknown CPU";
-
-        const embed = new EmbedBuilder()
-            .setColor([150,250,250])
-            .setTitle("🧪 Dev Diagnostics")
-            .addFields(
-                { name: "📡 Ping", value: `WS: **${wsPing}ms**\nRTT: **${roundtrip}ms**`, inline: true },
-                { name: "💾 Memory", value: `RSS: **${rss} MB**\nHeap: **${heapUsed}/${heapTotal} MB**`, inline: true },
-                { name: "🖥 System", value: `Free: **${freeMem} MB**\nTotal: **${totalMem} MB**`, inline: true },
-                { name: "📊 Load", value: `${load[0].toFixed(2)} / ${load[1].toFixed(2)} / ${load[2].toFixed(2)}`, inline: false },
-                { name: "🧠 CPU", value: cpu, inline: false }
-            );
-
-        // --- FIXED EMOJI LOGIC ---
-        const emojiEntries = Object.entries(Config.CORE.EMOJIS || {});
-        if (emojiEntries.length > 0) {
-            let currentFieldText = "";
-            let fieldCount = 1;
-
-            for (const [key, value] of emojiEntries) {
-                const ok = typeof value === "string" && value.includes(":");
-                const line = `${ok ? "✅" : "❌"} **${key}** → ${ok ? value : "INVALID"}\n`;
-
-                // If adding this line exceeds 1000 chars, push the field and start a new one
-                if (currentFieldText.length + line.length > 1000) {
-                    embed.addFields({ name: `😀 Emojis (Part ${fieldCount})`, value: currentFieldText });
-                    currentFieldText = line;
-                    fieldCount++;
-                } else {
-                    currentFieldText += line;
-                }
-            }
-            // Add the last remaining emojis
-            embed.addFields({ name: fieldCount > 1 ? `😀 Emojis (Part ${fieldCount})` : "😀 Emoji Check", value: currentFieldText });
-        } else {
-            embed.addFields({ name: "😀 Emoji Check", value: "No emojis found" });
-        }
-        // -------------------------
-
+        // Cache size
         const cacheSize = CacheMaid?.store?.size || "Unknown";
         const theme = Config?.CORE?.THEMES?.ACTIVE || "Unknown";
 
-        embed.addFields(
-            { name: "📦 Cache", value: `Entries: **${cacheSize}**`, inline: true },
-            { name: "🎨 Active Theme", value: `**${theme}**`, inline: true }
-        )
-        .setFooter({ text: "Dev Mode • Live Diagnostics" });
+        const embed = new EmbedBuilder()
+            .setColor([150, 250, 250])
+            .setTitle('📊 Bot Statistics & Diagnostics')
+            .setDescription(`Live server metrics for YECO Bot`)
+            .addFields(
+                // Network & Ping
+                { name: "📡 Ping", value: `WS: **${wsPing}ms**\nRTT: **${roundtrip}ms**`, inline: true },
+                { name: "🌍 Guilds", value: `**${guildCount}**`, inline: true },
+                { name: "👥 Users", value: `**${TotalUsers}**`, inline: true },
+
+                // Memory
+                { name: "💾 Memory", value: `RSS: **${rss} MB**\nHeap: **${heapUsed}/${heapTotal} MB**`, inline: true },
+                { name: "🖥 System RAM", value: `Free: **${freeMem} MB**\nTotal: **${totalMem} MB**`, inline: true },
+                { name: "📦 Cache", value: `Entries: **${cacheSize}**`, inline: true },
+
+                // System Load
+                { name: "📊 Load Avg", value: `${load[0].toFixed(2)} / ${load[1].toFixed(2)} / ${load[2].toFixed(2)}`, inline: true },
+                { name: "🧠 CPU", value: cpu.length > 30 ? cpu.substring(0, 27) + "..." : cpu, inline: true },
+                { name: "🎨 Theme", value: `**${theme}**`, inline: true },
+
+                // Uptime & Commands
+                { name: "⏱ Uptime", value: uptimeString, inline: true },
+                { name: "👑 Total Commands", value: `${CommandsUsedTotal.toLocaleString()}`, inline: true },
+                { name: "⚡ Session Commands", value: `${CommandsUsedSinceUpdate}`, inline: true },
+
+                // Economy Stats (if applicable)
+                { name: "💰 In Circulation", value: `**${TotalInCirculation.toLocaleString()}**`, inline: true },
+
+                // Command Usage
+                { name: "📝 Top Commands (Session)", value: usageList || "None yet", inline: false }
+            )
+            .setFooter({ text: "Dev Mode • Live Diagnostics • YECO Bot" })
+            .setTimestamp();
 
         await tempMsg.edit({ content: null, embeds: [embed] });
     },
@@ -250,7 +215,7 @@ const commandsMap = {
 
         for (let i = 0; i < chunks.length; i++) {
             const embed = new EmbedBuilder()
-                .setColor(i === 0 ? [150,250,250] : [100,100,100])
+                .setColor(i === 0 ? [150, 250, 250] : [100, 100, 100])
                 .setTitle(i === 0 ? `Bot Config` : `Bot Config (Part ${i + 1})`)
                 .setDescription(`\`\`\`json\n${chunks[i]}\n\`\`\``);
 
@@ -258,7 +223,7 @@ const commandsMap = {
         }
     },
 
-    send_webhook: async (message, args) => {
+    "send-webhook": async (message, args) => {
         const type = args[0];
         const text = args.slice(1).join(" ");
 
@@ -269,21 +234,14 @@ const commandsMap = {
 
     help: async (message) => {
         const embed = new EmbedBuilder()
-            .setColor([150,250,250])
+            .setColor([150, 250, 250])
             .setTitle('🛠 Admin Commands Help')
             .setDescription('Below are the admin commands you can use with `!bot`.')
             .addFields(
-                { name: '`!bot add <userID> <ValueName> <ValueAmount>`', value: 'Give a user a specific value.', inline: false },
-                { name: '`!bot set <userID> <ValueName> <ValueAmount>`', value: 'Set a user a specific value.', inline: false },
-                { name: '`!bot restart`', value: 'Restart the bot safely.', inline: false },
-                { name: '`!bot refresh`', value: 'Reload all slash (/) commands.', inline: false },
-                { name: '`!bot stats`', value: 'Show bot statistics (RAM, total users).', inline: false },
-                { name: '`!bot test`', value: 'Returns test results for a couple of things...', inline: false },
-                { name: '`!bot backup <name>`', value: 'Create a backup of the database.', inline: false },
-                { name: '`!bot restore <name>`', value: 'Restore a backup by name.', inline: false },
-                { name: '`!bot config <path>`', value: 'Show the bots config file.', inline: false },
-                { name: '`!bot send_webhook <webhook_name> <message>`', value: 'Show the bots config file.', inline: false },
-                { name: '`!bot help`', value: 'Show this help message.', inline: false },
+                { name: "~ Data Management ~", value: "`!bot add-data <userID> <ValueName> <ValueAmount>`\n`!bot set-data <userID> <ValueName> <ValueAmount`>", inline: false },
+                { name: "~ Backup Management ~", value: "`!bot create-backup <name>`\n`!bot restore-backup <name>`", inline: false },
+                { name: "~ Bot Management ~", value: "`!bot shutdown`\n`!bot refresh-commands`\n`!bot stats`\n`!bot config <path>`" },
+                { name: "~ Other ~", value: "`!bot send-webhook <webhookName> <message>`\n`!bot help`" },
             );
 
         await message.reply({ embeds: [embed] });
@@ -312,14 +270,14 @@ async function onMessage(message, data) {
     if (!commandAction) return message.reply(`❌ Command not found, try !bot help.`);
 
     try {
-        await commandAction(message, args, { 
-            client: data.client, 
-            restClient: data.restClient, 
-            clientID: data.clientID 
+        await commandAction(message, args, {
+            client: data.client,
+            restClient: data.restClient,
+            clientID: data.clientID
         });
     } catch (err) {
         console.error(`Error executing command ${commandName}:`, err);
-        message.reply("An error occurred while processing the command.").catch(() => {});
+        message.reply("An error occurred while processing the command.").catch(() => { });
     }
 }
 
