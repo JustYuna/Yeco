@@ -3,18 +3,21 @@ module.exports = {
         LEVEL_LOCK: 12,
         LEVELS_MAP: {
             // Lv1: 0
-            // Lv2: 10/min × 120 min = 1,200
-            // Lv3: 35/min × 240 min = 8,400
-            // Lv4: 100/min × 480 min = 48,000
+            // Lv2: 50/min × 60 min = 3,000
+            // Lv3: 100/min × 120 min = 12,000
+            // Lv4: 250/min × 240 min = 60,000
+            // Lv5: 500/min × 360 min = 180,000
 
-            1: { INCOME_PER_MINUTE: 0, UPGRADE_PRICE: 50_000, MAX_AWAY_TIME: 1000 * 60 * 60 },   // 1hr
-            2: { INCOME_PER_MINUTE: 10, UPGRADE_PRICE: 100_000, MAX_AWAY_TIME: 1000 * 60 * 120 }, // 2hr
-            3: { INCOME_PER_MINUTE: 35, UPGRADE_PRICE: 250_000, MAX_AWAY_TIME: 1000 * 60 * 240 }, // 4hr
-            4: { INCOME_PER_MINUTE: 100, UPGRADE_PRICE: 750_000, MAX_AWAY_TIME: 1000 * 60 * 480 }, // 8hr
+            1: { INCOME_PER_MINUTE: 0, UPGRADE_PRICE: 50_000, MAX_AWAY_TIME: 1000 * 60 * 0 },
+            2: { INCOME_PER_MINUTE: 50, UPGRADE_PRICE: 100_000, MAX_AWAY_TIME: 1000 * 60 * 60 }, // 1hr
+            3: { INCOME_PER_MINUTE: 100, UPGRADE_PRICE: 250_000, MAX_AWAY_TIME: 1000 * 60 * 120 }, // 2hr
+            4: { INCOME_PER_MINUTE: 250, UPGRADE_PRICE: 750_000, MAX_AWAY_TIME: 1000 * 60 * 240 }, // 4hr
+            5: { INCOME_PER_MINUTE: 500, UPGRADE_PRICE: 2_500_000, MAX_AWAY_TIME: 1000 * 60 * 360 }, // 6hr
         },
         MESSAGES: {
             UPGRADE_SUCESS: {
                 title: "{emoji_GreenUpgrade} Upgrade success",
+                description: "New level: **{new_level}**\nNew Income: **{income}/m\nMAx offline time: **{max_away}****",
                 fields: [
                     { name: "New level:", value: "**{new_level}**", inline: true },
                     { name: "Income per minute:", value: "**{income}**", inline: true },
@@ -25,12 +28,7 @@ module.exports = {
             UPGRADE_MAXED: "{emoji_UI_Cross} Your factory is already at the maximum level!",
             VIEW: {
                 title: "{emoji_Factory} Your factory",
-                fields: [
-                    { name: "Level:", value: "**{level}**", inline: true },
-                    { name: "Income per minute:", value: "**{income}**", inline: true },
-                    { name: "Max offline time:", value: "**{max_away}**", inline: true },
-                    { name: "Expansion cost:", value: "**{cost}**", inline: true },
-                ]
+                description: "Level: **{level}**\nIncome: **{income}/m**\nMax offline time: **{max_away}**\nExpansion cost: **{cost}**\n"
             },
             CLAIM: {
                 title: "{emoji_Factory} You claimed your factoried income",
