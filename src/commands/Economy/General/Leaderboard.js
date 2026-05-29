@@ -1,8 +1,8 @@
 const { GetTopAsync, GetAsync } = require('../../../DataStorage/Datastore');
 const { EmbedBuilder } = require('discord.js');
 
-const configManager = require('../../../Core/configManager');
-const currentTheme = configManager.getActiveTheme();
+const ConfigManager = require('../../../Core/configManager');
+const CurrentTheme = ConfigManager.getActiveTheme();
 const AbbreviateNumber = require("../../../Utilities/Format/AbbreviateNumber");
 
 const CONFIG = {
@@ -36,10 +36,10 @@ async function leaderboard(interaction, client, type) {
     const key = type.toLowerCase();
 
     const nameMap = {
-        main_currency: currentTheme.CURRENCY.MAIN.NAME,
-        total_main_currency: `Total ${currentTheme.CURRENCY.MAIN.NAME}`,
-        second_currency: currentTheme.CURRENCY.SECONDARY.NAME,
-        total_second_currency: `Total ${currentTheme.CURRENCY.SECONDARY.NAME}`,
+        main_currency: CurrentTheme.CURRENCY.MAIN.NAME,
+        total_main_currency: `Total ${CurrentTheme.CURRENCY.MAIN.NAME}`,
+        second_currency: CurrentTheme.CURRENCY.SECONDARY.NAME,
+        total_second_currency: `Total ${CurrentTheme.CURRENCY.SECONDARY.NAME}`,
         gambled: "Gambled",
         robbed: "Robbed",
     };
@@ -95,7 +95,7 @@ async function leaderboard(interaction, client, type) {
     );
 
     const embed = new EmbedBuilder()
-        .setColor(currentTheme.COLORS.MAIN)
+        .setColor(CurrentTheme.COLORS.MAIN)
         .setTitle(`${convertedName} Leaderboard`)
         .setDescription(lines.join("\n"))
         .setFooter({
