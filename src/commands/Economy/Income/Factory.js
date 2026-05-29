@@ -23,12 +23,45 @@ async function Factory(interaction, client, { type }) {
 
     const factoryLevelData = FactoryConfig.LEVELS_MAP[factoryData.LEVEL] || null; // INCOME_PER_MINUTE, UPGRADE_PRICE, MAX_AWAY_TIME
     const expansionLevelData = FactoryConfig.LEVELS_MAP[factoryData.LEVEL + 1] || null; // INCOME_PER_MINUTE, UPGRADE_PRICE, MAX_AWAY_TIME
+
     if (!factoryLevelData && !expansionLevelData) return interaction.editReply("missing factory level data");
 
-    switch(type) {
+    switch (type) {
         case "claim_income": {
+            if (factoryLevelData.INCOME_PER_MINUTE === 0) return interaction.editReply(ConfigManager.getMsg("ECONOMY.FACTORY.MESSAGES.NO_INCOME"));
+            const lastClaim = factoryData.LAST_CLAIM ? new Date(factoryData.LAST_CLAIM).getTime() : now;
 
-        };
+            let timeElapsed = now - lastClaim;
+
+            if (timeElapsed > factoryLevelData.MAX_AWAY_TIME) {
+                timeElapsed = factoryLevelData.MAX_AWAY_TIME;
+            }
+
+            const minutesElapsed = Math.floor(timeElapsed / 1000 / 60);
+            let totalIncome = minutesElapsed * factoryLevelData.INCOME_PER_MINUTE;
+
+            if (minutesElapsed < 1) {
+                return interaction.editReply({
+                    content: ConfigManager.getMsg("ECONOMY.FACTORY.MESSAGES.CLAIM_TOO_SOON", {
+                        minutes_left: Math.ceil((60000 - timeElapsed) / 1000 / 60)
+                    })
+                });
+            }
+
+            factoryData.LAST_CLAIM = Date.now();;
+
+            await AddToAsync(userID, { MAIN_CURRENCY: totalIncome });
+            await SetAsync(userID, { FACTORY: factoryData });
+
+            const claimEmbed = ConfigManager.getEmbed("ECONOMY.FACTORY.MESSAGES.CLAIM_SUCCESS", {
+                income: totalIncome,
+                level: factoryData.LEVEL,
+                minutes: minutesElapsed,
+                next_income: factoryLevelData.INCOME_PER_MINUTE
+            });
+
+            return interaction.editReply({ embeds: [claimEmbed] });
+        }
 
         case "upgrade": {
             if (!expansionLevelData) {
@@ -39,9 +72,9 @@ async function Factory(interaction, client, { type }) {
                 return interaction.editReply({ content: ConfigManager.getMsg("ECONOMY.FACTORY.MESSAGES.UPGRADE_CANT_AFFORD", { amount: expansionLevelData.UPGRADE_PRICE - currency }) });
             };
 
-            await AddToAsync(userID, -expansionLevelData.UPGRADE_PRICE);
-            factoryData.LEVEL ++;
-            await SetAsync(userID, { FACTORY: factoryData });
+            await AddToAsync(userID, { MAIN_CURRENCY: -expansionLevelData.UPGRADE_PRICE });
+            factoryData.LEVEL++;
+            await SetAsync(userID, { FACTORY: { LEVEL:  factoryData.LEVEL, LAST_CLAIM: Date.now() } });
             const upgradeEmbed = ConfigManager.getEmbed("ECONOMY.FACTORY.MESSAGES.VIEW", {
                 new_level: factoryData.LEVEL + 1,
                 income: expansionLevelData.INCOME_PER_MINUTE,
@@ -49,7 +82,7 @@ async function Factory(interaction, client, { type }) {
                 cost: expansionLevelData.UPGRADE_PRICE
             });
 
-            interaction.editReply({ embeds: [ upgradeEmbed ] })
+            return interaction.editReply({ embeds: [upgradeEmbed] })
         };
 
         case "view": {
@@ -60,7 +93,7 @@ async function Factory(interaction, client, { type }) {
                 cost: factoryLevelData.UPGRADE_PRICE
             });
 
-            interaction.editReply({ embeds: [ viewEmbed ] })
+            return interaction.editReply({ embeds: [viewEmbed] })
         }
 
         default: {

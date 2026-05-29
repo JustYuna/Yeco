@@ -22,6 +22,7 @@ const defaultData = {
   ROBBED: 0,
 
   LEVEL: { LEVEL: 0, EXPERIENCE: 0 },
+  FACTORY: { LEVEL: 1, LAST_CLAIM: 1779726897264 },
 
   UPGRADES: { BANK: 1 },
   DAILY: { LAST: "1999.00.00", STREAK: 0 },

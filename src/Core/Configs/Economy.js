@@ -26,6 +26,7 @@ module.exports = {
             },
             UPGRADE_CANT_AFFORD: "{emoji_UI_Cross} You cannot afford this upgrade!\nYou are missing **{amount} {mainCurrency_name} {mainCurrency_emoji}**\n### *Only {mainCurrency_name} outside the bank can be used to upgrade.*",
             UPGRADE_MAXED: "{emoji_UI_Cross} Your factory is already at the maximum level!",
+            NO_INCOME: "{emoji_UI_Warn} Your factory is still level 1 and produces no revenue... expand it to start generating income!",
             VIEW: {
                 title: "{emoji_Factory} Your factory",
                 description: "Level: **{level}**\nIncome: **{income}/m**\nMax offline time: **{max_away}**\nExpansion cost: **{cost}**\n"
@@ -36,6 +37,22 @@ module.exports = {
                     { name: "Time away:", value: "**{time_away}**", inline: true },
                     { name: "Earnings:", value: "**{earnings}**", inline: true },
                 ]
+            },
+            CLAIM_SUCCESS: {
+                color: [100, 200, 100],
+                title: "🏭 Factory Income Claimed!",
+                description: "",
+                fields: [
+                    { name: "💰 Income Received", value: "{income} {mainCurrency_emoji}", inline: true },
+                    { name: "⏱️ Time Passed", value: "{minutes} minutes", inline: true },
+                    { name: "📊 Factory Level", value: "{level}", inline: true },
+                    { name: "⚙️ Next Income", value: "{next_income}/min", inline: true }
+                ]
+            },
+            CLAIM_TOO_SOON: {
+                color: [250, 200, 100],
+                title: "⏳ Not Yet!",
+                description: "Your factory is still producing. Come back in {minutes_left} minutes!",
             },
         }
     },
