@@ -45,7 +45,7 @@ async function daily(interaction, client) {
     let streak = (DailyData.LAST === yesterdayStr) ? DailyData.STREAK + 1 : 1;
     DailyData.LAST = todayStr;
     DailyData.STREAK = streak;
-    let reward = Math.floor(Math.random() * 200) + 400;
+    let reward = Math.floor(Math.random() * REWARD.MIN) + REWARD.MAX;
 
     const isWeekend = (dayName === 'Saturday' || dayName === 'Sunday');
     if (isWeekend) reward *= REWARD.WEEKEND_MULTIPLIER;
