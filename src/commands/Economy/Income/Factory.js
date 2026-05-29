@@ -2,15 +2,30 @@
 
 const { GetAsync, SetAsync, AddToAsync } = require("../../../DataStorage/Datastore");
 const ConfigManager = require("../../../Core/configManager");
-const CommandHelper = require("../../../Utilities/CommandHelper");
+const { GET_RESET_DATA, CHECK_MISSING_VALUES } = require("../../../Utilities/CommandHelper");
+const { FACTORY } = require("../../../Core/Configs/Economy");
 
 const FactoryConfig = ConfigManager.raw.ECONOMY.FACTORY;
 
 async function Factory(interaction, client, { type }) {
     const userID = interaction.user.id;
+    const now = new Date();
+
     const currency = await GetAsync(userID, "MAIN_CURRENCY") || 0;
-    const factoryData = await GetAsync(userID, "FACTORY") || { LEVEL: 1, LAST_CLAIM: new Date() };
-    const levelData = await GetAsync(userID, "LEVEL") || { LEVEL: 1, EXPERIENCE: 0 };
+    let factoryData = await GetAsync(userID, "FACTORY");
+    const levelData = await GetAsync(userID, "LEVEL");
+
+    const factoryValidation = await CHECK_MISSING_VALUES(factoryData, {
+        requiredProps: ["LEVEL", "LAST_CLAIM"],
+        typeChecks: { LEVEL: "number" },
+        minValues: [{ prop: "LEVEL", min: 1 }]
+    });
+
+    if (factoryValidation.needsReset) {
+        console.log(`[Factory]: Resetting data for ${userID}: ${factoryValidation.reason}`);
+        factoryData = { LEVEL: 1, LAST_CLAIM: now };
+        await SetAsync(userID, { FACTORY: factoryData });
+    };
 
     if (levelData.LEVEL < FactoryConfig.LEVEL_LOCK) {
         return interaction.editReply({
@@ -28,7 +43,7 @@ async function Factory(interaction, client, { type }) {
 
     switch (type) {
         case "claim_income": {
-            if (factoryLevelData.INCOME_PER_MINUTE === 0) return interaction.editReply(ConfigManager.getMsg("ECONOMY.FACTORY.MESSAGES.NO_INCOME"));
+            if (factoryLevelData.INCOME_PER_MINUTE === 0) return interaction.editReply(ConfigManager.getEmbed("ECONOMY.FACTORY.MESSAGES.NO_INCOME"));
             const lastClaim = factoryData.LAST_CLAIM ? new Date(factoryData.LAST_CLAIM).getTime() : now;
 
             let timeElapsed = now - lastClaim;
@@ -42,13 +57,13 @@ async function Factory(interaction, client, { type }) {
 
             if (minutesElapsed < 1) {
                 return interaction.editReply({
-                    content: ConfigManager.getMsg("ECONOMY.FACTORY.MESSAGES.CLAIM_TOO_SOON", {
+                    embeds: [ConfigManager.getEmbed("ECONOMY.FACTORY.MESSAGES.CLAIM_TOO_SOON", {
                         minutes_left: Math.ceil((60000 - timeElapsed) / 1000 / 60)
-                    })
+                    })]
                 });
             }
 
-            factoryData.LAST_CLAIM = Date.now();;
+            factoryData.LAST_CLAIM = now;
 
             await AddToAsync(userID, { MAIN_CURRENCY: totalIncome });
             await SetAsync(userID, { FACTORY: factoryData });
@@ -74,9 +89,9 @@ async function Factory(interaction, client, { type }) {
 
             await AddToAsync(userID, { MAIN_CURRENCY: -expansionLevelData.UPGRADE_PRICE });
             factoryData.LEVEL++;
-            await SetAsync(userID, { FACTORY: { LEVEL:  factoryData.LEVEL, LAST_CLAIM: Date.now() } });
+            await SetAsync(userID, { FACTORY: { LEVEL:  factoryData.LEVEL, LAST_CLAIM: now } });
             const upgradeEmbed = ConfigManager.getEmbed("ECONOMY.FACTORY.MESSAGES.VIEW", {
-                new_level: factoryData.LEVEL + 1,
+                level: factoryData.LEVEL + 1,
                 income: expansionLevelData.INCOME_PER_MINUTE,
                 max_away: `${expansionLevelData.MAX_AWAY_TIME / 1000 / 60}`,
                 cost: expansionLevelData.UPGRADE_PRICE

@@ -28,10 +28,12 @@ module.exports = {
             UPGRADE_MAXED: "{emoji_UI_Cross} Your factory is already at the maximum level!",
             NO_INCOME: "{emoji_UI_Warn} Your factory is still level 1 and produces no revenue... expand it to start generating income!",
             VIEW: {
+                color: [100, 100, 250],
                 title: "{emoji_Factory} Your factory",
                 description: "Level: **{level}**\nIncome: **{income}/m**\nMax offline time: **{max_away}**\nExpansion cost: **{cost}**\n"
             },
             CLAIM: {
+                color: [100, 200, 100],
                 title: "{emoji_Factory} You claimed your factoried income",
                 fields: [
                     { name: "Time away:", value: "**{time_away}**", inline: true },
