@@ -4,6 +4,7 @@ const { EmbedBuilder } = require('discord.js');
 
 const ConfigManager = require("../../../Core/configManager");
 const CommandHelper = require("../../..//Utilities/CommandHelper");
+const AbbreviateNumber = require("../../../Utilities/Format/AbbreviateNumber");
 
 const SLOTS = ConfigManager.raw.GAMBLING.SLOTS;
 const { MIN_BET, SYMBOLS, JACKPOTS } = SLOTS;
@@ -90,10 +91,10 @@ async function slots(interaction, client, bet, viewInfo) {
     if (multiplier > 0) {
         const winnings = bet * multiplier;
         await AddToAsync(userId, { MAIN_CURRENCY: winnings, GAMBLED: winnings / 2 });
-        message = `${buildMessage(display)}\n\nYou won **${winnings}**!`;
+        message = `${buildMessage(display)}\n\nYou won **${AbbreviateNumber(winnings)}**!`;
     } else {
         await AddToAsync(userId, { MAIN_CURRENCY: -bet });
-        message = `${buildMessage(display)}\n\nYou lost **${bet}**.`;
+        message = `${buildMessage(display)}\n\nYou lost **${AbbreviateNumber(bet)}**.`;
     }
 
     await interaction.editReply({ content: message });
