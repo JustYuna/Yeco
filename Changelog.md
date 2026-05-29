@@ -13,7 +13,7 @@ All notable changes to this project will be documented in this file.
 
 ### 🏦 Fixes
 - **onboarding** - not resetting the command attempted to used cooldown
-- **/daily** - not being buffed / not using the amounts set in config
+- **/daily** - not being buffed / not using the amounts set in config + added next claim timestamp when claimed
 
 ### 🛠 Tech Yap
 - **/randomvideo** - new field for this commands api was added to env "YOUTUBE_DATA_API_V3"
