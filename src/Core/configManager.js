@@ -70,7 +70,10 @@ const configManager = {
      */
     getMsg: (path, vars = {}) => {
         const str = path.split('.').reduce((obj, key) => obj?.[key], config);
-        if (!str) return `[String not found: ${path}]`;
+        if (!str) {
+            console.error(`[ConfigManager]: No message found for path: ${path}`);
+            return `[String not found: ${path}]`;
+        };
         
         return configManager._resolve(str, vars);
     },
@@ -122,6 +125,7 @@ const configManager = {
         const embedConfig = path.split('.').reduce((obj, key) => obj?.[key], config);
 
         if (!embedConfig) {
+            console.error(`[ConfigManager]: No embed found for path: ${path}`);
             return null;
         }
 
