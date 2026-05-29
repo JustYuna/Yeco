@@ -78,12 +78,18 @@ module.exports = {
         Box: "<:emoji_box:1496951152120430602>",
         Calender: "<:emoji_calenders:1496979436510249071>",
         PurpleFire: "<:emoji_purple_fire:1501439477057323180>",
+        RedFire: "<:emoji_red_fire:1509881528421715999>",
+
         RedLightning: "<:emoji_red_lightning:1501440930648035358>",
         Blueberry: "<:emoji_blueberry:1501441146881314857>",
         Lemon: "<:emoji_lemon:1501441317237166141>",
         Carrot: "<:emoji_carrot:1501441471822430290>",
         Skull: "<:emoji_skull:1498017352820850932>",
         Factory: "<:emoji_factory:1506532909941784626>",
+    
+        RedGift: "<:emoji_gift_red:1509880420093661356>",
+        PurpleGift: "<:emoji_gift_purple:1509880418755805224>",
+        GreenGift: "<:emoji_gift_green:1509880417350582282>",
 
         // social
         SOCIAL_Discord: "<:social_discord:1496168648283394171>",

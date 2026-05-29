@@ -187,7 +187,15 @@ module.exports = {
         },
         MESSAGES: {
             ALREADY_CLAIMED: `{emoji_UI_Cross} You already used \`/daily\` today!\nNext claim at: {next_claim}`,
-            RECIEVED: "{emoji_Calender} {mainCurrency_emoji} You received **{reward} {mainCurrency_name}**",
+            RECIEVED: {
+                color: [0, 250, 0],
+                title: "{emoji_RedGift} Daily Reward Claimed!",
+                fields: [
+                    { name: "You Recieved:", value: "{mainCurrency_emoji} **{reward} {mainCurrency_name}**", inline: true },
+                    { name: "Your Streak:", value: "{emoji_RedFire} **{streak}**", inline: true },
+                ],
+                footer: "Next ready at: {next_claim}"
+            },
         }
     },
 
