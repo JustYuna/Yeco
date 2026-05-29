@@ -3,6 +3,7 @@ const { EmbedBuilder } = require('discord.js');
 
 const configManager = require('../../../Core/configManager');
 const currentTheme = configManager.getActiveTheme();
+const AbbreviateNumber = require("../../../Utilities/Format/AbbreviateNumber");
 
 const CONFIG = {
     REFRESH_COOLDOWN: 300000, // 5 min
@@ -89,7 +90,7 @@ async function leaderboard(interaction, client, type) {
 
             if (hidden) username = "🙈 Hidden";
 
-            return `**#${index + 1}**: ${username} - **${user.value ?? 0}**`;
+            return `**#${index + 1}**: ${username} - **${AbbreviateNumber(user.value ?? 0)}**`;
         })
     );
 
