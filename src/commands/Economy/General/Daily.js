@@ -49,9 +49,7 @@ async function daily(interaction, client) {
     if (isWeekend) reward *= REWARD.WEEKEND_MULTIPLIER;
     reward = Math.floor(reward);
 
-    const embed = ConfigManager.getEmbed("ECONOMY.DAILY.MESSAGES.RECIEVED");
-    console.log(embed);
-    if (!embed) return;
+    const embed = ConfigManager.getEmbed("ECONOMY.DAILY.MESSAGES.RECIEVED", { reward: reward, streak: streak, next_claim: `<t:${nextClaimTimestamp}:F>` });
     await interaction.editReply({ embeds: [embed] });
 
     await SetAsync(userId, { DAILY: DailyData });
