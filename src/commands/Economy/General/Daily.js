@@ -1,10 +1,8 @@
 const { GetAsync, SetAsync, AddToAsync } = require('../../../DataStorage/Datastore');
 const { EmbedBuilder } = require("discord.js");
 const ConfigManager = require("../../../Core/configManager");
-const Config = ConfigManager.raw
-const currentTheme = ConfigManager.getActiveTheme();
 
-const DAILY = Config.ECONOMY.DAILY;
+const DAILY = ConfigManager.raw.ECONOMY.DAILY;
 const { REWARD, MESSAGES } = DAILY;
 
 function formatDate(date) {
@@ -51,22 +49,16 @@ async function daily(interaction, client) {
     if (isWeekend) reward *= REWARD.WEEKEND_MULTIPLIER;
     reward = Math.floor(reward);
 
-    const msg = ConfigManager.parseMsg(MESSAGES.RECIEVED, { reward: reward })
-    const embed = new EmbedBuilder()
-        .setColor(currentTheme.COLORS.MAIN)
-        .setTitle("🎁 Daily Reward Claimed!")
-        .setDescription(msg)
-        .addFields(
-            { name: "🔥 Streak", value: `**${streak} day(s)**`, inline: true },
-        )
-
+    const embed = ConfigManager.getEmbed("ECONOMY.DAILY.MESSAGES.RECIEVED");
+    console.log(embed);
+    if (!embed) return;
     await interaction.editReply({ embeds: [embed] });
 
-    AddToAsync(userId, {
+    await SetAsync(userId, { DAILY: DailyData });
+    await AddToAsync(userId, {
         MAIN_CURRENCY: reward,
         TOTAL_MAIN_CURRENCY: reward,
     })
-    SetAsync(userId, { DAILY: DailyData });
 };
 
 module.exports = daily;
