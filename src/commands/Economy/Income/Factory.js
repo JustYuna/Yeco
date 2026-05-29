@@ -3,6 +3,8 @@
 const { GetAsync, SetAsync, AddToAsync } = require("../../../DataStorage/Datastore");
 const ConfigManager = require("../../../Core/configManager");
 const { GET_RESET_DATA, CHECK_MISSING_VALUES } = require("../../../Utilities/CommandHelper");
+const AbbreviateNumber = require("../../../Utilities/Format/AbbreviateNumber");
+
 const { FACTORY } = require("../../../Core/Configs/Economy");
 
 const FactoryConfig = ConfigManager.raw.ECONOMY.FACTORY;
@@ -69,7 +71,7 @@ async function Factory(interaction, client, { type }) {
             await SetAsync(userID, { FACTORY: factoryData });
 
             const claimEmbed = ConfigManager.getEmbed("ECONOMY.FACTORY.MESSAGES.CLAIM_SUCCESS", {
-                income: totalIncome,
+                income: AbbreviateNumber(income),
                 level: factoryData.LEVEL,
                 minutes: minutesElapsed,
                 next_income: factoryLevelData.INCOME_PER_MINUTE
@@ -84,7 +86,7 @@ async function Factory(interaction, client, { type }) {
             };
 
             if (expansionLevelData.UPGRADE_PRICE > currency) {
-                return interaction.editReply({ content: ConfigManager.getMsg("ECONOMY.FACTORY.MESSAGES.UPGRADE_CANT_AFFORD", { amount: expansionLevelData.UPGRADE_PRICE - currency }) });
+                return interaction.editReply({ content: ConfigManager.getMsg("ECONOMY.FACTORY.MESSAGES.UPGRADE_CANT_AFFORD", { amount:  AbbreviateNumber(expansionLevelData.UPGRADE_PRICE - currency) }) });
             };
 
             await AddToAsync(userID, { MAIN_CURRENCY: -expansionLevelData.UPGRADE_PRICE });
@@ -94,7 +96,7 @@ async function Factory(interaction, client, { type }) {
                 level: factoryData.LEVEL + 1,
                 income: expansionLevelData.INCOME_PER_MINUTE,
                 max_away: `${expansionLevelData.MAX_AWAY_TIME / 1000 / 60}`,
-                cost: expansionLevelData.UPGRADE_PRICE
+                cost: AbbreviateNumber(expansionLevelData.UPGRADE_PRICE)
             });
 
             return interaction.editReply({ embeds: [upgradeEmbed] })
@@ -105,7 +107,7 @@ async function Factory(interaction, client, { type }) {
                 level: factoryData.LEVEL,
                 income: factoryLevelData.INCOME_PER_MINUTE,
                 max_away: `${factoryLevelData.MAX_AWAY_TIME / 1000 / 60}`,
-                cost: factoryLevelData.UPGRADE_PRICE
+                cost: AbbreviateNumber(factoryLevelData.UPGRADE_PRICE)
             });
 
             return interaction.editReply({ embeds: [viewEmbed] })
