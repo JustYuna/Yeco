@@ -2,6 +2,7 @@ const { editCooldown } = require('../../../Utilities/Cooldown');
 const { GetAsync, SetAsync, AddToAsync } = require('../../../DataStorage/Datastore');
 const ConfigManager = require("../../../Core/configManager");
 const CommandHelper = require("../../..//Utilities/CommandHelper");
+const AbbreviateNumber = require("../../../Utilities/Format/AbbreviateNumber");
 
 const GIFT = ConfigManager.raw.ECONOMY.GIFT;
 const { MIN, MAX, EXCLUDE, MESSAGES } = GIFT;
@@ -29,7 +30,7 @@ async function gift(interaction, client, user, amount) {
     await AddToAsync(userId, { MAIN_CURRENCY: -amount });
     await AddToAsync(giftUserId, { MAIN_CURRENCY: amount });
 
-    const msg = ConfigManager.getMsg("ECONOMY.GIFT.MESSAGES.SUCCESS", { amount: amount, username: `<@${giftUserId}>` });
+    const msg = ConfigManager.getMsg("ECONOMY.GIFT.MESSAGES.SUCCESS", { amount: AbbreviateNumber(amount), username: `<@${giftUserId}>` });
     return interaction.editReply({ 
         content: msg
     });
