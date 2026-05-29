@@ -3,12 +3,13 @@
 All notable changes to this project will be documented in this file.
 
 ---
-## [2.6]
+## [V0]
 > Temporary Update Title
 > Released: XX.XX.XXXX
 
 ### ⚒️ Added
 - **/randomvideo** - fetches a random video from a few presets
+- **/factory** - Build and expand your factory to earn money offline!!!
 
 ### 🏦 Fixes
 - **onboarding** - not resetting the command attempted to used cooldown
