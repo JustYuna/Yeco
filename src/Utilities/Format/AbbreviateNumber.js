@@ -1,4 +1,3 @@
-const ConfigManager = require("../Core/configManager");
 const { editCooldown } = require("./Cooldown");
 
 async function ABBREVIATE_NUMBER(number) {
