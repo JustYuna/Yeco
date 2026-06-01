@@ -708,7 +708,7 @@ module.exports = {
             const amount = i.options.getInteger('amount');
             const number = i.options.getInteger('number');
 
-            return m.Roulette(i, c, amount, number);
+            return m.Roulette(i, c, { bet: amount, choseNumber: number });
         }
     },
 
