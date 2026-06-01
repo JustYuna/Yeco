@@ -1,5 +1,3 @@
-const { editCooldown } = require("./Cooldown");
-
 async function ABBREVIATE_NUMBER(number) {
     if (number < 1000) return number.toString();
 
