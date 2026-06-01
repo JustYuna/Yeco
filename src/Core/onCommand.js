@@ -674,6 +674,44 @@ module.exports = {
         }
     },
 
+    "roulette": {
+        data: {
+            name: 'roulette',
+            description: 'Bet on a roulette number',
+            options: [
+                {
+                    name: 'amount',
+                    type: 4,
+                    required: true,
+                    description: 'Amount to bet'
+                },
+                {
+                    name: 'number',
+                    type: 4,
+                    required: true,
+                    description: 'Number to bet on (0-36)',
+                    min_value: 0,
+                    max_value: 36
+                }
+            ]
+        },
+
+        settings: {
+            cooldown: 90,
+            canShowCaptcha: true,
+            risk: 15,
+            guildSizeLockout: ["MEDIUM", "LARGE", "HUGE"],
+            tags: ["ONBOARDING"]
+        },
+
+        run: (i, c, m) => {
+            const amount = i.options.getInteger('amount');
+            const number = i.options.getInteger('number');
+
+            return m.Roulette(i, c, amount, number);
+        }
+    },
+
     // -- Fun -- \\
 
     "bonk": {
