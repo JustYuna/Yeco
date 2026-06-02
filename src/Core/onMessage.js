@@ -16,6 +16,7 @@ const Config = ConfigManager.raw;
 const { EmbedBuilder } = require("discord.js");
 
 const WebhookHandler = require("../Commands/Actions/webhook");
+const { removeCooldowns } = require("../Utilities/Cooldown");
 
 const commandsMap = {
     "add-data": async (message, args) => {
@@ -86,6 +87,13 @@ const commandsMap = {
         // restClient.put will now work because we are passing the correct object
         await refreshCommands(restClient, clientID);
         await sendEmbed(message, 'Refreshed!', '✅ Successfully reloaded application (/) commands.', [100, 250, 100]);
+    },
+
+    "reset-cooldowns": async (message, args) => {
+        const userID = message.author.id;
+        await removeCooldowns(userID);
+
+        await sendEmbed(message, "Removed", "✅ Successfully removed all current cooldowns", [100, 250, 100]);
     },
 
     stats: async (message) => {
@@ -241,7 +249,7 @@ const commandsMap = {
                 { name: "~ Data Management ~", value: "`!bot add-data <userID> <ValueName> <ValueAmount>`\n`!bot set-data <userID> <ValueName> <ValueAmount`>", inline: false },
                 { name: "~ Backup Management ~", value: "`!bot create-backup <name>`\n`!bot restore-backup <name>`", inline: false },
                 { name: "~ Bot Management ~", value: "`!bot shutdown`\n`!bot refresh-commands`\n`!bot stats`\n`!bot config <path>`" },
-                { name: "~ Other ~", value: "`!bot send-webhook <webhookName> <message>`\n`!bot help`" },
+                { name: "~ Other ~", value: "`!bot send-webhook <webhookName> <message>`\n`!bot help`\n`!bot reset-cooldowns`" },
             );
 
         await message.reply({ embeds: [embed] });
