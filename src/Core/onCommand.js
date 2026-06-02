@@ -697,7 +697,7 @@ module.exports = {
         },
 
         settings: {
-            cooldown: 90,
+            cooldown: 30,
             canShowCaptcha: true,
             risk: 15,
             guildSizeLockout: ["MEDIUM", "LARGE", "HUGE"],
@@ -708,7 +708,7 @@ module.exports = {
             const amount = i.options.getInteger('amount');
             const number = i.options.getInteger('number');
 
-            return m.Roulette(i, c, { bet: amount, choseNumber: number });
+            return m.Roulette(i, c, { bet: amount, chosenNumber: number });
         }
     },
 

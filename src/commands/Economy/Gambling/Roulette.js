@@ -131,6 +131,7 @@ async function roulette(interaction, client, { bet, chosenNumber }) {
 
     if (chosenNumber === winningNumber) {
         const winnings = bet * 35;
+        const abbreviated = await AbbreviateNumber(winnings);
 
         await AddToAsync(userId, {
             MAIN_CURRENCY: winnings,
@@ -141,8 +142,10 @@ async function roulette(interaction, client, { bet, chosenNumber }) {
             `🎡 Roulette Result\n\n` +
             `${buildWheel(position)}\n\n` +
             `🎉 The ball landed on **${winningNumber}**!\n` +
-            `You won **${AbbreviateNumber(winnings)}**!`;
+            `You won **${abbreviated}**!`;
     } else {
+        const abbreviated = await AbbreviateNumber(bet);
+
         await AddToAsync(userId, {
             MAIN_CURRENCY: -bet
         });
@@ -152,7 +155,7 @@ async function roulette(interaction, client, { bet, chosenNumber }) {
             `${buildWheel(position)}\n\n` +
             `💀 The ball landed on **${winningNumber}**.\n` +
             `Your guess was **${chosenNumber}**.\n` +
-            `You lost **${AbbreviateNumber(bet)}**.`;
+            `You lost **${abbreviated}**.`;
     }
 
     await interaction.editReply({
