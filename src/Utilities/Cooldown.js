@@ -74,6 +74,12 @@ function getCooldowns(userId) {
     return cooldowns.map.get(userId) || new Map();
 }
 
+function removeCooldowns(userID) {
+    if (!userId) return;
+
+    cooldowns.map.clear(userID);
+}
+
 module.exports = {
     checkCooldown,
     setCooldown,
