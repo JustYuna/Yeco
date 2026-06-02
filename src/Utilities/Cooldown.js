@@ -84,5 +84,6 @@ module.exports = {
     checkCooldown,
     setCooldown,
     editCooldown,
-    getCooldowns
+    getCooldowns,
+    removeCooldowns,
 };
