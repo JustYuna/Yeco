@@ -75,7 +75,7 @@ function getCooldowns(userId) {
 }
 
 function removeCooldowns(userID) {
-    if (!userId) return;
+    if (!userID) return;
 
     cooldowns.map.clear(userID);
 }
