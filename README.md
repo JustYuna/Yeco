@@ -35,12 +35,14 @@
 | `/gather` | 2 |
 | `/extract` | 5 |
 | `/craft` | 10 |
+| `/factory` | 12 |
 
 > Jobs unlock as you play, the more you earn, the more you can earn.
 
 ### 🎰 Gambling
 - `/slots` — Test your luck on the reels
 - `/coinflip` — Double or nothing (May be rigged... but dont tell anyone)
+- `/roulette` — Go bet and either lose or win the wheel on your side!
 
 ### 🎉 Fun & Social
 `/bonk` • `/spin` • `/patpat` • `/poke` • `/ship` • `/build-tower`
