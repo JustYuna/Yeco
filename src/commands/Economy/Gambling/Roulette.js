@@ -21,6 +21,33 @@ const RED_NUMBERS = [
     19, 21, 23, 25, 27, 30, 32, 34, 36
 ];
 
+const BET_TABLES = {
+    RED: {
+        MULTIPLIER: 2,
+        TABLE: [ 1, 3, 5, 7, 9, 12, 14, 16, 18, 19, 21, 23, 25, 27, 30, 32, 34, 36]
+    },
+
+    BLACK: {
+        MULTIPLIER: 2,
+        TABLE: [ 2, 4, 6, 8, 10, 11, 13, 15, 17, 20, 22, 24, 26, 28, 29, 31, 33, 35 ]
+    },
+
+    GREEN: {
+        MULTIPLIER: 35,
+        TABLE: [0]
+    },
+
+    EVEN: {
+        MULTIPLIER: 2,
+        TABLE: [ 2, 4, 6, 8, 10, 12, 14, 16, 18, 20, 22, 24, 26, 28, 30, 32, 34, 36 ]
+    },
+
+    ODD: {
+        MULTIPLIER: 2,
+        TABLE: [ 1, 3, 5, 7, 9, 11, 13, 15, 17, 19, 21, 23, 25, 27, 29, 31, 33, 35 ]
+    },
+};
+
 function getColor(number) {
     if (number === "0") return "🟩";
     return RED_NUMBERS.includes(Number(number))
@@ -50,7 +77,7 @@ function buildWheel(position) {
 
 const sleep = (ms) => new Promise(res => setTimeout(res, ms));
 
-async function roulette(interaction, client, { bet, chosenNumber }) {
+async function roulette(interaction, client, { bet, betInput }) {
     if (!interaction) return;
 
     const userId = interaction.user.id;
@@ -69,18 +96,24 @@ async function roulette(interaction, client, { bet, chosenNumber }) {
 
     if (validationError) return;
 
-    if (
-        chosenNumber === undefined ||
-        isNaN(chosenNumber) ||
-        chosenNumber < 0 ||
-        chosenNumber > 36
-    ) {
-        return interaction.editReply({
-            content: "Please choose a number between **0** and **36**."
-        });
-    }
+    const betType = BET_TABLES[betInput.toUpperCase()];
+    let multiplier = 0;
+    let numberTable = [];
+    let betString = "";
 
-    chosenNumber = Number(chosenNumber);
+    if (betType) {
+        multiplier = betType.MULTIPLIER;
+        numberTable = betType.TABLE;
+        betString = betInput.toUpperCase()
+    } else {
+        if (betInput === undefined || isNaN(betInput) || betInput < 0 || betInput > 36) {
+            return interaction.editReply("Invalid bet type, please chose a valid bet type!");
+        }
+        
+        multiplier = 35;
+        numberTable = [Number(betInput)];
+        betString = `${betInput}`;
+    }
 
     const winningIndex = Math.floor(
         Math.random() * ROULETTE_NUMBERS.length
@@ -129,8 +162,8 @@ async function roulette(interaction, client, { bet, chosenNumber }) {
 
     let finalMessage;
 
-    if (chosenNumber === winningNumber) {
-        const winnings = bet * 35;
+    if (numberTable.includes(winningNumber)) {
+        const winnings = bet * multiplier;
         const abbreviated = await AbbreviateNumber(winnings);
 
         await AddToAsync(userId, {
@@ -154,7 +187,7 @@ async function roulette(interaction, client, { bet, chosenNumber }) {
             `🎡 Roulette Result\n\n` +
             `${buildWheel(position)}\n\n` +
             `💀 The ball landed on **${winningNumber}**.\n` +
-            `Your guess was **${chosenNumber}**.\n` +
+            `Your guess was **${betString}**.\n` +
             `You lost **${abbreviated}**.`;
     }
 
