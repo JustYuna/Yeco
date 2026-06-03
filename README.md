@@ -9,7 +9,7 @@
 [![SQLite](https://img.shields.io/badge/SQLite-003B57?style=for-the-badge&logo=sqlite&logoColor=white)](https://sqlite.org/)
 [![License: AGPL v3](https://img.shields.io/badge/License-AGPLv3-blue.svg)](https://www.gnu.org/licenses/agpl-3.0)
 
-![Yeco Banner](https://github.com/JustYuna/Yeco/blob/main/other/YECO-Banner.png?raw=true) <!-- Replace with your actual banner image -->
+![Yeco Banner](https://github.com/JustYuna/Yeco/blob/main/other/YECO-Banner-01.png?raw=true)
 
 **Fast interactions • Simple progression • Cross-server economy**
 
