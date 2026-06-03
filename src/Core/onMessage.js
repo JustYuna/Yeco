@@ -90,10 +90,10 @@ const commandsMap = {
     },
 
     "reset-cooldowns": async (message, args) => {
-        const userID = message.author.id;
+        const userID = args[0] || message.author.id;
         await removeCooldowns(userID);
 
-        await sendEmbed(message, "Removed", "✅ Successfully removed all current cooldowns", [100, 250, 100]);
+        await sendEmbed( message, "Removed", `✅ Removed cooldowns for <@${userID}>`, [100, 250, 100] );
     },
 
     stats: async (message) => {
@@ -249,7 +249,7 @@ const commandsMap = {
                 { name: "~ Data Management ~", value: "`!bot add-data <userID> <ValueName> <ValueAmount>`\n`!bot set-data <userID> <ValueName> <ValueAmount`>", inline: false },
                 { name: "~ Backup Management ~", value: "`!bot create-backup <name>`\n`!bot restore-backup <name>`", inline: false },
                 { name: "~ Bot Management ~", value: "`!bot shutdown`\n`!bot refresh-commands`\n`!bot stats`\n`!bot config <path>`" },
-                { name: "~ Other ~", value: "`!bot send-webhook <webhookName> <message>`\n`!bot help`\n`!bot reset-cooldowns`" },
+                { name: "~ Other ~", value: "`!bot send-webhook <webhookName> <message>`\n`!bot help`\n`!bot reset-cooldowns <userId / empty>`" },
             );
 
         await message.reply({ embeds: [embed] });
