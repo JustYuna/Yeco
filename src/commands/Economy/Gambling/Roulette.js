@@ -78,6 +78,7 @@ function buildWheel(position) {
 const sleep = (ms) => new Promise(res => setTimeout(res, ms));
 
 async function roulette(interaction, client, { bet, betInput }) {
+    console.log(bet, betInput);
     if (!interaction) return;
 
     const userId = interaction.user.id;

@@ -704,7 +704,7 @@ module.exports = {
 
         run: (i, c, m) => {
             const amount = i.options.getInteger('amount');
-            const input = i.options.getString('number');
+            const input = i.options.getString('input');
 
             return m.Roulette(i, c, { bet: amount, betInput: input });
         }
