@@ -7,46 +7,12 @@ const ConfigManager = require("../../../Core/configManager");
 const CommandHelper = require("../../..//Utilities/CommandHelper");
 const AbbreviateNumber = require("../../../Utilities/Format/AbbreviateNumber");
 
-const MIN_BET = 100;
-
-const ROULETTE_NUMBERS = [
-    "0", "32", "15", "19", "4", "21", "2", "25", "17", "34",
-    "6", "27", "13", "36", "11", "30", "8", "23", "10", "5",
-    "24", "16", "33", "1", "20", "14", "31", "9", "22", "18",
-    "29", "7", "28", "12", "35", "3", "26"
-];
-
-const RED_NUMBERS = [
-    1, 3, 5, 7, 9, 12, 14, 16, 18,
-    19, 21, 23, 25, 27, 30, 32, 34, 36
-];
-
-const BET_TABLES = {
-    RED: {
-        MULTIPLIER: 2,
-        TABLE: [ 1, 3, 5, 7, 9, 12, 14, 16, 18, 19, 21, 23, 25, 27, 30, 32, 34, 36]
-    },
-
-    BLACK: {
-        MULTIPLIER: 2,
-        TABLE: [ 2, 4, 6, 8, 10, 11, 13, 15, 17, 20, 22, 24, 26, 28, 29, 31, 33, 35 ]
-    },
-
-    GREEN: {
-        MULTIPLIER: 35,
-        TABLE: [0]
-    },
-
-    EVEN: {
-        MULTIPLIER: 2,
-        TABLE: [ 2, 4, 6, 8, 10, 12, 14, 16, 18, 20, 22, 24, 26, 28, 30, 32, 34, 36 ]
-    },
-
-    ODD: {
-        MULTIPLIER: 2,
-        TABLE: [ 1, 3, 5, 7, 9, 11, 13, 15, 17, 19, 21, 23, 25, 27, 29, 31, 33, 35 ]
-    },
-};
+const {
+    MIN_BET,
+    ROULETTE_NUMBERS,
+    RED_NUMBERS,
+    BET_TABLES
+} = ConfigManager.raw.GAMBLING;
 
 function getColor(number) {
     if (number === "0") return "🟩";
