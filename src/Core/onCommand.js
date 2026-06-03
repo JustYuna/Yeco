@@ -676,22 +676,20 @@ module.exports = {
 
     "roulette": {
         data: {
-            name: 'roulette',
-            description: 'Bet on a roulette number',
+            name: "roulette",
+            description: "Bet on a roulette number",
             options: [
                 {
-                    name: 'amount',
+                    name: "amount",
                     type: 4,
                     required: true,
-                    description: 'Amount to bet'
+                    description: "Amount to bet"
                 },
                 {
-                    name: 'number',
-                    type: 4,
+                    name: "input",
+                    type: 3,
                     required: true,
-                    description: 'Number to bet on (0-36)',
-                    min_value: 0,
-                    max_value: 36
+                    description: "Red, black, green, even, odd, or a number (0-36)"
                 }
             ]
         },
@@ -706,7 +704,7 @@ module.exports = {
 
         run: (i, c, m) => {
             const amount = i.options.getInteger('amount');
-            const number = i.options.getInteger('number');
+            const number = i.options.getString('number');
 
             return m.Roulette(i, c, { bet: amount, chosenNumber: number });
         }
