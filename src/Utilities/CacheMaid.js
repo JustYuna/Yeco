@@ -3,9 +3,8 @@
  * Keeps your bot’s caches tidy and memory usage under control.
  * Supports auto-eviction, scheduled cleanup, and freshness-aware sweeps.
  * 
- * Version - 1.2
+ * Version - 1.3
  * Creator - @Snuv
- * Contributor - None
  */
 
 const { warn } = require('node:console');
@@ -13,9 +12,18 @@ const Snowflake = require('nodejs-snowflake');
 
 const GLOBAL_MAP = new Map();
 const AUTOEVICT_MAP = new Map();
+
 const CONFIG = {
-    DEBUG: true,
+    DEBUG_LEVELS: {
+        INFO: true,
+        WARN: true,
+        ERROR: true,
+    }
 };
+
+function debug({ string, configSet }) {
+    if (configSet) console.log(string)
+}
 
 module.exports = {
     /**
@@ -32,7 +40,11 @@ module.exports = {
         };
         GLOBAL_MAP.set(newID, newMapEntry);
 
-        if (CONFIG.DEBUG) console.log(`Created entry with id-name: ${newID}`);
+        debug({
+            configSet: CONFIG.DEBUG_LEVELS.INFO,
+            string: `[INFO]: Created cache entry with id-name: ${newID}`
+        });
+
         return newMapEntry;
     },
 
@@ -50,7 +62,11 @@ module.exports = {
         };
         GLOBAL_MAP.set(newID, newMapEntry);
 
-        if (CONFIG.DEBUG) console.log(`Added entry with id-name: ${newID}\nContent: ${map}`);
+        debug({
+            configSet: CONFIG.DEBUG_LEVELS.INFO,
+            string: `[INFO]: Added cache entry with id-name: ${newID}`
+        });
+
         return newMapEntry;
     },
 
@@ -76,7 +92,11 @@ module.exports = {
     update: (id, map) => {
         const entry = GLOBAL_MAP.get(id);
         if (!entry) {
-            console.warn(`[MAID] Attempted to update a map not in entry: ${id}`);
+            debug({
+                configSet: CONFIG.DEBUG_LEVELS.WARN,
+                string: `[WARN]: Attempted to updated null entry with id-name: ${id}`
+            });
+
             return;
         };
 
@@ -92,7 +112,11 @@ module.exports = {
     patch: (id, updates) => {
         const entry = GLOBAL_MAP.get(id);
         if (!entry) {
-            console.warn(`[MAID] Attempted to patch a map not in entry: ${id}`);
+            debug({
+                configSet: CONFIG.DEBUG_LEVELS.WARN,
+                string: `[WARN]: Attempted to patchj null entry with id-name: ${id}`
+            });
+
             return;
         };
 
@@ -111,7 +135,11 @@ module.exports = {
     patchAdvanced: (id, updates) => {
         const entry = GLOBAL_MAP.get(id);
         if (!entry) {
-            console.warn(`[MAID] Attempted to patchAdvanced a map not in entry: ${id}`);
+            debug({
+                configSet: CONFIG.DEBUG_LEVELS.WARN,
+                string: `[WARN]: Attempted to patchAdvanced null entry with id-name: ${id}`
+            });
+
             return;
         }
 
@@ -123,7 +151,10 @@ module.exports = {
                     const result = updater(current);
                     entry.map.set(key, result);
                 } catch (err) {
-                    console.warn(`[MAID] patchAdvanced failed for key "${key}":`, err);
+                    debug({
+                        configSet: CONFIG.DEBUG_LEVELS.ERROR,
+                        string: `[ERROR]: patchAdvamced failed for id-name: ${id}\nerror: ${err}`
+                    });
                 }
             } else {
                 // fallback to normal set
@@ -150,7 +181,11 @@ module.exports = {
         for (const id of targetIds) {
             const entry = GLOBAL_MAP.get(id);
             if (!entry) {
-                console.warn(`[MAID] Attempted to clear a map not in entry: ${id}`);
+                debug({
+                    configSet: CONFIG.DEBUG_LEVELS.WARN,
+                    string: `[WARN]: Attempted to clear null entry with id-name: ${id}`
+                });
+
                 continue;
             }
             entry.map.clear();
@@ -167,7 +202,11 @@ module.exports = {
         for (const id of targetIds) {
             const entry = GLOBAL_MAP.get(id);
             if (!entry) {
-                console.warn(`[MAID] Attempted to remove a map not in entry: ${id}`);
+                debug({
+                    configSet: CONFIG.DEBUG_LEVELS.WARN,
+                    string: `[WARN]: Attempted to remove null entry with id-name: ${id}`
+                });
+
                 continue;
             }
             entry.map.clear();
@@ -206,7 +245,11 @@ module.exports = {
         for (const id of targetIds) {
             const entry = GLOBAL_MAP.get(id);
             if (!entry) {
-                console.warn(`[MAID] Attempted to evict a map not in entry: ${id}`);
+                debug({
+                    configSet: CONFIG.DEBUG_LEVELS.WARN,
+                    string: `[WARN]: Attempted to evict null entry with id-name: ${id}`
+                });
+
                 continue;
             }
 
@@ -222,7 +265,10 @@ module.exports = {
             }
 
             if (evictedCount > 0) {
-                console.log(`[MAID] Evicted ${evictedCount} entries from map ${id}.`);
+                debug({
+                    configSet: CONFIG.DEBUG_LEVELS.INFO,
+                    string: `[INFO]: Evicted ${evictedCount} entries from cache with id-name: ${id}`
+                });
             }
         }
     },
@@ -235,7 +281,11 @@ module.exports = {
      */
     autoEvict: (id, maxSize, interval = 5000) => {
         if (!GLOBAL_MAP.has(id)) {
-            console.warn(`[MAID] Attempted to auto-evict a map not in entry: ${id}`);
+            debug({
+                configSet: CONFIG.DEBUG_LEVELS.WARN,
+                string: `[WARN]: Attempted to auto-evvict null entry with id-name: ${id}`
+            });
+
             return;
         }
 
@@ -282,7 +332,11 @@ module.exports = {
             if (now - entry.ts > maxAge) {
                 entry.map.clear(); // Help garbage collection
                 GLOBAL_MAP.delete(id);
-                console.log(`[MAID] Swept expired cache: ${id}`);
+
+                debug({
+                    configSet: CONFIG.DEBUG_LEVELS.INFO,
+                    string: `[INFO]: Swept expired cache with id-name: ${id}`
+                });
             }
         }
     }
