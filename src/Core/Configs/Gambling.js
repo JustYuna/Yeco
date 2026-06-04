@@ -78,8 +78,13 @@ module.exports = {
         },
         MESSAGES: {
             INVALID_BET_TYPE: "{emoji_UI_Cross} Invalid bet type!\nValid bet types: Red, Black, Even, Odd, Green, Number (0 - 36)",
-            SPINNING_WHEEL: "🎡 Spinning the roulette wheel...\n\n{wheel}",
+            SPINNING_WHEEL: {
+                color: [100, 200, 250],
+                title: "🎡 The wheel is spinning",
+                description: "{wheel}",
+            },
             ROULETTE_WIN: {
+                color: [100, 250, 100],
                 title: "🎡 Roulette Result",
                 description: "{wheel}",
                 fields: [
@@ -89,6 +94,7 @@ module.exports = {
                 ]
             },
             ROULETTE_LOSE: {
+                color: [250, 100, 100],
                 title: "🎡 Roulette Result",
                 description: "{wheel}",
                 fields: [
