@@ -74,7 +74,7 @@ async function roulette(interaction, client, { bet, betInput }) {
         betString = betInput.toUpperCase()
     } else {
         if (betInput === undefined || isNaN(betInput) || betInput < 0 || betInput > 36) {
-            return interaction.editReply("Invalid bet type, please chose a valid bet type!");
+            return interaction.editReply(ConfigManager.getMsg("GAMBLING.ROULETTE.MESSAGES.INVALID_BET_TYPE"));
         }
         
         multiplier = 35;
@@ -94,9 +94,7 @@ async function roulette(interaction, client, { bet, betInput }) {
         Math.random() * ROULETTE_NUMBERS.length
     );
 
-    await interaction.editReply({
-        content: `🎡 Spinning the roulette wheel...\n\n${buildWheel(position)}`
-    });
+    await interaction.editReply(ConfigManager.getMsg("GAMBLING.ROULETTE.MESSAGES.INVALID_BET_TYPE", { wheel: buildWheel(position) }));
 
     const totalSpins =
         25 + Math.floor(Math.random() * 15);
@@ -107,9 +105,7 @@ async function roulette(interaction, client, { bet, betInput }) {
             (position + 1) %
             ROULETTE_NUMBERS.length;
 
-        await interaction.editReply({
-            content: `🎡 Spinning the roulette wheel...\n\n${buildWheel(position)}`
-        });
+        await interaction.editReply(ConfigManager.getMsg("GAMBLING.ROULETTE.MESSAGES.INVALID_BET_TYPE", { wheel: buildWheel(position) }));
 
         await sleep(75 + i * 10);
     }
@@ -120,9 +116,7 @@ async function roulette(interaction, client, { bet, betInput }) {
             (position + 1) %
             ROULETTE_NUMBERS.length;
 
-        await interaction.editReply({
-            content: `🎡 Spinning the roulette wheel...\n\n${buildWheel(position)}`
-        });
+        await interaction.editReply(ConfigManager.getMsg("GAMBLING.ROULETTE.MESSAGES.INVALID_BET_TYPE", { wheel: buildWheel(position) }));
 
         await sleep(200);
     }
@@ -138,11 +132,12 @@ async function roulette(interaction, client, { bet, betInput }) {
             GAMBLED: winnings / 2
         });
 
-        finalMessage =
-            `🎡 Roulette Result\n\n` +
-            `${buildWheel(position)}\n\n` +
-            `🎉 The ball landed on **${winningNumber}**!\n` +
-            `You won **${abbreviated}**!`;
+        finalMessage = ConfigManager.getEmbed("GAMBLING.ROULETTE.MESSAGES.ROULETTE_WIN", {
+            wheel: buildWheel(position),
+            result: winningNumber,
+            winnings: abbreviated,
+            bet: betString
+        });
     } else {
         const abbreviated = await AbbreviateNumber(bet);
 
@@ -150,17 +145,15 @@ async function roulette(interaction, client, { bet, betInput }) {
             MAIN_CURRENCY: -bet
         });
 
-        finalMessage =
-            `🎡 Roulette Result\n\n` +
-            `${buildWheel(position)}\n\n` +
-            `💀 The ball landed on **${winningNumber}**.\n` +
-            `Your guess was **${betString}**.\n` +
-            `You lost **${abbreviated}**.`;
+        finalMessage = ConfigManager.getEmbed("GAMBLING.ROULETTE.MESSAGES.ROULETTE_WIN", {
+            wheel: buildWheel(position),
+            result: winningNumber,
+            losings: abbreviated,
+            bet: betString
+        });
     }
 
-    await interaction.editReply({
-        content: ConfigManager.parseMsg(finalMessage)
-    });
+    await interaction.editReply({ embeds: [finalMessage] });
 }
 
 module.exports = roulette;

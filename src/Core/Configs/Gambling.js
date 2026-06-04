@@ -76,5 +76,27 @@ module.exports = {
                 TABLE: [ 1, 3, 5, 7, 9, 11, 13, 15, 17, 19, 21, 23, 25, 27, 29, 31, 33, 35 ]
             },
         },
+        MESSAGES: {
+            INVALID_BET_TYPE: "{emoji_UI_Cross} Invalid bet type!\nValid bet types: Red, Black, Even, Odd, Green, Number (0 - 36)",
+            SPINNING_WHEEL: "🎡 Spinning the roulette wheel...\n\n{wheel}",
+            ROULETTE_WIN: {
+                title: "🎡 Roulette Result",
+                description: "{wheel}",
+                fields: [
+                    { name: "Result:", value: "**{result}**", inline: true },
+                    { name: "Bet:", value: "**{bet}**", inline: true },
+                    { name: "Winnings:", value: "**{winnings}**", inline: true },
+                ]
+            },
+            ROULETTE_LOSE: {
+                title: "🎡 Roulette Result",
+                description: "{wheel}",
+                fields: [
+                    { name: "Result:", value: "**{result}**", inline: true },
+                    { name: "Bet:", value: "**{bet}**", inline: true },
+                    { name: "You lost:", value: "**{losings}**", inline: true },
+                ]
+            },
+        }
     }
 }
