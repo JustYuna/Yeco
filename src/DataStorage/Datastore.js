@@ -8,6 +8,15 @@ let db = new sqlite3.Database(dbPath, (err) => {
   else console.log("Database opened.");
 });
 
+// ----- CONFIG ----- \\
+const CONFIG = {
+    DEBUG_LEVELS: {
+        INFO: true,
+        WARN: true,
+        ERROR: true,
+    }
+};
+
 // Single-table structure, nested objects stored as JSON
 const defaultData = {
   GUILD: "NONE",
@@ -55,6 +64,10 @@ const defaultGuildDAta = {
 };
 
 // ------------------ Helpers ------------------
+function debug({ string, configSet }) {
+    if (configSet) console.log(string)
+}
+
 function runAsync(sql, params = []) {
   return new Promise((resolve, reject) => {
     db.run(sql, params, function (err) {
