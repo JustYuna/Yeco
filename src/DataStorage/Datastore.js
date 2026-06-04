@@ -1,11 +1,19 @@
 const sqlite3 = require("sqlite3").verbose();
 const path = require("path");
 const fs = require('fs');
+const { Snowflake } = require('nodejs-snowflake');
+const snowflakeGenerator = new Snowflake();
 
 const dbPath = path.join(__dirname, "datastore.db");
 let db = new sqlite3.Database(dbPath, (err) => {
-  if (err) console.error("DB open error:", err);
-  else console.log("Database opened.");
+  if (err) debug({
+    string: `[ERROR]: Database failed to open, error: ${err}!`,
+    configSet: CONFIG.DEBUG_LEVELS.ERROR
+  });
+  else debug({
+    string: `[INFO]: Database opened`,
+    configSet: CONFIG.DEBUG_LEVELS.INFO
+  });;
 });
 
 // ----- CONFIG ----- \\
@@ -66,6 +74,89 @@ const defaultGuildDAta = {
 // ------------------ Helpers ------------------
 function debug({ string, configSet }) {
     if (configSet) console.log(string)
+}
+
+const activeWritesMap = new Map();
+
+function lockEdit({ id, todo, snowflake }) {
+  if (!id) {
+    debug({
+      string: "[Warn]: No id for lock check",
+      configSet: CONFIG.DEBUG_LEVELS.WARN
+    });
+    return null;
+  }
+
+  switch (todo) {
+    case "lock": {
+      const newSnowflake = snowflakeGenerator.getUniqueID().toString();;
+      const queue = activeWritesMap.get(id) || [];
+
+      let resolveWrite;
+      const writePromise = new Promise((resolve) => {
+        resolveWrite = resolve;
+      });
+
+      queue.push({
+        snowflake: newSnowflake,
+        promise: writePromise,
+        resolve: resolveWrite
+      });
+
+      activeWritesMap.set(id, queue);
+
+      // First in queue? Execute immediately
+      if (queue.length === 1) {
+        return { locked: true, snowflake: newSnowflake, execute: true, waitFor: null };
+      }
+      
+      // Not first - need to wait for the previous write
+      const previousWrite = queue[queue.length - 2];
+      return { locked: true, snowflake: newSnowflake, execute: false, waitFor: previousWrite.promise };
+    }
+
+    case "unlock": {
+      const queue = activeWritesMap.get(id);
+      if (!queue || queue.length === 0) {
+        debug({
+          string: `[Warn]: No queue found for id: ${id}... did you forget to lock before unlocking it?`,
+          configSet: CONFIG.DEBUG_LEVELS.WARN
+        });
+        return { unlocked: false, reason: "no_queue" };
+      }
+
+      const index = queue.findIndex(item => item.snowflake === snowflake);
+      if (index === -1) {
+        debug({
+          string: `[Warn]: Snowflake ${snowflake} not found in queue for id: ${id}`,
+          configSet: CONFIG.DEBUG_LEVELS.WARN
+        });
+        return { unlocked: false, reason: "snowflake_not_found" };
+      }
+
+      queue.splice(index, 1);
+
+      if (queue.length > 0) {
+        queue[0].resolve(); // Signal next write to start
+      }
+
+      activeWritesMap.set(id, queue);
+      return { unlocked: true, remaining: queue.length };
+    }
+
+    case "isLocked": {
+      const queue = activeWritesMap.get(id);
+      if (!queue || queue.length === 0) return { locked: false };
+      return { 
+        locked: true, 
+        position: queue.findIndex(item => item.snowflake === snowflake),
+        isFirst: queue[0]?.snowflake === snowflake
+      };
+    }
+
+    default:
+      return null;
+  }
 }
 
 function runAsync(sql, params = []) {
@@ -142,39 +233,67 @@ async function createUser(userId) {
 }
 
 async function GetAsync(userId, key) {
-  await createUser(userId); // sicherstellen, dass der User existiert
+  const lock = lockEdit({ id: userId, todo: "lock" });
+  
+  // Wait for our turn if needed - NO POLLING! 🎉
+  if (!lock.execute && lock.waitFor) {
+    await lock.waitFor;
+  }
 
-  const row = await getAsync(`SELECT * FROM users WHERE id = ?`, [userId]);
-  if (!row) return defaultData[key];
+  try {
+    await createUser(userId);
+    const row = await getAsync(`SELECT * FROM users WHERE id = ?`, [userId]);
+    if (!row) return defaultData[key];
 
-  if (typeof defaultData[key] === "object") {
-    return row[key.toLowerCase()] ? JSON.parse(row[key.toLowerCase()]) : defaultData[key];
-  } else {
-    return row[key.toLowerCase()] ?? defaultData[key];
+    if (typeof defaultData[key] === "object") {
+      return row[key.toLowerCase()] ? JSON.parse(row[key.toLowerCase()]) : defaultData[key];
+    } else {
+      return row[key.toLowerCase()] ?? defaultData[key];
+    }
+  } finally {
+    lockEdit({ id: userId, todo: "unlock", snowflake: lock.snowflake });
   }
 }
 
 async function SetAsync(userId, newData) {
-    await createUser(userId); // sicherstellen, dass der User existiert
+  const lock = lockEdit({ id: userId, todo: "lock" });
+  
+  // Wait for our turn if needed
+  if (!lock.execute && lock.waitFor) {
+    await lock.waitFor;
+  }
 
+  try {
+    await createUser(userId);
     const keys = Object.keys(newData);
     const vals = Object.values(newData).map(v => typeof v === "object" ? JSON.stringify(v) : v);
     const sets = keys.map(k => `${k.toLowerCase()} = ?`).join(", ");
     const sql = `UPDATE users SET ${sets} WHERE id = ?`;
     await runAsync(sql, [...vals, userId]);
+  } finally {
+    lockEdit({ id: userId, todo: "unlock", snowflake: lock.snowflake });
+  }
 }
 
 async function AddToAsync(userId, updates) {
-  await createUser(userId); // sicherstellen, dass der User existiert
+  const lock = lockEdit({ id: userId, todo: "lock" });
+  
+  // Wait for our turn if needed
+  if (!lock.execute && lock.waitFor) {
+    await lock.waitFor;
+  }
 
-  const sets = Object.keys(updates)
-    .map(key => `${key.toLowerCase()} = ${key.toLowerCase()} + ?`)
-    .join(', ');
-
-  const values = [...Object.values(updates), userId];
-
-  const sql = `UPDATE users SET ${sets} WHERE id = ?`;
-  await runAsync(sql, values);
+  try {
+    await createUser(userId);
+    const sets = Object.keys(updates)
+      .map(key => `${key.toLowerCase()} = ${key.toLowerCase()} + ?`)
+      .join(', ');
+    const values = [...Object.values(updates), userId];
+    const sql = `UPDATE users SET ${sets} WHERE id = ?`;
+    await runAsync(sql, values);
+  } finally {
+    lockEdit({ id: userId, todo: "unlock", snowflake: lock.snowflake });
+  }
 }
 
 // ------------------ Extra Queries ------------------
