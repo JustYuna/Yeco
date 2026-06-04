@@ -12,7 +12,7 @@ const {
     ROULETTE_NUMBERS,
     RED_NUMBERS,
     BET_TABLES
-} = ConfigManager.raw.GAMBLING;
+} = ConfigManager.raw.GAMBLING.ROULETTE;
 
 function getColor(number) {
     if (number === "0") return "🟩";
@@ -44,7 +44,6 @@ function buildWheel(position) {
 const sleep = (ms) => new Promise(res => setTimeout(res, ms));
 
 async function roulette(interaction, client, { bet, betInput }) {
-    console.log(bet, betInput);
     if (!interaction) return;
 
     const userId = interaction.user.id;
@@ -75,12 +74,12 @@ async function roulette(interaction, client, { bet, betInput }) {
     } else {
         if (betInput === undefined || isNaN(betInput) || betInput < 0 || betInput > 36) {
             return interaction.editReply(ConfigManager.getMsg("GAMBLING.ROULETTE.MESSAGES.INVALID_BET_TYPE"));
-        }
+        };
         
         multiplier = 35;
         numberTable = [Number(betInput)];
         betString = `${betInput}`;
-    }
+    };
 
     const winningIndex = Math.floor(
         Math.random() * ROULETTE_NUMBERS.length
@@ -94,7 +93,7 @@ async function roulette(interaction, client, { bet, betInput }) {
         Math.random() * ROULETTE_NUMBERS.length
     );
 
-    await interaction.editReply(ConfigManager.getMsg("GAMBLING.ROULETTE.MESSAGES.INVALID_BET_TYPE", { wheel: buildWheel(position) }));
+    await interaction.editReply(ConfigManager.getMsg("GAMBLING.ROULETTE.MESSAGES.SPINNING_WHEEL", { wheel: buildWheel(position) }));
 
     const totalSpins =
         25 + Math.floor(Math.random() * 15);
@@ -105,7 +104,7 @@ async function roulette(interaction, client, { bet, betInput }) {
             (position + 1) %
             ROULETTE_NUMBERS.length;
 
-        await interaction.editReply(ConfigManager.getMsg("GAMBLING.ROULETTE.MESSAGES.INVALID_BET_TYPE", { wheel: buildWheel(position) }));
+        await interaction.editReply(ConfigManager.getMsg("GAMBLING.ROULETTE.MESSAGES.SPINNING_WHEEL", { wheel: buildWheel(position) }));
 
         await sleep(75 + i * 10);
     }
@@ -116,7 +115,7 @@ async function roulette(interaction, client, { bet, betInput }) {
             (position + 1) %
             ROULETTE_NUMBERS.length;
 
-        await interaction.editReply(ConfigManager.getMsg("GAMBLING.ROULETTE.MESSAGES.INVALID_BET_TYPE", { wheel: buildWheel(position) }));
+        await interaction.editReply(ConfigManager.getMsg("GAMBLING.ROULETTE.MESSAGES.SPINNING_WHEEL", { wheel: buildWheel(position) }));
 
         await sleep(200);
     }
@@ -153,7 +152,7 @@ async function roulette(interaction, client, { bet, betInput }) {
         });
     }
 
-    await interaction.editReply({ embeds: [finalMessage] });
+    await interaction.editReply({ content: "", embeds: [finalMessage] });
 }
 
 module.exports = roulette;
