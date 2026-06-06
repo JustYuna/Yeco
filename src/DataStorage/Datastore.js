@@ -258,15 +258,24 @@ async function GetAsync(userId, key) {
 async function SetAsync(userId, newData) {
   const lock = lockEdit({ id: userId, todo: "lock" });
   
-  // Wait for our turn if needed
   if (!lock.execute && lock.waitFor) {
     await lock.waitFor;
   }
 
   try {
     await createUser(userId);
+    
+    const MAX = Number.MAX_SAFE_INTEGER;
     const keys = Object.keys(newData);
-    const vals = Object.values(newData).map(v => typeof v === "object" ? JSON.stringify(v) : v);
+    
+    // Clamp numbers to prevent data corrupting ^^
+    const vals = Object.values(newData).map(v => {
+      if (typeof v === "number") {
+        return Math.min(Math.max(v, -MAX), MAX);
+      }
+      return typeof v === "object" ? JSON.stringify(v) : v;
+    });
+    
     const sets = keys.map(k => `${k.toLowerCase()} = ?`).join(", ");
     const sql = `UPDATE users SET ${sets} WHERE id = ?`;
     await runAsync(sql, [...vals, userId]);
