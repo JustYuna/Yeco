@@ -33,4 +33,16 @@ module.exports = {
         RAW: "https://github.com/JustYuna/Yeco/blob/main/PrivacyPolicy.md",
         TEXT: "Yeco's Privacy Policy: https://github.com/JustYuna/Yeco/blob/main/PrivacyPolicy.md"
     },
+    CHANGELOG: {
+        RAW: "https://github.com/JustYuna/Yeco/blob/main/Changelog.md",
+        TEXT: "Yeco's Changelogs: https://github.com/JustYuna/Yeco/blob/main/Changelog.md"
+    },
+    SOURCE_CODE: {
+        RAW: "https://github.com/JustYuna/Yeco",
+        TEXT: "Yeco's Source Code: https://github.com/JustYuna/Yeco"
+    },
+    SUPPORT_SERVER: {
+        RAW: "https://discord.gg/43kaQUsUjf",
+        TEXT: "Yeco's Support Server: https://discord.gg/43kaQUsUjf"
+    }
 }
