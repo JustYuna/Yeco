@@ -102,7 +102,7 @@ client.once('clientReady', async () => {
     } else {
         client.user.setPresence({
             activities: [{
-                name: '/help • Summer Mode ☀️ • V2.3',
+                name: '/help • Summer Mode ☀️ • V2026.06',
                 type: ActivityType.Playing,
             }],
             status: 'online',

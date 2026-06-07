@@ -3,9 +3,8 @@
 All notable changes to this project will be documented in this file.
 
 ---
-## [V0]
-> Temporary Update Title
-> Released: XX.XX.XXXX
+## [2026.06]
+> Gambling Factory
 
 ### ⚒️ Added
 - **/randomvideo** - fetches a random video from a few presets
@@ -22,6 +21,8 @@ All notable changes to this project will be documented in this file.
 - **Datastore** - Testing a new lock method for ensuring correct data handling via datastore + The datastore now caps out at the 64bit limit
 - **Utilities** - Added more utilities wich i will add more in the future to make new commands easier to make!!!
 - **Number Abbreviation** - Added number abbreviation to way more commmands
+- **Admin Commands** - I fixed up all admin commands for this update :3
+- **Version Scheme** - Ive decided to change the version scheme from GrandUpdate . FeatureDrop . Hotfix to Year . Month . Patch
 ---
 ## [2.5.1]
 > Forced Hotfix

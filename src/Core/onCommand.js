@@ -202,7 +202,7 @@ module.exports = {
                     choices: [
                         { name: "Delete Data", value: "delete_data" },
                         { name: "Terms of Service", value: "tos" },
-                        { name: "Privacy Policy", value: "privacy_policy" }
+                        { name: "Privacy Policy", value: "privacy_policy" },
                     ]
                 }
             ]
