@@ -10,6 +10,7 @@ All notable changes to this project will be documented in this file.
 ### ⚒️ Added
 - **/randomvideo** - fetches a random video from a few presets
 - **/factory** - Build and expand your factory to earn money offline!!!
+- **/roulette** - Take a chance and bet on a roulette tabel!
 
 ### 🏦 Fixes
 - **onboarding** - not resetting the command attempted to used cooldown
@@ -17,6 +18,9 @@ All notable changes to this project will be documented in this file.
 
 ### 🛠 Tech Yap
 - **/randomvideo** - new field for this commands api was added to env "YOUTUBE_DATA_API_V3"
+- **Datastore** - Testing a new lock method for ensuring correct data handling via datastore + The datastore now caps out at the 64bit limit
+- **Utilities** - Added more utilities wich i will add more in the future to make new commands easier to make!!!
+- **Number Abbreviation** - Added number abbreviation to way more commmands
 ---
 ## [2.5.1]
 > Forced Hotfix
