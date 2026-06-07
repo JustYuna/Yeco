@@ -29,7 +29,7 @@ async function info(interaction) {
 
         const embed = new EmbedBuilder()
             .setColor([150, 100, 250])
-            .setTitle("Trickster Info")
+            .setTitle("Yeco Info")
             .setThumbnail(avatarUrl)
             .setDescription(
                 `**Developer:** ${username}\n` +
