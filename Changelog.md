@@ -9,6 +9,7 @@ All notable changes to this project will be documented in this file.
 ### ⚒️ Added
 
 ### 🏦 Fixes
+- **/factory** - Object Promise errors withing the command
 
 ### 🛠 Tech Yap
 - **weebhook handler** - Templates for Yecos public server embeds have moved to its own seperate folder
