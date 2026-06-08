@@ -33,7 +33,9 @@ module.exports = {
             "https://media.tenor.com/P3ncSta36A8AAAAM/miku-hatsune-miku.gif",
             "https://media.tenor.com/GnafzH7LqWsAAAAm/rina-bonk-love-live.webp",
             "https://media.tenor.com/vd9BRgtG56oAAAAm/pepe-bonk-bonk.webp",
-            "https://tenor.com/view/triple-baka-akita-neru-miku-gif-13058394147293592939"
+            "https://tenor.com/view/triple-baka-akita-neru-miku-gif-13058394147293592939",
+            "https://tenor.com/view/patrick-star-smash-gif-19642208",
+            "https://tenor.com/view/bonk-hit-book-school-anime-gif-24977313",
         ],
         RESPONSES: [
             "🔨 {user} [bonked]({gif}) {target} into the next century!",
@@ -65,9 +67,7 @@ module.exports = {
             "https://tenor.com/view/anime-hug-hugs-happy-hug-hug-friend-hug-gif-4606955245193927037",
             "https://tenor.com/view/fruits-basket-fruits-basket-anime-tohru-honda-gif-8076948538234069750",
             "https://tenor.com/view/how-to-raise-a-boring-girlfriend-saenai-heroine-sarnai-heroine-saekano-gif-17909375",
-            "https://tenor.com/view/patrick-star-smash-gif-19642208",
             "https://giphy.com/gifs/teto-utau-muglaliteto-ct5bSAvJEvWi0gDhDn",
-            "https://tenor.com/view/bonk-hit-book-school-anime-gif-24977313",
         ],
         RESPONSES: [
             "🤗 {user} gave a warm [hug]({gif}) to {target}",

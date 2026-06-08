@@ -13,6 +13,7 @@ All notable changes to this project will be documented in this file.
 - **/bank** - Object Promise errors within the command
 - **/slots** - added missing emoji + saying null instead of head or tails
 - **/factory** - Object Promise errors withing the command
+- **/hug** - Removed falsly added bonk gifs
 
 ### 🛠 Tech Yap
 - **weebhook handler** - Templates for Yecos public server embeds have moved to its own seperate folder
