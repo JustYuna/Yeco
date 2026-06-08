@@ -1,12 +1,11 @@
-const ConfigManager = require("../Core/configManager");
-const { editCooldown } = require("./Cooldown");
+async function PLURALIZE({ notPluralized, pluralized, number }) {
+    if (!notPluralized || !pluralized)
+        return "";
 
-async function PLURALIZE(string, number) {
-    if (number > 1) {
-        return string + "s";
-    }
+    if (isNaN(number))
+        return notPluralized;
 
-    return string;
+    return  Number(number) === 1 ? notPluralized : pluralized
 };
 
 module.exports = PLURALIZE;
