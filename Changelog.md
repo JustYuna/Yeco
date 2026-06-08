@@ -3,6 +3,16 @@
 All notable changes to this project will be documented in this file.
 
 ---
+## [V0]
+> Temporary Title
+
+### ⚒️ Added
+
+### 🏦 Fixes
+
+### 🛠 Tech Yap
+- **weebhook handler** - Templates for Yecos public server embeds have moved to its own seperate folder
+---
 ## [2026.06]
 > Gambling Factory
 
