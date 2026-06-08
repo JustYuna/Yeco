@@ -7,8 +7,11 @@ All notable changes to this project will be documented in this file.
 > Temporary Title
 
 ### ⚒️ Added
+- **/daily** - tracks now your best daily streak
 
 ### 🏦 Fixes
+- **/bank** - Object Promise errors within the command
+- **/slots** - added missing emoji + saying null instead of head or tails
 - **/factory** - Object Promise errors withing the command
 
 ### 🛠 Tech Yap
