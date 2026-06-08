@@ -91,6 +91,8 @@ module.exports = {
         PurpleGift: "<:emoji_gift_purple:1509880418755805224>",
         GreenGift: "<:emoji_gift_green:1509880417350582282>",
 
+        BlueDiamond: "<:emoji_blue_diamond:1495152785379950713>",
+
         // social
         SOCIAL_Discord: "<:social_discord:1496168648283394171>",
         SOCIAL_X: "<:social_x:1496168595963777035>",
