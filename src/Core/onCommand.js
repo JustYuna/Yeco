@@ -622,7 +622,7 @@ module.exports = {
             description: 'Come out as a winner or a loser for your whole life',
             options: [
                 {
-                    name: 'action',
+                    name: 'type',
                     description: 'Chose what you want todo',
                     type: 3,
                     required: true,
