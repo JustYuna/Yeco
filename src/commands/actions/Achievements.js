@@ -1,4 +1,4 @@
-async function Achievement(interaction, data, { type, achievement, extra }) {
+async function Achievement(interaction, { type, target, mode }) {
     
 }
 
