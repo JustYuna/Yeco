@@ -17,6 +17,15 @@ async function Factory(interaction, client, { type }) {
     let factoryData = await GetAsync(userID, "FACTORY");
     const levelData = await GetAsync(userID, "LEVEL");
 
+    if (levelData.LEVEL < FactoryConfig.LEVEL_LOCK) {
+        return interaction.editReply({
+            content: ConfigManager.getMsg(
+                "CORE.MESSAGES.COMMAND_NOT_HIGH_ENOUGH_LEVEL",
+                { level: FactoryConfig.LEVEL_LOCK }
+            )
+        });
+    };
+
     const factoryValidation = await CHECK_MISSING_VALUES(factoryData, {
         requiredProps: ["LEVEL", "LAST_CLAIM"],
         typeChecks: { LEVEL: "number" },
@@ -29,19 +38,13 @@ async function Factory(interaction, client, { type }) {
         await SetAsync(userID, { FACTORY: factoryData });
     };
 
-    if (levelData.LEVEL < FactoryConfig.LEVEL_LOCK) {
-        return interaction.editReply({
-            content: ConfigManager.getMsg(
-                "CORE.MESSAGES.COMMAND_NOT_HIGH_ENOUGH_LEVEL",
-                { level: FactoryConfig.LEVEL_LOCK }
-            )
-        });
-    }
-
     const factoryLevelData = FactoryConfig.LEVELS_MAP[factoryData.LEVEL] || null; // INCOME_PER_MINUTE, UPGRADE_PRICE, MAX_AWAY_TIME
     const expansionLevelData = FactoryConfig.LEVELS_MAP[factoryData.LEVEL + 1] || null; // INCOME_PER_MINUTE, UPGRADE_PRICE, MAX_AWAY_TIME
 
     if (!factoryLevelData && !expansionLevelData) return interaction.editReply("missing factory level data");
+
+    const costString = await AbbreviateNumber(factoryLevelData.UPGRADE_PRICE);
+    const incomeString = await AbbreviateNumber(factoryLevelData.INCOME_PER_MINUTE);
 
     switch (type) {
         case "claim_income": {
@@ -71,7 +74,7 @@ async function Factory(interaction, client, { type }) {
             await SetAsync(userID, { FACTORY: factoryData });
 
             const claimEmbed = ConfigManager.getEmbed("ECONOMY.FACTORY.MESSAGES.CLAIM_SUCCESS", {
-                income: AbbreviateNumber(income),
+                income: incomeString,
                 level: factoryData.LEVEL,
                 minutes: minutesElapsed,
                 next_income: factoryLevelData.INCOME_PER_MINUTE
@@ -94,9 +97,9 @@ async function Factory(interaction, client, { type }) {
             await SetAsync(userID, { FACTORY: { LEVEL:  factoryData.LEVEL, LAST_CLAIM: now } });
             const upgradeEmbed = ConfigManager.getEmbed("ECONOMY.FACTORY.MESSAGES.VIEW", {
                 level: factoryData.LEVEL + 1,
-                income: expansionLevelData.INCOME_PER_MINUTE,
+                income: incomeString,
                 max_away: `${expansionLevelData.MAX_AWAY_TIME / 1000 / 60}`,
-                cost: AbbreviateNumber(expansionLevelData.UPGRADE_PRICE)
+                cost: costString
             });
 
             return interaction.editReply({ embeds: [upgradeEmbed] })
@@ -105,9 +108,9 @@ async function Factory(interaction, client, { type }) {
         case "view": {
             const viewEmbed = ConfigManager.getEmbed("ECONOMY.FACTORY.MESSAGES.VIEW", {
                 level: factoryData.LEVEL,
-                income: factoryLevelData.INCOME_PER_MINUTE,
+                income: incomeString,
                 max_away: `${factoryLevelData.MAX_AWAY_TIME / 1000 / 60}`,
-                cost: AbbreviateNumber(factoryLevelData.UPGRADE_PRICE)
+                cost: costString
             });
 
             return interaction.editReply({ embeds: [viewEmbed] })
