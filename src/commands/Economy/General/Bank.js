@@ -2,6 +2,7 @@ const { editCooldown } = require('../../../Utilities/Cooldown');
 const { GetAsync, SetAsync, AddToAsync } = require('../../../DataStorage/Datastore');
 const ConfigManager = require("../../../Core/configManager");
 const CommandHelper = require("../../..//Utilities/CommandHelper");
+const AbbreviateNumber = require('../../../Utilities/Format/AbbreviateNumber');
 
 const BANK = ConfigManager.raw.ECONOMY.BANK;
 const { UPGRADES, MESSAGES } = BANK;
@@ -39,7 +40,8 @@ const actionMap = {
         const cost = upgradeData.NEXT_COST;
 
         if (balance < cost) {
-            const msg = ConfigManager.getMsg("ECONOMY.BANK.MESSAGES.UPGRADE_CANT_AFFORD", { amount: cost - balance });
+            const missing = await AbbreviateNumber(cost - balance);
+            const msg = ConfigManager.getMsg("ECONOMY.BANK.MESSAGES.UPGRADE_CANT_AFFORD", { amount: missing });
             return interaction.editReply({ content: msg });
         }
 
