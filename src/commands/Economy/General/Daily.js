@@ -1,6 +1,7 @@
 const { GetAsync, SetAsync, AddToAsync } = require('../../../DataStorage/Datastore');
 const { EmbedBuilder } = require("discord.js");
 const ConfigManager = require("../../../Core/configManager");
+const { CHECK_MISSING_VALUES } = require("../../../Utilities/CommandHelper");
 
 const DAILY = ConfigManager.raw.ECONOMY.DAILY;
 const { REWARD, MESSAGES } = DAILY;
@@ -25,9 +26,18 @@ async function daily(interaction, client) {
     const yesterdayStr = getYesterdayStr();
 
     let DailyData = await GetAsync(userId, "DAILY");
-    if (!DailyData || typeof DailyData.LAST !== "string" || typeof DailyData.STREAK !== "number") {
-        DailyData = { LAST: "1999-01-01", STREAK: 0 };
-    }
+
+    const dataValidation = await CHECK_MISSING_VALUES(DailyData, {
+        requiredProps: ["STREAK", "BEST", "LAST"],
+        typeChecks: { STREAK: "number", BEST: "number", LAST: "string" },
+        minValues: [{ prop: "LEVEL", min: 1 }, { prop: "BEST", min: 1 }]
+    });
+
+    if (dataValidation.needsReset) {
+        console.log(`[DAILY]: Resetting data for ${userId}: ${dataValidation.reason}`);
+        DailyData = { STREAK: 0, BEST: 0, LAST: "1999-01-01" };
+        await SetAsync(userId, { DAILY: DailyData });
+    };
 
     const nextClaim = new Date(today);
     nextClaim.setHours(24, 0, 0, 0);
@@ -41,9 +51,13 @@ async function daily(interaction, client) {
     }
 
     let streak = (DailyData.LAST === yesterdayStr) ? DailyData.STREAK + 1 : 1;
+    let reward = Math.floor(Math.random() * REWARD.MIN) + REWARD.MAX;
+
+    // Data
     DailyData.LAST = todayStr;
     DailyData.STREAK = streak;
-    let reward = Math.floor(Math.random() * REWARD.MIN) + REWARD.MAX;
+    DailyData.BEST = DailyData.BEST < streak ? streak : DailyData.BEST
+    console.log(DailyData, DailyData.BEST)
 
     const isWeekend = (dayName === 'Saturday' || dayName === 'Sunday');
     if (isWeekend) reward *= REWARD.WEEKEND_MULTIPLIER;

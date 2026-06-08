@@ -29,7 +29,7 @@ async function Wallet(interaction, client, targetUser) {
 
     let gambled = await GetAsync(user.id, 'GAMBLED') || 0;
 
-    const daily = await GetAsync(user.id, 'DAILY') || { STREAK: 0 };
+    const daily = await GetAsync(user.id, 'DAILY') || { STREAK: 0, BEST: 0 };
 
     const levelData = await GetAsync(user.id, "LEVEL") || { LEVEL: 1, EXPERIENCE: 0 };
     const userLevel = levelData.LEVEL;
@@ -77,7 +77,7 @@ async function Wallet(interaction, client, targetUser) {
             },
             { 
                 name: walletConfig.FIELDS.STREAK, 
-                value: `📅 **${daily.STREAK}** Days`, 
+                value: `{emoji_Calender} Now: **${daily.STREAK}** Days\n{emoji_RedFire} Best: ${daily.BEST}`, 
                 inline: true 
             },
             { 
