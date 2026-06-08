@@ -80,11 +80,19 @@ async function Work(interaction, client, type) {
     }
 
     const currencyFinal =
-        finalAmount * rarityData.WORTH * workSettings.MULTIPLIER.CURRENCY * boostMultiplier;
+        finalAmount *
+        rarityData.WORTH *
+        workSettings.MULTIPLIER.CURRENCY *
+        boostMultiplier *
+        (1 + config.PROGRESSION.LEVELS.INCOME_MULTIPLIER_PER_LEVEL * levelData.LEVEL);
+
     const xpFinal =
-        finalAmount * rarityData.WORTH * workSettings.MULTIPLIER.EXPERIENCE;
+        finalAmount * rarityData.WORTH *
+        workSettings.MULTIPLIER.EXPERIENCE;
+
     const cooldownFinal =
-        rarityData.COOLDOWN * workSettings.MULTIPLIER.COOLDOWN;
+        rarityData.COOLDOWN *
+        workSettings.MULTIPLIER.COOLDOWN;
 
     // -----------------------------
     // Level system
