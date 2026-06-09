@@ -270,7 +270,10 @@ async function onMessage(message, data) {
     const args = message.content.slice('!bot'.length).trim().split(/ +/);
     const commandName = args.shift()?.toLowerCase();
 
-    if (message.author.id !== data.ownerID) {
+    if (
+        message.author.id !== data.ownerID &&
+        !data.developers.includes(message.author.id)
+    ) {
         return message.reply('This command is for staff only!');
     }
 

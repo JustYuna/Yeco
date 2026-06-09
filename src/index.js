@@ -3,6 +3,7 @@
 // Main modules
 const result = require('dotenv').config();
 const Testers = process.env.TESTER?.split(',') || [];
+const Developers = process.env.DEVELOPER?.split(',') || [];
 
 const configManager = require('./Core/configManager');
 const config = configManager.raw;
@@ -135,7 +136,8 @@ client.on('messageCreate', (message) => {
         client: client,
         ownerID: OwnerID,
         restClient: restClient,
-        clientID: clientId
+        clientID: clientId,
+        developer: Developers,
     })
 });
 
