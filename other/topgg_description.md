@@ -1,48 +1,55 @@
 <div align="center">
-  <h2>
-    <span style="background: linear-gradient(135deg, #00ff4c, #00e1ff, #ff14e0); -webkit-background-clip: text; background-clip: text; color: transparent;">
-      ✨ Yeco: A Persistent Economy Adventure
-    </span>
-  </h2>
+  <h2>✨ Yeco: A Persistent Economy Adventure</h2>
   <p><i>Your progress. Every server. One shared world.</i></p>
 </div>
 
 ---
 
-### <span style="background: linear-gradient(135deg, #00ff4c, #00e1ff); -webkit-background-clip: text; background-clip: text; color: transparent;">🌍 More Than an Economy Bot</span>
+### 🌍 More Than an Economy Bot
 
 Yeco is a persistent cross-server economy and progression experience for Discord.
 
----
-
-### <span style="background: linear-gradient(135deg, #ffdd00, #ff14e0, #00e1ff); -webkit-background-clip: text; background-clip: text; color: transparent;">⚡ Why Players Choose Yeco</span>
-
-| | |
-|---|---|
-| 💰 **Global Economy**<br/>One wallet, one profile, one journey | 📈 **Progression System**<br/>Unlock new careers as you level up |
-| 🎲 **Risk & Reward**<br/>Slots, coinflips, robberies & more | 🏦 **Persistent Data**<br/>Balance, levels & progress always saved |
-| 🔄 **Actively Developed**<br/>Regular updates & community input | 🌈 **Cross-Server Identity**<br/>Your reputation follows you |
+Build your wealth, unlock new jobs, take risks at the casino, collect achievements, and grow your profile over time. Unlike traditional economy bots, your progress isn't tied to a single server, everything follows you wherever Yeco exists.
 
 ---
 
-### <span style="background: linear-gradient(135deg, #ff69b4, #ffdd00, #00ff4c); -webkit-background-clip: text; background-clip: text; color: transparent;">🎮 What Can You Do?</span>
+### ⚡ Why Players Choose Yeco
 
-| | |
-|---|---|
-| 🌾 **Work and Earn**<br/>Start with basic jobs and climb your way up | 🎰 **Gamble and Risk**<br/>Test your luck at the casino or play a heist |
-| 👥 **Social Commands**<br/>Hug, Bonk, Ship and more | 🏦 **Persistent Data**<br/>Balance, levels & progress always saved |
-| 🔓 **Progression**<br/>Level up to unlock more opportunities to earn more money |
+💰 **Global Economy**
+One wallet, one profile, one journey across every server.
+
+📈 **Progression System**
+Unlock new careers and opportunities as you level up.
+
+🎲 **Risk & Reward**
+Try your luck with slots, coinflips, roulette, robberies, and more.
+
+🏦 **Persistent Data**
+Your balance, levels, achievements, and progress are always saved.
+
+🔄 **Actively Developed**
+New features, balance updates, and community-driven improvements are released regularly.
 
 ---
 
-### <span style="background: linear-gradient(135deg, #00e1ff, #ff14e0, #ffdd00); -webkit-background-clip: text; background-clip: text; color: transparent;">🚀 Start Playing</span>
+### 🎮 What Can You Do?
 
-<div align="center">
+🌾 Start with basic jobs and work your way up through increasingly rewarding careers.
 
-`/onboarding` ‣ Create your profile | `/help` ‣ Browse commands | `/farm` ‣ Earn your first coins
+🎰 Gamble your earnings in a variety of games.
 
-<br/>
+🏆 Earn achievements and build your reputation.
 
-**✨ Your journey starts in one server, but it continues everywhere. ✨**
+👥 Interact with other players through competitive and social commands.
 
-</div>
+💎 Grow your wealth and create your own path through Yeco's economy.
+
+---
+
+### 🚀 Start Playing
+
+`/onboarding` - Create your profile
+`/help` - Browse commands
+`/farm` - Earn your first coins
+
+Your journey starts in one server, but it continues everywhere.
