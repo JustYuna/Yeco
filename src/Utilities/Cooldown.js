@@ -2,7 +2,20 @@
 const CacheMaid = require("./CacheMaid");
 const configManager = require("../Core/configManager")
 
-const cooldowns = CacheMaid.new("cooldown"); // a CacheMaid map
+const cooldowns = CacheMaid.new("cooldown");
+
+/**
+ * Clean up expired cooldowns for a user
+ */
+function cleanExpiredForUser(userMap) {
+    if (!userMap) return;
+    const now = Date.now();
+    for (const [cmd, expires] of userMap.entries()) {
+        if (expires <= now) {
+            userMap.delete(cmd);
+        }
+    }
+}
 
 /**
  * Check if a user is on cooldown for a command
@@ -19,6 +32,9 @@ async function checkCooldown(interaction, command) {
         userMap = new Map();
         cooldowns.map.set(userId, userMap);
     }
+
+    // Clean expired entries before checking
+    cleanExpiredForUser(userMap);
 
     const expiration = userMap.get(command);
     if (expiration && expiration > Date.now()) {
@@ -51,11 +67,11 @@ function setCooldown(interaction, command, duration) {
         cooldowns.map.set(userId, userMap);
     }
 
+    // Clean expired before setting new one
+    cleanExpiredForUser(userMap);
+
     const expiration = Date.now() + duration * 1000;
     userMap.set(command, expiration);
-
-    // Optional: auto-remove user's cooldown map after duration
-    CacheMaid.debris([userId], duration * 1000);
 }
 
 /**
