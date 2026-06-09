@@ -36,6 +36,7 @@ module.exports = {
             "https://tenor.com/view/triple-baka-akita-neru-miku-gif-13058394147293592939",
             "https://tenor.com/view/patrick-star-smash-gif-19642208",
             "https://tenor.com/view/bonk-hit-book-school-anime-gif-24977313",
+            "https://tenor.com/view/miku-bonk-teto-bonking-gif-3440206642400665161",
         ],
         RESPONSES: [
             "🔨 {user} [bonked]({gif}) {target} into the next century!",
