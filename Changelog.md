@@ -17,6 +17,7 @@ All notable changes to this project will be documented in this file.
 
 ### 🛠 Tech Yap
 - **weebhook handler** - Templates for Yecos public server embeds have moved to its own seperate folder
+- **cooldowns** - Cooldowns now automatically clear themself from the cache when finished to keep memory clean
 ---
 ## [2026.06]
 > Gambling Factory
