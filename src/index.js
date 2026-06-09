@@ -137,7 +137,7 @@ client.on('messageCreate', (message) => {
         ownerID: OwnerID,
         restClient: restClient,
         clientID: clientId,
-        developer: Developers,
+        developers: Developers,
     })
 });
 
