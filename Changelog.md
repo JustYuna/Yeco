@@ -3,8 +3,7 @@
 All notable changes to this project will be documented in this file.
 
 ---
-## [V0]
-> Temporary Title
+## [2026.06.1]
 
 ### ⚒️ Added
 - **/daily** - tracks now your best daily streak
@@ -14,6 +13,7 @@ All notable changes to this project will be documented in this file.
 - **/slots** - added missing emoji + saying null instead of head or tails
 - **/factory** - Object Promise errors withing the command
 - **/hug** - Removed falsly added bonk gifs
+- **/info** - updated again ^^
 
 ### 🛠 Tech Yap
 - **weebhook handler** - Templates for Yecos public server embeds have moved to its own seperate folder
