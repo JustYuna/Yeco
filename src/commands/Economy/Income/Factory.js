@@ -59,6 +59,7 @@ async function Factory(interaction, client, { type }) {
 
             const minutesElapsed = Math.floor(timeElapsed / 1000 / 60);
             let totalIncome = minutesElapsed * factoryLevelData.INCOME_PER_MINUTE;
+            const totalIncomeString = await AbbreviateNumber(totalIncome);
 
             if (minutesElapsed < 1) {
                 return interaction.editReply({
@@ -74,7 +75,7 @@ async function Factory(interaction, client, { type }) {
             await SetAsync(userID, { FACTORY: factoryData });
 
             const claimEmbed = ConfigManager.getEmbed("ECONOMY.FACTORY.MESSAGES.CLAIM_SUCCESS", {
-                income: incomeString,
+                income: totalIncomeString,
                 level: factoryData.LEVEL,
                 minutes: minutesElapsed,
                 next_income: factoryLevelData.INCOME_PER_MINUTE
