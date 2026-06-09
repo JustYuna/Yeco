@@ -25,13 +25,13 @@ const commandsMap = {
         const valueAmount = parseInt(rawAmount);
 
         if (!targetId || !valueName || isNaN(valueAmount))
-            return message.reply(`Usage: \`!bot give <userID> <ValueName> <ValueAmount>\``);
+            return message.reply(`Usage: \`!bot add-data <userID> <ValueName> <ValueAmount>\``);
 
         try {
             await AddToAsync(targetId, { [valueName]: valueAmount });
-            await sendEmbed(message, 'Data Granted', `Gave **${valueAmount} ${valueName}** to <@${targetId}>`, [150, 250, 150]);
+            await sendEmbed(message, 'Data Granted', `Added **${valueAmount} ${valueName}** to <@${targetId}>`, [150, 250, 150]);
         } catch (err) {
-            await sendEmbed(message, 'Error', `Failed to give data: ${err.message}`, [250, 150, 150]);
+            await sendEmbed(message, 'Error', `Failed to add data: ${err.message}`, [250, 150, 150]);
         }
     },
 
@@ -41,13 +41,13 @@ const commandsMap = {
         const valueAmount = parseInt(rawAmount);
 
         if (!targetId || !valueName || isNaN(valueAmount))
-            return message.reply(`Usage: \`!bot give <userID> <ValueName> <ValueAmount>\``);
+            return message.reply(`Usage: \`!bot set-data <userID> <ValueName> <ValueAmount>\``);
 
         try {
             await SetAsync(targetId, { [valueName]: valueAmount });
-            await sendEmbed(message, 'Data Granted', `Gave **${valueAmount} ${valueName}** to <@${targetId}>`, [150, 250, 150]);
+            await sendEmbed(message, 'Data Granted', `Set **${valueAmount} ${valueName}** to <@${targetId}>`, [150, 250, 150]);
         } catch (err) {
-            await sendEmbed(message, 'Error', `Failed to give data: ${err.message}`, [250, 150, 150]);
+            await sendEmbed(message, 'Error', `Failed to set data: ${err.message}`, [250, 150, 150]);
         }
     },
 
@@ -248,7 +248,7 @@ const commandsMap = {
             .addFields(
                 { name: "~ Data Management ~", value: "`!bot add-data <userID> <ValueName> <ValueAmount>`\n`!bot set-data <userID> <ValueName> <ValueAmount`>", inline: false },
                 { name: "~ Backup Management ~", value: "`!bot create-backup <name>`\n`!bot restore-backup <name>`", inline: false },
-                { name: "~ Bot Management ~", value: "`!bot shutdown`\n`!bot refresh-commands`\n`!bot stats`\n`!bot config <path>`" },
+                { name: "~ Bot Management ~", value: "`!bot refresh-commands`\n`!bot stats`\n`!bot config <path>`" },
                 { name: "~ Other ~", value: "`!bot send-webhook <webhookName> <message>`\n`!bot help`\n`!bot reset-cooldowns <userId / empty>`" },
             );
 
