@@ -32,7 +32,6 @@ async function info(interaction) {
             .setTitle("Yeco Info")
             .setThumbnail(avatarUrl)
             .setDescription(
-                `**Developer:** ${username}\n` +
                 `Open-source Discord economy and progression bot with a persistent cross-server world.`
             )
             .addFields(
@@ -40,14 +39,14 @@ async function info(interaction) {
                     name: "❤️‍🩹 About Yeco ❤️‍🩹",
                     value:
                         `[Terms of Service](${ConfigManager.raw.OTHER.TOS.RAW})
-                        [Privacy Policy](${ConfigManager.raw.OTHER.PRIVACY_POLICY.RAW})
-                        [Changelog](${ConfigManager.raw.OTHER.CHANGELOG.RAW})
-                        [Source Code](${ConfigManager.raw.OTHER.SOURCE_CODE.RAW})
-                        [Support Server](${ConfigManager.raw.OTHER.SUPPORT_SERVER.RAW})`
+[Privacy Policy](${ConfigManager.raw.OTHER.PRIVACY_POLICY.RAW})
+[Changelog](${ConfigManager.raw.OTHER.CHANGELOG.RAW})
+[Source Code](${ConfigManager.raw.OTHER.SOURCE_CODE.RAW})
+[Support Server](${ConfigManager.raw.OTHER.SUPPORT_SERVER.RAW})`
                 },
                 {
                     name: "🧾 Credits",
-                    value: `**~ Icons ~**\ngvesster\n${username}\n\n**~ Alpha Tester ~**\nepsilon.art\nviledairy\nspiotchi\nilylilylila`
+                    value: `**~ Developer ~\n${username}\n\n~ Icons ~**\ngvesster\n${username}\n\n**~ Alpha Tester ~**\nepsilon.art\nviledairy\nilylilylila`
                 }
             )
             .setFooter({ text: `Powered by: ${username}` });
