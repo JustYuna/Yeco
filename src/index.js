@@ -143,7 +143,7 @@ client.on('messageCreate', (message) => {
 
 // -- Command handler helper
 const tiers = Object.values(GUILD_SIZE_SPEC)
-        .sort((a, b) => a.COUNT - b.COUNT);
+    .sort((a, b) => a.COUNT - b.COUNT);
 
 function getGuildTier(guild) {
     if (!guild) return "OVERSIZED";
@@ -190,13 +190,13 @@ client.on('interactionCreate', async (interaction) => {
     // ========================
     if (!interaction.deferred && !interaction.replied) {
         try {
-            await interaction.deferReply(); 
+            await interaction.deferReply();
         } catch (err) {
             if (err.code === DISCORD_ERRORS.UNKNOWN_INTERACTION || err.code === DISCORD_ERRORS.INTERACTION_ALREADY_ACKNOWLEDGED) {
                 console.log(`[Interaction Log] ${interaction.user.tag} interaction expired or was already handled.`);
                 return;
             }
-            
+
             // Log other serious errors (API down, etc.)
             console.error("Critical error during deferral:", err);
             return;
@@ -236,13 +236,13 @@ client.on('interactionCreate', async (interaction) => {
     // ========================
     // COOLDOWN + RATE LIMIT
     // ========================
-    
-     {
+
+    {
         const Rate = AddRate(user.id)
         if (Rate > COMMANDS_PER_MINUTE) {
             return interaction.editReply({ content: configManager.getMsg("CORE.MESSAGES.ACTION_RATE_LIMIT") });
         };
-     }
+    }
 
     {
         const commandCooldown = await checkCooldown(interaction, commandName);
@@ -322,9 +322,42 @@ client.on('interactionCreate', async (interaction) => {
 
         await interaction.editReply({
             content: configManager.getMsg("CORE.MESSAGES.COMMAND_ERROR_PROCESS")
-        }).catch(() => {});
+        }).catch(() => { });
     }
 });
 
 client.login(token);
 module.exports = { client };
+
+const colors = {
+    reset: '\x1b[0m',
+    cyan: '\x1b[36m',
+    magenta: '\x1b[35m',
+    green: '\x1b[32m',
+    blue: '\x1b[34m',
+    gray: '\x1b[90m',
+    yellow: '\x1b[93m',
+    bold: '\x1b[1m'
+};
+
+const version = require('../package.json').version;
+const mode = devMode ? '🔧 DEVELOPMENT' : '🚀 PRODUCTION';
+const tag = client?.user?.tag || 'Starting...';
+
+console.log();
+console.log(colors.green + '╔═══════════════════════════════════════════════════════════════════════════════╗' + colors.reset);
+console.log(colors.green + '║' + colors.reset);
+console.log(colors.green + '║' + colors.magenta + '  ██╗   ██╗██╗   ██╗███╗   ██╗ █████╗       ██████╗ ██████╗ ██████╗ ███████╗' + colors.reset);
+console.log(colors.green + '║' + colors.magenta + '  ╚██╗ ██╔╝██║   ██║████╗  ██║██╔══██╗     ██╔════╝██╔═══██╗██╔══██╗██╔════╝' + colors.reset);
+console.log(colors.green + '║' + colors.magenta + '   ╚████╔╝ ██║   ██║██╔██╗ ██║███████║     ██║     ██║   ██║██║  ██║█████╗  ' + colors.reset);
+console.log(colors.green + '║' + colors.magenta + '    ╚██╔╝  ██║   ██║██║╚██╗██║██╔══██║     ██║     ██║   ██║██║  ██║██╔══╝  ' + colors.reset);
+console.log(colors.green + '║' + colors.magenta + '     ██║   ╚██████╔╝██║ ╚████║██║  ██║     ╚██████╗╚██████╔╝██████╔╝███████╗' + colors.reset);
+console.log(colors.green + '║' + colors.magenta + '     ╚═╝    ╚═════╝ ╚═╝  ╚═══╝╚═╝  ╚═╝      ╚═════╝ ╚═════╝ ╚═════╝ ╚══════╝' + colors.reset);
+console.log(colors.green + '║' + colors.reset);
+console.log(colors.green + '╠═══════════════════════════════════════════════════════════════════════════════╣' + colors.reset);
+console.log(colors.green + '║' + colors.cyan + colors.bold + `  Yeco v${version}` + colors.reset);
+console.log(colors.green + '║' + colors.blue + `  Developed and maintained by Yuna2077` + colors.reset);
+console.log(colors.green + '║' + colors.gray + `  Mode: ${mode}` + colors.reset);
+console.log(colors.green + '║' + colors.yellow + `  Logged in as: ${tag}` + colors.reset);
+console.log(colors.green + '╚═══════════════════════════════════════════════════════════════════════════════╝' + colors.reset);
+console.log();

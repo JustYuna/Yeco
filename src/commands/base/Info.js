@@ -32,24 +32,30 @@ async function info(interaction) {
             .setTitle("Yeco Info")
             .setThumbnail(avatarUrl)
             .setDescription(
-                `Open-source Discord economy and progression bot with a persistent cross-server world.`
-            )
-            .addFields(
-                {
-                    name: "❤️‍🩹 About Yeco ❤️‍🩹",
-                    value:
-                        `[Terms of Service](${ConfigManager.raw.OTHER.TOS.RAW})
+                `Open-source Discord economy and progression bot with a persistent cross-server world.
+
+**❤️‍🩹 About Yeco ❤️‍🩹**
+
+[Terms of Service](${ConfigManager.raw.OTHER.TOS.RAW})
 [Privacy Policy](${ConfigManager.raw.OTHER.PRIVACY_POLICY.RAW})
 [Changelog](${ConfigManager.raw.OTHER.CHANGELOG.RAW})
 [Source Code](${ConfigManager.raw.OTHER.SOURCE_CODE.RAW})
-[Support Server](${ConfigManager.raw.OTHER.SUPPORT_SERVER.RAW})`
-                },
-                {
-                    name: "🧾 Credits",
-                    value: `**~ Developer ~\n${username}\n\n~ Icons ~**\ngvesster\n${username}\n\n**~ Alpha Tester ~**\nepsilon.art\nviledairy\nilylilylila`
-                }
-            )
-            .setFooter({ text: `Powered by: ${username}` });
+[Support Server](${ConfigManager.raw.OTHER.SUPPORT_SERVER.RAW})
+
+**🧾 Credits 🧾**
+
+~ Developer ~
+${username}
+
+~ Icons ~
+gvesster
+${username}
+
+~ Alpha Tester ~
+epsilon.art
+viledairy
+ilylilylila
+spiotchi`)
 
         await interaction.editReply({ embeds: [embed] });
 
