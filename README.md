@@ -13,7 +13,7 @@
 
 **Fast interactions • Simple progression • Cross-server economy**
 
-[Add to Discord](https://discord.com/oauth2/authorize?client_id=1494448936654475414) • [Support Server](https://discord.gg/43kaQUsUjf) • [Top.gg](https://top.gg/bot/1494448936654475414)
+[Add to Discord](https://discord.com/oauth2/authorize?client_id=1494448936654475414) • [Support Server](https://discord.gg/sPQFM9Rj33) • [Top.gg](https://top.gg/bot/1494448936654475414)
 
 </div>
 

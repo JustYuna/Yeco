@@ -1,6 +1,6 @@
 # Privacy Policy - Yeco
-> Last Updated: Mai 29, 2026
-> Support Server: [https://discord.gg/43kaQUsUjf](https://discord.gg/43kaQUsUjf)
+> Last Updated: June 14 2026
+> Support Server: [https://discord.gg/sPQFM9Rj33](https://discord.gg/sPQFM9Rj33)
 
 Yeco respects your privacy and is committed to being transparent about the data we process. By using the bot, you agree to the terms outlined in this policy.
 

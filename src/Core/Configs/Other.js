@@ -42,7 +42,7 @@ module.exports = {
         TEXT: "Yeco's Source Code: https://github.com/JustYuna/Yeco"
     },
     SUPPORT_SERVER: {
-        RAW: "https://discord.gg/43kaQUsUjf",
-        TEXT: "Yeco's Support Server: https://discord.gg/43kaQUsUjf"
+        RAW: "https://discord.gg/sPQFM9Rj33",
+        TEXT: "Yeco's Support Server: https://discord.gg/sPQFM9Rj33"
     }
 }

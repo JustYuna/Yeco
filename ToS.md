@@ -1,6 +1,6 @@
 # Terms of Service - Yeco
-> Last Updated: April 29, 2026
-> Support Server: [https://discord.gg/43kaQUsUjf](https://discord.gg/43kaQUsUjf)
+> Last Updated: June 14 2026
+> Support Server: [https://discord.gg/sPQFM9Rj33](https://discord.gg/sPQFM9Rj33)
 > License: GPL v3
 
 By using Yeco and its provided commands, you agree to the following terms. If you do not agree, please stop using the bot and remove it from your server or delete your data.
