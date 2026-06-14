@@ -31,16 +31,16 @@ module.exports = {
     },
 
     MESSAGES: {
-        NOT_ENOUGH_CURRENCY: "❌ You do not have enough **{mainCurrency_name}** {mainCurrency_emoji} to perform this action!",
-        MIN_CURRENCY_REQUIRED: "⚠️ You need a minimum of **{amount} {mainCurrency_name}** {mainCurrency_emoji}!",
-        MAX_CURRENCY_ALLOWED: "🚫 You can only put a maximum of **{amount} {mainCurrency_name}** {mainCurrency_emoji}!",
+        NOT_ENOUGH_CURRENCY: "{emoji_UI_Cross} You do not have enough **{mainCurrency_name}** {mainCurrency_emoji} to perform this action!",
+        MIN_CURRENCY_REQUIRED: "{emoji_UI_Warning} You need a minimum of **{amount} {mainCurrency_name}** {mainCurrency_emoji}!",
+        MAX_CURRENCY_ALLOWED: "{emoji_UI_Cross} You can only put a maximum of **{amount} {mainCurrency_name}** {mainCurrency_emoji}!",
 
         ACTION_COOLDOWN: "⏳ You are on cooldown for `{command}`. Please wait **{remainingSeconds}** second(s).",
         ACTION_UNAVAILABLE: "🛠️ This action is currently unavailable, please try again later.",
-        ACTION_RATE_LIMIT: "⚠️ You are currently being rate limited... please wait a moment.",
+        ACTION_RATE_LIMIT: "{emoji_UI_Warning} You are currently being rate limited... please wait a moment.",
 
-        COMMAND_NOT_HIGH_ENOUGH_LEVEL: "⚠️ Your level is not high enough to use this command.\nRequired: **Level {level}**",
-        TARGET_ONBOARDING: "⚠️ Your target doesnt have completed the onboarding yet, please chose another target.",
+        COMMAND_NOT_HIGH_ENOUGH_LEVEL: "{emoji_UI_Warning} Your level is not high enough to use this command.\nRequired: **Level {level}**",
+        TARGET_ONBOARDING: "{emoji_UI_Warning} Your target doesnt have completed the onboarding yet, please chose another target.",
 
         SERVER_LOCKOUT_MESSAGE:  "{emoji_UI_Cross} Disabled in {tier} servers (hardware limits)\n💡 Support development or contribute here: https://github.com/JustYuna/Yeco",
         MEMBER_REQUIREMENT:  "{emoji_UI_Warning} This command is not available here.\n[Requirements]:\nMust be in a server\nServer must have 5+ members",
