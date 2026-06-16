@@ -8,7 +8,7 @@ module.exports = {
 
         GUILD_CACHE_TTL: 10 * 60 * 1000, // 10 min
         GUILD_SIZE_IGNORE: [
-            1231008556346773514 // SGA - Hangout (Core server for Yeco)
+            1515740577533136937 // Yeco Support Server
         ],
         GUILD_SIZE_SPEC: {
             SMALL: {
@@ -16,16 +16,20 @@ module.exports = {
                 LOCKOUT_NAME: "SMALL"
             },
             MEDIUM: {
-                COUNT: 100,
+                COUNT: 50,
                 LOCKOUT_NAME: "MEDIUM"
             },
             LARGE: {
-                COUNT: 1000,
+                COUNT: 250,
                 LOCKOUT_NAME: "LARGE"
             },
             HUGE: {
-                COUNT: 2500,
+                COUNT: 500,
                 LOCKOUT_NAME: "HUGE"
+            },
+            OVERSZED: {
+                COUNT: 1000,
+                LOCKOUT_NAME: "OVERSZED"
             },
         }, // Limits what command can be used for what server
     },

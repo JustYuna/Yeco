@@ -35,7 +35,7 @@ module.exports = {
             cooldown: 5,
             canShowCaptcha: false,
             risk: 0,
-            guildSizeLockout: [ "LARGE", "HUGE" ],
+            guildSizeLockout: [ "LARGE", "HUGE", "OVERSZED" ],
             tags: [ "DM_ENABLED" ]
         },
 
@@ -51,7 +51,7 @@ module.exports = {
             cooldown: 5,
             canShowCaptcha: false,
             risk: 0,
-            guildSizeLockout: [ "MEDIUM", "LARGE", "HUGE" ],
+            guildSizeLockout: [ "MEDIUM", "LARGE", "HUGE", "OVERSZED" ],
             tags: [ "DM_ENABLED" ]
         },
 
@@ -67,7 +67,7 @@ module.exports = {
             cooldown: 5,
             canShowCaptcha: false,
             risk: 0,
-            guildSizeLockout: [ "MEDIUM", "LARGE", "HUGE" ],
+            guildSizeLockout: [ "MEDIUM", "LARGE", "HUGE", "OVERSZED" ],
             tags: [ "DM_ENABLED" ]
         },
 
@@ -382,7 +382,7 @@ module.exports = {
             cooldown: 30,
             canShowCaptcha: true,
             risk: 10,
-            guildSizeLockout: [ "LARGE", "HUGE" ]
+            guildSizeLockout: [ "LARGE", "HUGE", "OVERSZED" ]
         },
 
         run: (i, c, m) => {
@@ -415,7 +415,7 @@ module.exports = {
             cooldown: 30,
             canShowCaptcha: true,
             risk: 10,
-            guildSizeLockout: [ "LARGE", "HUGE" ]
+            guildSizeLockout: [ "LARGE", "HUGE", "OVERSZED" ]
         },
 
         run: (i, c, m) => {
@@ -439,7 +439,7 @@ module.exports = {
             cooldown: 3600,
             canShowCaptcha: true,
             risk: 25,
-            guildSizeLockout: [ "LARGE", "HUGE" ],
+            guildSizeLockout: [ "LARGE", "HUGE", "OVERSZED" ],
             tags: [ "ONBOARDING" ]
         },
 
@@ -603,7 +603,7 @@ module.exports = {
             cooldown: 1500,
             canShowCaptcha: true,
             risk: 25,
-            guildSizeLockout: [ "MEDIUM", "LARGE", "HUGE" ],
+            guildSizeLockout: [ "MEDIUM", "LARGE", "HUGE", "OVERSZED" ],
             tags: [ "ONBOARDING" ]
         },
 
@@ -663,7 +663,7 @@ module.exports = {
             cooldown: 90,
             canShowCaptcha: true,
             risk: 10,
-            guildSizeLockout: [ "MEDIUM", "LARGE", "HUGE" ],
+            guildSizeLockout: [ "MEDIUM", "LARGE", "HUGE", "OVERSZED" ],
             tags: [ "ONBOARDING" ]
         },
 
@@ -698,7 +698,7 @@ module.exports = {
             cooldown: 30,
             canShowCaptcha: true,
             risk: 15,
-            guildSizeLockout: ["MEDIUM", "LARGE", "HUGE"],
+            guildSizeLockout: ["MEDIUM", "LARGE", "HUGE", "OVERSZED" ],
             tags: ["ONBOARDING"]
         },
 
