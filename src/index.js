@@ -87,7 +87,38 @@ const client = new Client({
 
 // Handle bot Status + Activity
 client.once('clientReady', async () => {
-    console.log(`Logged in as ${client.user.tag}!`);
+    const colors = {
+        reset: '\x1b[0m',
+        cyan: '\x1b[36m',
+        magenta: '\x1b[35m',
+        green: '\x1b[32m',
+        blue: '\x1b[34m',
+        gray: '\x1b[90m',
+        yellow: '\x1b[93m',
+        bold: '\x1b[1m'
+    };
+
+    const version = require('../package.json').version;
+    const mode = devMode ? '🔧 DEVELOPMENT' : '🚀 PRODUCTION';
+    const tag = client?.user?.tag || 'Starting...';
+
+    console.log();
+    console.log(colors.green + '╔═══════════════════════════════════════════════════════════════════════════════╗' + colors.reset);
+    console.log(colors.green + '║' + colors.reset);
+    console.log(colors.green + '║' + colors.magenta + '  ██╗   ██╗██╗   ██╗███╗   ██╗ █████╗       ██████╗ ██████╗ ██████╗ ███████╗' + colors.reset);
+    console.log(colors.green + '║' + colors.magenta + '  ╚██╗ ██╔╝██║   ██║████╗  ██║██╔══██╗     ██╔════╝██╔═══██╗██╔══██╗██╔════╝' + colors.reset);
+    console.log(colors.green + '║' + colors.magenta + '   ╚████╔╝ ██║   ██║██╔██╗ ██║███████║     ██║     ██║   ██║██║  ██║█████╗  ' + colors.reset);
+    console.log(colors.green + '║' + colors.magenta + '    ╚██╔╝  ██║   ██║██║╚██╗██║██╔══██║     ██║     ██║   ██║██║  ██║██╔══╝  ' + colors.reset);
+    console.log(colors.green + '║' + colors.magenta + '     ██║   ╚██████╔╝██║ ╚████║██║  ██║     ╚██████╗╚██████╔╝██████╔╝███████╗' + colors.reset);
+    console.log(colors.green + '║' + colors.magenta + '     ╚═╝    ╚═════╝ ╚═╝  ╚═══╝╚═╝  ╚═╝      ╚═════╝ ╚═════╝ ╚═════╝ ╚══════╝' + colors.reset);
+    console.log(colors.green + '║' + colors.reset);
+    console.log(colors.green + '╠═══════════════════════════════════════════════════════════════════════════════╣' + colors.reset);
+    console.log(colors.green + '║' + colors.cyan + colors.bold + `  Yeco v${version}` + colors.reset);
+    console.log(colors.green + '║' + colors.blue + `  Developed and maintained by Yuna2077` + colors.reset);
+    console.log(colors.green + '║' + colors.gray + `  Mode: ${mode}` + colors.reset);
+    console.log(colors.green + '║' + colors.yellow + `  Logged in as: ${tag}` + colors.reset);
+    console.log(colors.green + '╚═══════════════════════════════════════════════════════════════════════════════╝' + colors.reset);
+    console.log();
 
     const { ActivityType } = require('discord.js');
 
@@ -328,36 +359,3 @@ client.on('interactionCreate', async (interaction) => {
 
 client.login(token);
 module.exports = { client };
-
-const colors = {
-    reset: '\x1b[0m',
-    cyan: '\x1b[36m',
-    magenta: '\x1b[35m',
-    green: '\x1b[32m',
-    blue: '\x1b[34m',
-    gray: '\x1b[90m',
-    yellow: '\x1b[93m',
-    bold: '\x1b[1m'
-};
-
-const version = require('../package.json').version;
-const mode = devMode ? '🔧 DEVELOPMENT' : '🚀 PRODUCTION';
-const tag = client?.user?.tag || 'Starting...';
-
-console.log();
-console.log(colors.green + '╔═══════════════════════════════════════════════════════════════════════════════╗' + colors.reset);
-console.log(colors.green + '║' + colors.reset);
-console.log(colors.green + '║' + colors.magenta + '  ██╗   ██╗██╗   ██╗███╗   ██╗ █████╗       ██████╗ ██████╗ ██████╗ ███████╗' + colors.reset);
-console.log(colors.green + '║' + colors.magenta + '  ╚██╗ ██╔╝██║   ██║████╗  ██║██╔══██╗     ██╔════╝██╔═══██╗██╔══██╗██╔════╝' + colors.reset);
-console.log(colors.green + '║' + colors.magenta + '   ╚████╔╝ ██║   ██║██╔██╗ ██║███████║     ██║     ██║   ██║██║  ██║█████╗  ' + colors.reset);
-console.log(colors.green + '║' + colors.magenta + '    ╚██╔╝  ██║   ██║██║╚██╗██║██╔══██║     ██║     ██║   ██║██║  ██║██╔══╝  ' + colors.reset);
-console.log(colors.green + '║' + colors.magenta + '     ██║   ╚██████╔╝██║ ╚████║██║  ██║     ╚██████╗╚██████╔╝██████╔╝███████╗' + colors.reset);
-console.log(colors.green + '║' + colors.magenta + '     ╚═╝    ╚═════╝ ╚═╝  ╚═══╝╚═╝  ╚═╝      ╚═════╝ ╚═════╝ ╚═════╝ ╚══════╝' + colors.reset);
-console.log(colors.green + '║' + colors.reset);
-console.log(colors.green + '╠═══════════════════════════════════════════════════════════════════════════════╣' + colors.reset);
-console.log(colors.green + '║' + colors.cyan + colors.bold + `  Yeco v${version}` + colors.reset);
-console.log(colors.green + '║' + colors.blue + `  Developed and maintained by Yuna2077` + colors.reset);
-console.log(colors.green + '║' + colors.gray + `  Mode: ${mode}` + colors.reset);
-console.log(colors.green + '║' + colors.yellow + `  Logged in as: ${tag}` + colors.reset);
-console.log(colors.green + '╚═══════════════════════════════════════════════════════════════════════════════╝' + colors.reset);
-console.log();
