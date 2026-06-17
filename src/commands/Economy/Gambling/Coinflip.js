@@ -3,6 +3,7 @@ const { EmbedBuilder } = require('discord.js');
 
 const ConfigManager = require("../../../Core/configManager");
 const CommandHelper = require("../../..//Utilities/CommandHelper");
+const ABBREVIATE_NUMBER = require('../../../Utilities/Format/AbbreviateNumber');
 
 const COINFLIP = ConfigManager.raw.GAMBLING.COINFLIP;
 const {
@@ -50,7 +51,8 @@ async function Coinflip(interaction, client, { amount, selection }) {
         msg = RESPONSES.ULTIMATE_LOSE[Math.floor(Math.random() * RESPONSES.ULTIMATE_LOSE.length)] || "No response found...";
     }
 
-    return interaction.editReply({ content: ConfigManager.parseMsg(msg, { selection: selection, amount: amount }) })
+    const abbreviated = ABBREVIATE_NUMBER(amount);
+    return interaction.editReply({ content: ConfigManager.parseMsg(msg, { selection: selection, amount: abbreviated }) })
 }
 
 module.exports = Coinflip;

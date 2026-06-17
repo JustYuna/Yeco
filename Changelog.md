@@ -3,7 +3,7 @@
 All notable changes to this project will be documented in this file.
 
 ---
-## [2026.06.1]
+## [0000.00]
 
 ### ⚒️ Added
 
