@@ -201,8 +201,8 @@ module.exports = {
 
     GIFT: {
         MIN: 1,
-        MAX: 5_000,
-        MAX_RECIEVER: 100_000,
+        MAX: 100_000,
+        MAX_RECIEVER: 1_000_000,
         MESSAGES: {
             EXCLUDED: "You cannot gift {mainCurrency_name} to this user.",
             TO_BOT: "You cannot gift {mainCurrency_name} to bots.",
