@@ -9,6 +9,7 @@ All notable changes to this project will be documented in this file.
 
 ### 🔄 Changes
 - **/wallet** - Now displays less information looking cleaner
+- **/gift** - You cannot gift yourself anymore, you can now gift up to 100K and the reciever can now recieve up to 1M
 
 ### 🏦 Fixes
 
