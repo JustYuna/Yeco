@@ -6,6 +6,18 @@ All notable changes to this project will be documented in this file.
 ## [2026.06.1]
 
 ### ⚒️ Added
+
+### 🔄 Changes
+- **/wallet** - Now displays less information looking cleaner
+
+### 🏦 Fixes
+
+### 🛠 Tech Yap
+- **change server lockout sizes**
+---
+## [2026.06.1]
+
+### ⚒️ Added
 - **/daily** - tracks now your best daily streak
 
 ### 🏦 Fixes

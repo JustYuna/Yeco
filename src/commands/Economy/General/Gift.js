@@ -18,7 +18,13 @@ async function gift(interaction, client, user, amount) {
         editCooldown(interaction, "gift", 10);
         return interaction.editReply({ 
             content: MESSAGES.TO_BOT,
-            flags: 64
+        });
+    }
+
+    if (userId === giftUserId) {
+        editCooldown(interaction, "gift", 10);
+        return interaction.editReply({ 
+            content: MESSAGES.IS_YOU,
         });
     }
 
@@ -30,7 +36,9 @@ async function gift(interaction, client, user, amount) {
     await AddToAsync(userId, { MAIN_CURRENCY: -amount });
     await AddToAsync(giftUserId, { MAIN_CURRENCY: amount });
 
-    const msg = ConfigManager.getMsg("ECONOMY.GIFT.MESSAGES.SUCCESS", { amount: AbbreviateNumber(amount), username: `<@${giftUserId}>` });
+    const abbreviatged = await AbbreviateNumber(amount);
+
+    const msg = ConfigManager.getMsg("ECONOMY.GIFT.MESSAGES.SUCCESS", { amount: abbreviatged, username: `<@${giftUserId}>` });
     return interaction.editReply({ 
         content: msg
     });

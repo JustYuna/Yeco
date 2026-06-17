@@ -208,7 +208,8 @@ module.exports = {
             TO_BOT: "You cannot gift {mainCurrency_name} to bots.",
             SUCCESS: "Successfully gifted {amount} {mainCurrency_name} to {username}!",
             TOO_RICH: "You cannot gift {mainCurrency_name} to {username} because they already have too much!",
-            ONBOARDING: "You cannot gift to a user that has not completed the onboarding."
+            ONBOARDING: "You cannot gift to a user that has not completed the onboarding.",
+            IS_YOU: "Why do you wanna gift money to yourself silly?"
         }
     },
 
