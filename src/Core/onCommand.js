@@ -392,39 +392,6 @@ module.exports = {
         }
     },
 
-    "reputation": {
-        data: {
-            name: 'reputation',
-            description: 'Give or take reputation of someone',
-            options: [
-                { name: 'target', type: 6, required: true, description: 'User' },
-                {
-                    name: 'action',
-                    description: 'Actiong',
-                    type: 3,
-                    required: true,
-                    choices: [
-                        { name: 'Like', value: 'like' },
-                        { name: 'Dislike', value: 'dislike' },
-                    ]
-                }
-            ]
-        },
-
-        settings: {
-            cooldown: 30,
-            canShowCaptcha: true,
-            risk: 10,
-            guildSizeLockout: [ "LARGE", "HUGE", "OVERSZED" ]
-        },
-
-        run: (i, c, m) => {
-            const target = i.options.getUser('target');
-            const action = i.options.getString('action');
-            return m.Reputation(i, c, { action: action, target: target });
-        }
-    },
-
     "gift": {
         data: {
             name: 'gift',

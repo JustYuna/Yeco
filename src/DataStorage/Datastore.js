@@ -27,7 +27,6 @@ const CONFIG = {
 
 // Single-table structure, nested objects stored as JSON
 const defaultData = {
-  GUILD: "NONE",
   MAIN_CURRENCY: 0,
   SECOND_CURRENCY: 0,
   DEPOSITED: 0,
@@ -48,9 +47,6 @@ const defaultData = {
   SETTING_HIDDEN_FROM_LEADERBOARD: false,
 
   ONBOARDING_COMPLETED: false,
- 
-  REPUTATION_COUNT: 0,
-  REPUTATION_COOLDOWN: 0,
 };
 
 const defaultGlobalData = {
