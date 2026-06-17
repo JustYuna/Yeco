@@ -41,22 +41,6 @@ module.exports = {
 
         run: (i, c, m) => m.Info(i, c),
     },
-    "cooldown": {
-        data: {
-            name: 'cooldown',
-            description: 'View what cooldowns you are one currently',
-        },
-
-        settings: {
-            cooldown: 5,
-            canShowCaptcha: false,
-            risk: 0,
-            guildSizeLockout: [ "MEDIUM", "LARGE", "HUGE", "OVERSZED" ],
-            tags: [ "DM_ENABLED" ]
-        },
-
-        run: (i, c, m) => m.Cooldowns(i, c),
-    },
     "onboarding": {
         data: {
             name: 'onboarding',
