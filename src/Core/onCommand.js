@@ -686,25 +686,6 @@ module.exports = {
         }
     },
 
-    "build-tower": {
-        data: {
-            name: 'build-tower',
-            dm_permission: true,
-            description: 'Build a tower togheter with everyone else!',
-        },
-
-        settings: {
-            cooldown: 5,
-            canShowCaptcha: false,
-            risk: 0,
-            tags: [ "DM_ENABLED" ]
-        },
-
-        run: async(i, c, m) => {
-            return m.Tower(i, c);
-        }
-    },
-
     "patpat": {
         data: {
             name: 'patpat',
