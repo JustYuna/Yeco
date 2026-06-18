@@ -19,6 +19,7 @@ All notable changes to this project will be documented in this file.
 - **/cooldowns**
 - **/build-tower**
 - **/reputation**
+- **Minimum Guild Memember Requirement**
 
 ### 🛠 Tech Yap
 - **change server lockout sizes**
