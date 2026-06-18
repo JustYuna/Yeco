@@ -1,6 +1,7 @@
-function VisualizeBar({ value, label, total, showPercentage }) {
-    const filled = Math.min(total, Math.round((value / 100) * total));
-    const bar = "▮".repeat(filled) + "▯".repeat(total - filled);
+function VisualizeBar({ value, label, barCount, showPercentage }) {
+    const totalBars = barCount || 20;
+    const filled = Math.min(totalBars, Math.round((value / 100) * totalBars));
+    const bar = "▮".repeat(filled) + "▯".repeat(totalBars - filled);
 
     if (label) {
         if (showPercentage) {
