@@ -2,20 +2,13 @@ const { editCooldown } = require('../../../Utilities/Cooldown');
 const { GetAsync, AddToAsync } = require('../../../DataStorage/Datastore');
 
 const ConfigManager = require("../../../Core/configManager");
+const VisualizeBar = require('../../../Utilities/Visual/VisualizeBar');
 const Config = ConfigManager.raw
 const { EmbedBuilder } = require("discord.js");
 
 // --- Data ---
 const HEIST = Config.CRIME.HEIST;
 const { REQUIREMENTS, DIFFICULTY_DATA } = HEIST;
-
-// --- Visual helpers ---
-function visualizeBar(value, label) {
-    const totalBars = 20;
-    const filled = Math.min(totalBars, Math.round((value / 100) * totalBars));
-    const bar = "▮".repeat(filled) + "▯".repeat(totalBars - filled);
-    return `${label}: [${bar}] (${value}%)`;
-}
 
 // --- Tick race ---
 async function tick(interaction, state, chance) {
@@ -31,8 +24,8 @@ async function tick(interaction, state, chance) {
         state.Timing = Math.min(state.Timing, 100);
         state.Awareness = Math.min(state.Awareness, 100);
 
-        const awarenessBar = visualizeBar(state.Awareness, "🎯 Awareness");
-        const timingBar = visualizeBar(state.Timing, "🧠 Timing");
+        const awarenessBar = VisualizeBar({ value: state.Awareness, label: "🎯 Awareness", showPercentage: true });
+        const timingBar = VisualizeBar({ value: state.Awareness, label: "🧠 Timing", showPercentage: true });
 
         await interaction.editReply({
             content: `⏳ **Heist in progress...**\n${awarenessBar}\n${timingBar}`
