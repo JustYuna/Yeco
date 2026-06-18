@@ -311,8 +311,8 @@ client.on('interactionCreate', async (interaction) => {
         const tags = handler.settings.tags || [];
 
         if (!tags.includes("DM_ENABLED")) {
-            if (!guild || guild.memberCount < 5 && !devMode) {
-                return interaction.editReply({ content: configManager.getMsg("CORE.MESSAGES.MEMBER_REQUIREMENT") });
+            if (!guild) {
+                return interaction.editReply({ content: configManager.getMsg("CORE.MESSAGES.NOT_IN_GUILD") });
             }
         }
 

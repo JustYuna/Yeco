@@ -47,7 +47,7 @@ module.exports = {
         TARGET_ONBOARDING: "{emoji_UI_Warning} Your target doesnt have completed the onboarding yet, please chose another target.",
 
         SERVER_LOCKOUT_MESSAGE:  "{emoji_UI_Cross} Disabled in {tier} servers (hardware limits)\n💡 Support development or contribute here: https://github.com/JustYuna/Yeco",
-        MEMBER_REQUIREMENT:  "{emoji_UI_Warning} This command is not available here.\n[Requirements]:\nMust be in a server\nServer must have 5+ members",
+        NOT_IN_GUILD: "{emoji_UI_Warning} This command is not available here, use `/help` to see what commands you can use in dms.",
 
         CAPTCHA_FAIL:  "{emoji_UI_Warning} There was an error verifying your interaction.",
 
