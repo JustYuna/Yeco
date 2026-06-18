@@ -38,12 +38,11 @@ async function help(interaction, client) {
             
             "━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━\n" +
             "🎉 **Fun & Social**\n" +
-            "`📩 /bonk` • `📩 /hug` • `📩 /patpat` • `📩 /poke` • `📩 /ship` • `📩 /build-tower` • `📩 /spin`\n" +
-            "`📩 /randomvideo`\n\n" +
+            "`📩 /bonk` • `📩 /hug` • `📩 /patpat` • `📩 /poke` • `📩 /ship` • `📩 /spin`\n\n" +
             
             "━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━\n" +
             "📊 **Leaderboards & Stats**\n" +
-            "`/leaderboard` • `📩 /cooldowns`\n\n" +
+            "`/leaderboard`\n\n" +
             
             "━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━\n" +
             "> 📩 Available in Direct Messages\n" +
