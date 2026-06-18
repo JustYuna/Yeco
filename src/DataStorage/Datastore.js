@@ -50,10 +50,8 @@ const defaultData = {
 };
 
 const defaultGlobalData = {
-  TOWERSIZE: 0,
   COMMANDS_USED: 0,
   TOTAL_SESSIONS: 0,
-  GLOBAL_MULTIPLIER: 1
 };
 
 // ------------------ Helpers ------------------
