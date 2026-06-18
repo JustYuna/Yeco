@@ -686,41 +686,6 @@ module.exports = {
         }
     },
 
-    "randomvideo": {
-        data: {
-            name: 'randomvideo',
-            dm_permission: true,
-            description: 'Get a random video from youtube',
-            options: [
-                {
-                    name: 'type',
-                    description: 'Presets',
-                    type: 3,
-                    required: true,
-                    choices: [
-                        { name: 'Normal', value: 'normal' },
-                        { name: 'Cursed', value: 'cursed' },
-                        { name: 'Old Tube (before 2010)', value: 'oldtube' },
-                        { name: 'Educate', value: 'educate' },
-                        { name: 'Brainrot', value: 'brainrot' },
-                    ],
-                },
-            ]
-        },
-
-        settings: {
-            cooldown: 5,
-            canShowCaptcha: false,
-            risk: 0,
-            tags: [ "DM_ENABLED" ]
-        },
-
-        run: async (i, c, m) => {
-            const type = i.options.getString("type");
-            return m.RandomVideo(i, c, { type: type });
-        }
-    },
-
     "build-tower": {
         data: {
             name: 'build-tower',
