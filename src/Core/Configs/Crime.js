@@ -51,34 +51,25 @@ module.exports = {
 
 
     HEIST: {
-        REQUIREMENTS: {
-            kids: 250,
-            candy_shop: 750,
-            warehouse: 1_500,
-            candy_factory: 3_500,
-            santa: 7_500
+        DATA: {
+            kids: { NAME: "Kids", REQUIREMENT: 2_500, REWARD: { MIN: 1_750, MAX: 5_000 } },
+            store: { NAME: "Store", REQUIREMENT: 10_000, REWARD: { MIN: 7_500, MAX: 17_500 } },
+            warehouse: { NAME: "Warehouse", REQUIREMENT: 55_000, REWARD: { MIN: 35_000, MAX: 75_000 } },
+            factory: { NAME: "Factory", REQUIREMENT: 125_000, REWARD: { MIN: 75_000, MAX: 175_000 } },
+            goverment: { NAME: "goverment", REQUIREMENT: 350_000, REWARD: { MIN: 275_000, MAX: 450_000 } },
         },
-        DIFFICULTY_DATA: {
-            easy: { Reward: 0.5, Percentage: 50 },
-            medium: { Reward: 1, Percentage: 65 },
-            hard: { Reward: 1.5, Percentage: 80 },
-        },
+        PERCENTAGE: 55,
         MESSAGES: {
+            NOT_AN_OPTION: "No data found for option, report this via `/report` to get this error resolved.",
+            NOT_ENOUGH: "{emoji_UI_Warn} You need a minimum of {amount} to rob {name}.",
+            PLANNING_HEIST: "Planning the heist...",
             SUCCESS: {
                 title: "💰 Heist Successful!",
-                description: "{emoji_UI_Plus} Robbing succeeded!\nYou earned **{amount} {mainCurrency_name} {mainCurrency_emoji}**",
-                fields: [
-                    { name: "Target", value: "{target}", inline: true },
-                    { name: "Difficulty", value: "{difficulty}", inline: true }
-                ]
+                description: "{emoji_UI_Plus} Robbing succeeded!\nYou earned **{amount} {mainCurrency_name} {mainCurrency_emoji}** robbing **{target}**",
             },
             FAILED: {
                 title: "🚔 Heist Failed",
-                description: "{emoji_UI_Cross} Robbing failed...\nyou have been fined **{amount} {mainCurrency_name} {mainCurrency_emoji}**",
-                fields: [
-                    { name: "Target", value: "{target}", inline: true },
-                    { name: "Difficulty", value: "{difficulty}", inline: true }
-                ]
+                description: "{emoji_UI_Cross} Robbing failed...\nyou have been fined **{amount} {mainCurrency_name} {mainCurrency_emoji}** robbing **{target}**",
             }
         }
     },

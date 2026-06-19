@@ -528,25 +528,13 @@ module.exports = {
                     type: 3,
                     required: true,
                     choices: [
-                        { name: 'Seek out', value: 'seek' },
                         { name: 'Kids', value: 'kids' },
-                        { name: 'Candy Shop', value: 'candy_shop' },
+                        { name: 'Store', value: 'store' },
                         { name: 'Warehouse', value: 'warehouse' },
-                        { name: 'Candy Factory', value: 'candy_factory' },
-                        { name: 'Santa', value: 'santa' },
+                        { name: 'Factory', value: 'factory' },
+                        { name: 'Goverment', value: 'goverment' },
                     ],
                 },
-                {
-                    name: 'difficulty',
-                    description: 'Difficulty',
-                    type: 3,
-                    required: true,
-                    choices: [
-                        { name: 'Easy [0.5x]', value: 'easy' },
-                        { name: 'Medium [1x]', value: 'medium' },
-                        { name: 'Hard [1.5x]', value: 'hard' },
-                    ],
-                }
             ]
         },
 
@@ -560,8 +548,7 @@ module.exports = {
 
         run: async (i, c, m) => {
             const target = i.options.getString('target');
-            const difficulty = i.options.getString('difficulty');
-            m.Heist(i, c, target, difficulty)
+            m.Heist(i, c, { option: target })
         }
     },
 
