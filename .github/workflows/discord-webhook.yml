@@ -55,14 +55,14 @@ jobs:
           cat > payload.json << EOF
           {
             "embeds": [{
-              "title": "📦 New push to \`${GITHUB_REF_NAME}\`",
+              "title": "📦 New push",
               "url": "${COMMIT_URL}",
-              "description": "**${COMMIT_MSG}**\n\n**👤 Author:** ${AUTHOR}\n**🔗 Commit:** \`${SHA:0:7}\`",
+              "description": "**${COMMIT_MSG}**",
               "color": 5793266,
               "fields": [
                 {
                   "name": "📊 Diff Stats",
-                  "value": "🟢 +${INSERTIONS} insertions\n🔴 -${DELETIONS} deletions\n📁 ${FILES_CHANGED} file(s) changed",
+                  "value": "🟢 +${INSERTIONS} insertions\n🔴 -${DELETIONS} deletions",
                   "inline": true
                 },
                 {
@@ -71,10 +71,6 @@ jobs:
                   "inline": false
                 }
               ],
-              "footer": {
-                "text": "${REPO_NAME}",
-                "icon_url": "https://github.githubassets.com/favicon.ico"
-              },
               "timestamp": "$(date -u +"%Y-%m-%dT%H:%M:%SZ")"
             }]
           }
