@@ -40,9 +40,9 @@ async function gift(interaction, client, user, amount) {
     await AddToAsync(userId, { MAIN_CURRENCY: -amount });
     await AddToAsync(giftUserId, { MAIN_CURRENCY: amount });
 
-    const abbreviatged = await AbbreviateNumber(amount);
+    const abbreviated = await AbbreviateNumber(amount);
 
-    const msg = ConfigManager.getMsg("ECONOMY.GIFT.MESSAGES.SUCCESS", { amount: abbreviatged, username: `<@${giftUserId}>` });
+    const msg = ConfigManager.getMsg("ECONOMY.GIFT.MESSAGES.SUCCESS", { amount: abbreviated, username: `<@${giftUserId}>` });
     return interaction.editReply({ 
         content: msg
     });
