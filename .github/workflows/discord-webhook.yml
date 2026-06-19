@@ -28,15 +28,6 @@ jobs:
           FILE_LIST=$(git diff --name-only HEAD~1 HEAD | head -10 | sed 's/^/- /' | tr '\n' '|')
           # Convert | to newline for JSON
           FILE_LIST_JSON=$(echo "$FILE_LIST" | sed 's/|/\\n/g' | sed 's/"/\\"/g')
-          
-          echo "files_changed=$FILES_CHANGED" >> $GITHUB_OUTPUT
-          echo "insertions=$INSERTIONS" >> $GITHUB_OUTPUT
-          echo "deletions=$DELETIONS" >> $GITHUB_OUTPUT
-          echo "file_list=$FILE_LIST_JSON" >> $GITHUB_OUTPUT
-          
-          # Debug: Print what we found
-          echo "DEBUG: DIFF_STAT = $DIFF_STAT"
-          echo "DEBUG: Files=$FILES_CHANGED, +$INSERTIONS, -$DELETIONS"
 
       - name: Send to Discord
         env:
