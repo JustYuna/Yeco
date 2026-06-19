@@ -268,7 +268,7 @@ async function sendEmbed(message, title, description, color) {
 async function onMessage(message, data) {
     if (!message.content.startsWith(prefix) || message.author.bot) return;
 
-    const args = message.content.slice('${prefix}'.length).trim().split(/ +/);
+    const args = message.content.slice(`${prefix}`.length).trim().split(/ +/);
     const commandName = args.shift()?.toLowerCase();
 
     if (
