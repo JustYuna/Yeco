@@ -17,6 +17,7 @@ const { EmbedBuilder } = require("discord.js");
 
 const WebhookHandler = require("../Commands/Actions/webhook");
 const { removeCooldowns } = require("../Utilities/Cooldown");
+const configManager = require("../Core/configManager");
 
 const commandsMap = {
     "add-data": async (message, args) => {
@@ -274,7 +275,8 @@ async function onMessage(message, data) {
         message.author.id !== data.ownerID &&
         !data.developers.includes(message.author.id)
     ) {
-        return message.reply('This command is for staff only!');
+        if (configManager.raw.CORE.SETTINGS.DEVELOPER_MODE)
+            return message.reply('This command is for staff only!');
     }
 
     const commandAction = commandsMap[commandName];
