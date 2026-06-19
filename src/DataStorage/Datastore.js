@@ -19,9 +19,9 @@ let db = new sqlite3.Database(dbPath, (err) => {
 // ----- CONFIG ----- \\
 const CONFIG = {
     DEBUG_LEVELS: {
-        INFO: true,
-        WARN: true,
-        ERROR: true,
+        INFO: { ACTIVE: true, COLOR: "\x1b[36m" },
+        WARN: { ACTIVE: true, COLOR: "\x1b[93m" },
+        ERROR: { ACTIVE: true, COLOR: "\x1b[31m" },
     }
 };
 
@@ -56,7 +56,7 @@ const defaultGlobalData = {
 
 // ------------------ Helpers ------------------
 function debug({ string, configSet }) {
-    if (configSet) console.log(string)
+    if (configSet.ACTIVE) console.log(configSet.COLOR, string, "\x1b[0m")
 }
 
 const activeWritesMap = new Map();
@@ -186,7 +186,7 @@ async function syncUserData() {
     }
   }
 
-  console.log("[SYNC] User schema synced with defaultData.");
+  debug({ string: "User schema synced with defaultData.", configSet: CONFIG.DEBUG_LEVELS.INFO })
 }
 
 // ------------------ Schema ------------------
