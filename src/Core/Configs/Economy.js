@@ -217,10 +217,9 @@ module.exports = {
         MESSAGES: {
             IS_BOT: "{emoji_UI_Warn} You cannot view the wallet of a bot... everyone knows they cheat anyways.",
             WALLET: {
-                color: [0, 100, 250],
+                color: [100, 150, 250],
                 title: "{title}",
                 description: "{mainCurrency_emoji} **{mainCurrency_name}:** {main_currency} ({main_currency_total})\n{secondaryCurrency_emoji} **{secondaryCurrency_name}:** {second_currency} ({second_currency_total})\n{mainCurrency_emoji} **Bank:** {deposited}/{max_bank}",
-                footer: "Next ready at: {next_claim}"
             },
         }
     }
