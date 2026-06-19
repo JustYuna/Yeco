@@ -27,7 +27,7 @@ const commandsMap = {
         const valueAmount = parseInt(rawAmount);
 
         if (!targetId || !valueName || isNaN(valueAmount))
-            return message.reply(`Usage: \`!bot add-data <userID> <ValueName> <ValueAmount>\``);
+            return message.reply(`Usage: \`${prefix} add-data <userID> <ValueName> <ValueAmount>\``);
 
         try {
             await AddToAsync(targetId, { [valueName]: valueAmount });
@@ -43,7 +43,7 @@ const commandsMap = {
         const valueAmount = parseInt(rawAmount);
 
         if (!targetId || !valueName || isNaN(valueAmount))
-            return message.reply(`Usage: \`!bot set-data <userID> <ValueName> <ValueAmount>\``);
+            return message.reply(`Usage: \`${prefix} set-data <userID> <ValueName> <ValueAmount>\``);
 
         try {
             await SetAsync(targetId, { [valueName]: valueAmount });
@@ -226,7 +226,7 @@ const commandsMap = {
         for (let i = 0; i < chunks.length; i++) {
             const embed = new EmbedBuilder()
                 .setColor(i === 0 ? [150, 250, 250] : [100, 100, 100])
-                .setTitle(i === 0 ? `Bot Config` : `Bot Config (Part ${i + 1})`)
+                .setTitle(i === 0 ? `${prefix} Config` : `${prefix} Config (Part ${i + 1})`)
                 .setDescription(`\`\`\`json\n${chunks[i]}\n\`\`\``);
 
             await message.reply({ embeds: [embed] });
@@ -246,7 +246,6 @@ const commandsMap = {
         const embed = new EmbedBuilder()
             .setColor([150, 250, 250])
             .setTitle('🛠 Admin Commands Help')
-            .setDescription('Below are the admin commands you can use with `!bot`.')
             .addFields(
                 { name: "~ Data Management ~", value: `**${prefix} add-data** <userID> <ValueName> <ValueAmount>\n**${prefix} set-data** <userID> <ValueName> <ValueAmount>`, inline: false },
                 { name: "~ Backup Management ~", value: `**${prefix} create-backup** <name>\n**${prefix} restore-backup** <name>`, inline: false },
@@ -269,7 +268,7 @@ async function sendEmbed(message, title, description, color) {
 async function onMessage(message, data) {
     if (!message.content.startsWith(prefix) || message.author.bot) return;
 
-    const args = message.content.slice('!bot'.length).trim().split(/ +/);
+    const args = message.content.slice('${prefix}'.length).trim().split(/ +/);
     const commandName = args.shift()?.toLowerCase();
 
     if (
@@ -281,7 +280,7 @@ async function onMessage(message, data) {
     }
 
     const commandAction = commandsMap[commandName];
-    if (!commandAction) return message.reply(`❌ Command not found, try !bot help.`);
+    if (!commandAction) return message.reply(`❌ Command not found, try ${prefix} help.`);
 
     try {
         await commandAction(message, args, {
