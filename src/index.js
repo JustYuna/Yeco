@@ -35,7 +35,6 @@ CacheMaid.patch("bot", {
 {
     initDB().catch(console.error);
     initGlobals().catch(console.error);
-    initGuilds().catch(console.error);
 }
 
 const { GetRate, AddRate } = require("./Utilities/Ratelimit");
