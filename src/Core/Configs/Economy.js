@@ -149,7 +149,9 @@ module.exports = {
             1: { NEXT_COST: 45_000, CAPACITY: 30_000 },
             2: { NEXT_COST: 100_000, CAPACITY: 77_000 },
             3: { NEXT_COST: 250_000, CAPACITY: 222_000 },
-            4: { NEXT_COST: 99_000_000_000, CAPACITY: 750_000 } // Maxed out
+            4: { NEXT_COST: 500_000, CAPACITY: 400_000 },
+            5: { NEXT_COST: 1_000_000, CAPACITY: 850_000 },
+            6: { NEXT_COST: 999_999_999_999, CAPACITY: 0 }
         },
         MESSAGES: {
             BANK_FULL: "{emoji_UI_Cross} Your bank is full, try upgrading it!",
