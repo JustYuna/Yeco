@@ -6,6 +6,8 @@ module.exports = {
         DEBUG_MEMORY: false,
         DEVELOPER_MODE: true,
         DEVELOPER_SERVER: 1515740577533136937,
+        DEVELOPER_NORMAL_PREFIX: "!bot",
+        DEVELOPER_DEV_PREFIX: "!dev",
 
         GUILD_CACHE_TTL: 10 * 60 * 1000, // 10 min
         GUILD_SIZE_IGNORE: [

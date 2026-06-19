@@ -168,6 +168,7 @@ client.on('messageCreate', (message) => {
         restClient: restClient,
         clientID: clientId,
         developers: Developers,
+        devMode: devMode,
     })
 });
 

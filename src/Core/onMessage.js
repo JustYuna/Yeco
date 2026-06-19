@@ -18,6 +18,7 @@ const { EmbedBuilder } = require("discord.js");
 const WebhookHandler = require("../Commands/Actions/webhook");
 const { removeCooldowns } = require("../Utilities/Cooldown");
 const configManager = require("../Core/configManager");
+const prefix = configManager.raw.CORE.SETTINGS.DEVELOPER_MODE ? configManager.raw.CORE.SETTINGS.DEVELOPER_DEV_PREFIX : configManager.raw.CORE.SETTINGS.DEVELOPER_NORMAL_PREFIX;
 
 const commandsMap = {
     "add-data": async (message, args) => {
@@ -247,10 +248,10 @@ const commandsMap = {
             .setTitle('🛠 Admin Commands Help')
             .setDescription('Below are the admin commands you can use with `!bot`.')
             .addFields(
-                { name: "~ Data Management ~", value: "`!bot add-data <userID> <ValueName> <ValueAmount>`\n`!bot set-data <userID> <ValueName> <ValueAmount`>", inline: false },
-                { name: "~ Backup Management ~", value: "`!bot create-backup <name>`\n`!bot restore-backup <name>`", inline: false },
-                { name: "~ Bot Management ~", value: "`!bot refresh-commands`\n`!bot stats`\n`!bot config <path>`" },
-                { name: "~ Other ~", value: "`!bot send-webhook <webhookName> <message>`\n`!bot help`\n`!bot reset-cooldowns <userId / empty>`" },
+                { name: "~ Data Management ~", value: `**${prefix} add-data** <userID> <ValueName> <ValueAmount>\n**${prefix} set-data** <userID> <ValueName> <ValueAmount>`, inline: false },
+                { name: "~ Backup Management ~", value: `**${prefix} create-backup** <name>\n**${prefix} restore-backup** <name>`, inline: false },
+                { name: "~ Bot Management ~", value: `**${prefix} refresh-commands**\n**${prefix} stats**\n**${prefix} config <seperated path>**` },
+                { name: "~ Other ~", value: `**${prefix} send-webhook** <webhookName> <message>\n**${prefix} help**\n**${prefix} reset-cooldowns** <userId / empty>` },
             );
 
         await message.reply({ embeds: [embed] });
@@ -266,7 +267,7 @@ async function sendEmbed(message, title, description, color) {
 }
 
 async function onMessage(message, data) {
-    if (!message.content.startsWith('!bot') || message.author.bot) return;
+    if (!message.content.startsWith(prefix) || message.author.bot) return;
 
     const args = message.content.slice('!bot'.length).trim().split(/ +/);
     const commandName = args.shift()?.toLowerCase();
