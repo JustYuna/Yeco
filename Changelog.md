@@ -24,6 +24,8 @@ All notable changes to this project will be documented in this file.
 
 ### 🛠 Tech Yap
 - **change server lockout sizes**
+- **added support for seperated dev commands via configs**
+- **changed dev commands to only work on one selected dev server**
 ---
 ## [2026.06.1]
 
