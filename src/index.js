@@ -121,24 +121,19 @@ client.once('clientReady', async () => {
 
     const { ActivityType } = require('discord.js');
 
-    if (devMode) {
-        client.user.setPresence({
-            activities: [{
-                name: 'Maintenance Mode',
-                type: ActivityType.Playing,
-            }],
-            status: 'dnd', // online, offline, idle, dnd
-        });
+    const statusConfig = devMode ? config.CORE.SETTINGS.BOT_STATUS.DEV : config.CORE.SETTINGS.BOT_STATUS.BOT;
+    let statusName = statusConfig.NAME
 
-    } else {
-        client.user.setPresence({
-            activities: [{
-                name: '/help • Summer Mode ☀️ • V2026.06.1',
-                type: ActivityType.Playing,
-            }],
-            status: 'online',
-        });
-    }
+    if (statusConfig.SHOW_VERSION)
+        statusName = `${statusName} • ${version}`
+
+    client.user.setPresence({
+        activities: [{
+            name: statusName,
+            type: ActivityType[statusConfig.TYPE]
+        }],
+        status: statusConfig.STATUS
+    })
 
     setInterval(() => {
         const usage = process.memoryUsage();
