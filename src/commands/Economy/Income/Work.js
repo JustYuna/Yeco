@@ -105,7 +105,7 @@ async function Work(interaction, client, type) {
     xp += xpFinal;
 
     while (true) {
-        const req = config.PROGRESSION.LEVELS.XP_TABLE[level];
+        const req = Math.floor(config.PROGRESSION.LEVELS.XP_NEEDED_PER_LEVEL * (config.PROGRESSION.LEVELS.XP_MULTIPLIER_PER_LEVEL * levelData.LEVEL)) || config.PROGRESSION.LEVELS.XP_NEEDED_PER_LEVEL
         if (!req || xp < req) break;
 
         xp -= req;
