@@ -11,6 +11,7 @@ const {
 
 const CacheMaid = require("../Utilities/CacheMaid")
 const refreshCommands = require('./Setup/RefreshCommands');
+const getCommandPayload = require("./Setup/GetCommandPayload")
 const ConfigManager = require("../Core/configManager");
 const Config = ConfigManager.raw;
 const { EmbedBuilder } = require("discord.js");
@@ -83,12 +84,17 @@ const commandsMap = {
         process.exit(0);
     },
 
-    // Updated to destructure the context object
     "refresh-commands": async (message, args, { restClient, clientID }) => {
         await sendEmbed(message, 'Refreshing...', 'Reloading application (/) commands...', [100, 200, 250]);
-        // restClient.put will now work because we are passing the correct object
         await refreshCommands(restClient, clientID);
         await sendEmbed(message, 'Refreshed!', '✅ Successfully reloaded application (/) commands.', [100, 250, 100]);
+    },
+
+    "get-command-payload": async (message, args, { restClient, clientID }) => {
+        await sendEmbed(message, "~ Payload ~", "Getting payload...", [100, 200, 250]);
+
+        const payload = await getCommandPayload(restClient, clientID);
+        await sendEmbed(message, "~ Payload ~", "Payload recieved, check the terminal to find the full payload.", [100, 150, 250]);
     },
 
     "reset-cooldowns": async (message, args) => {
@@ -249,7 +255,7 @@ const commandsMap = {
             .addFields(
                 { name: "~ Data Management ~", value: `**${prefix} add-data** <userID> <ValueName> <ValueAmount>\n**${prefix} set-data** <userID> <ValueName> <ValueAmount>`, inline: false },
                 { name: "~ Backup Management ~", value: `**${prefix} create-backup** <name>\n**${prefix} restore-backup** <name>`, inline: false },
-                { name: "~ Bot Management ~", value: `**${prefix} refresh-commands**\n**${prefix} stats**\n**${prefix} config <seperated path>**` },
+                { name: "~ Bot Management ~", value: `**${prefix} refresh-commands**\n**${prefix} get-command-payload**\n**${prefix} stats**\n**${prefix} config <seperated path>**` },
                 { name: "~ Other ~", value: `**${prefix} send-webhook** <webhookName> <message>\n**${prefix} help**\n**${prefix} reset-cooldowns** <userId / empty>` },
             );
 
