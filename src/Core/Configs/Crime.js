@@ -3,7 +3,7 @@ module.exports = {
         UPDATE_AFTER: 1000 * 60 * 20, // 20 Mins
         RATE_MAX: 35,
         RATE_LOWEST: 10,
-        CATCH_CHANCE_BASE: 35, // If Rate: 10 then Catch Chance -10 // making is its easier on higher rates
+        CATCH_CHANCE_BASE: 35, // If Rate: 10 then Catch Chance +10 // making is its easier on higher rates
 
         MESSAGES: {
             VIEW: {

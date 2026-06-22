@@ -22,7 +22,7 @@ async function Laundry(interaction, client, { type, amount = 0 }) {
         const newRate = Math.round(Math.random() * (LaundryConfig.RATE_MAX - LaundryConfig.RATE_LOWEST + 1)) + LaundryConfig.RATE_LOWEST;
         Cache.map.set("rate", newRate);
         Cache.map.set("lastUpdate", Date.now());
-        Cache.map.set("catchRate", LaundryConfig.CATCH_CHANCE_BASE - newRate);
+        Cache.map.set("catchRate", LaundryConfig.CATCH_CHANCE_BASE + newRate);
     };
 
     const currentRate = Cache.map.get("rate") || 15;
