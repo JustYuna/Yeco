@@ -1,5 +1,6 @@
 const { GetAsync, AddToAsync, SetAsync } = require('../../../DataStorage/Datastore');
 const ConfigManager = require('../../../Core/configManager');
+const CommandHelper = require('../../../Utilities/CommandHelper');
 const config = ConfigManager.raw;
 
 const theme = config.CORE.THEMES[config.CORE.THEMES.ACTIVE];
@@ -20,14 +21,8 @@ async function Work(interaction, client, type) {
     // -----------------------------
     let levelData = await GetAsync(userID, "LEVEL") || { LEVEL: 1, EXPERIENCE: 0 };
 
-    if (levelData.LEVEL < workSettings.LEVEL_LOCK) {
-        return interaction.editReply({
-            content: ConfigManager.getMsg(
-                "CORE.MESSAGES.COMMAND_NOT_HIGH_ENOUGH_LEVEL",
-                { level: workSettings.LEVEL_LOCK }
-            )
-        });
-    }
+    const levelValidationError = CommandHelper.IS_LEVEL_LOCKED(interaction, { lockName: type, levelData: levelData })
+    if (levelValidationError) return;
 
     // -----------------------------
     // Rarity roll

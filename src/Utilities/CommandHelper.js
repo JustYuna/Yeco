@@ -82,5 +82,21 @@ module.exports = {
      */
     GET_RESET_DATA(defaultValues) {
         return { ...defaultValues };
-    }
+    },
+
+    IS_LEVEL_LOCKED(interaction, { lockName, levelData }) {
+        const levelLock = ConfigManager.raw.PROGRESSION.LEVEL_LOCKS[lockName] || ConfigManager.raw.PROGRESSION.LEVEL_LOCKS.FALLBACK;
+
+        if (levelData.LEVEL < levelLock) {
+            interaction.editReply({
+                content: ConfigManager.getMsg(
+                    "CORE.MESSAGES.COMMAND_NOT_HIGH_ENOUGH_LEVEL",
+                    { level: levelLock }
+                )
+            });
+            return true
+        }
+
+        return false
+    } 
 };

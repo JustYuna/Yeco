@@ -18,10 +18,10 @@ async function help(interaction, client) {
             "💰 **Economy & Progression**\n" +
             "```\n" +
             "/farm      • Level 0\n" +
-            "/gather    • Level 2\n" +
-            "/extract   • Level 5\n" +
-            "/craft     • Level 10\n" +
-            "/factory   • Level 12\n" +
+            "/gather    • Level 5\n" +
+            "/extract   • Level 10\n" +
+            "/craft     • Level 15\n" +
+            "/factory   • Level 20\n" +
             "```\n" +
             
             "━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━\n" +

@@ -6,6 +6,7 @@ const { GET_RESET_DATA, CHECK_MISSING_VALUES } = require("../../../Utilities/Com
 const AbbreviateNumber = require("../../../Utilities/Format/AbbreviateNumber");
 
 const { FACTORY } = require("../../../Core/Configs/Economy");
+const CommandHelper = require("../../../Utilities/CommandHelper");
 
 const FactoryConfig = ConfigManager.raw.ECONOMY.FACTORY;
 
@@ -17,14 +18,8 @@ async function Factory(interaction, client, { type }) {
     let factoryData = await GetAsync(userID, "FACTORY");
     const levelData = await GetAsync(userID, "LEVEL");
 
-    if (levelData.LEVEL < FactoryConfig.LEVEL_LOCK) {
-        return interaction.editReply({
-            content: ConfigManager.getMsg(
-                "CORE.MESSAGES.COMMAND_NOT_HIGH_ENOUGH_LEVEL",
-                { level: FactoryConfig.LEVEL_LOCK }
-            )
-        });
-    };
+    const levelValidationError = await CommandHelper.IS_LEVEL_LOCKED(interaction, { lockName: "FACTORY", levelData: levelData })
+    if (levelValidationError) return;
 
     const factoryValidation = await CHECK_MISSING_VALUES(factoryData, {
         requiredProps: ["LEVEL", "LAST_CLAIM"],

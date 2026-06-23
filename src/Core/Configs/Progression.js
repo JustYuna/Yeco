@@ -17,5 +17,21 @@ module.exports = {
         INCOME_MULTIPLIER_PER_LEVEL: 0.05,
         XP_NEEDED_PER_LEVEL: 10_000,
         XP_MULTIPLIER_PER_LEVEL: 0.25,
+    },
+    LEVEL_LOCKS: {
+            FARM: 0,
+
+            FISHING: 5,
+            HUNTING: 5,
+
+            MINING: 10,
+            CHOP: 10,
+
+            COOKING: 15,
+            SMITH: 15,
+
+            FACTORY: 20,
+
+            FALLBACK: 20,
     }
 }

@@ -12,6 +12,7 @@ All notable changes to this project will be documented in this file.
 - **/gift** - You cannot gift yourself anymore, you can now gift up to 100K and the reciever can now recieve up to 1M
 - **/coinflip** - Now supports number abbreviation for large numbers
 - **/heist** - Fully rewritten the heist system making rewards and fines dynamic + removing the Seek out + Difficulty
+- Work commands now have diffrent level locks, read more via **/help**
 
 ### 🏦 Fixes
 
