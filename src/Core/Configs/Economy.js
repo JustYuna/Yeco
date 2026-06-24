@@ -191,11 +191,7 @@ module.exports = {
             RECIEVED: {
                 color: [0, 250, 0],
                 title: "{emoji_RedGift} Daily Reward Claimed!",
-                fields: [
-                    { name: "You Recieved:", value: "{mainCurrency_emoji} **{reward} {mainCurrency_name}**", inline: true },
-                    { name: "Your Streak:", value: "{emoji_RedFire} **{streak}**", inline: true },
-                ],
-                footer: "Next ready at: {next_claim}"
+                description: "Reward: {mainCurrency_emoji} **{reward} {mainCurrency_name}**\nStreak: {emoji_RedFire} **{streak}** | Best: **{best}**\n\nNext ready at: {next_claim}",
             },
         }
     },

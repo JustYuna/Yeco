@@ -2,6 +2,7 @@ const { GetAsync, SetAsync, AddToAsync } = require('../../../DataStorage/Datasto
 const { EmbedBuilder } = require("discord.js");
 const ConfigManager = require("../../../Core/configManager");
 const { CHECK_MISSING_VALUES } = require("../../../Utilities/CommandHelper");
+const Pluralize = require("../../../Utilities/Format/Pluralize");
 
 const DAILY = ConfigManager.raw.ECONOMY.DAILY;
 const { REWARD, MESSAGES } = DAILY;
@@ -58,11 +59,14 @@ async function daily(interaction, client) {
     DailyData.STREAK = streak;
     DailyData.BEST = DailyData.BEST < streak ? streak : DailyData.BEST
 
+    const streakText = await Pluralize({ number: DailyData.STREAK, pluralized: "Days", notPluralized: "Day" });
+    const bestText = await Pluralize({ number: DailyData.BEST, pluralized: "Days", notPluralized: "Day" });
+
     const isWeekend = (dayName === 'Saturday' || dayName === 'Sunday');
     if (isWeekend) reward *= REWARD.WEEKEND_MULTIPLIER;
     reward = Math.floor(reward);
 
-    const embed = ConfigManager.getEmbed("ECONOMY.DAILY.MESSAGES.RECIEVED", { reward: reward, streak: streak, next_claim: `<t:${nextClaimTimestamp}:F>` });
+    const embed = ConfigManager.getEmbed("ECONOMY.DAILY.MESSAGES.RECIEVED", { reward: reward, streak: `${DailyData.STREAK} ${bestText}`, best: `${DailyData.BEST} ${bestText}`, next_claim: `<t:${nextClaimTimestamp}:F>` });
     await interaction.editReply({ embeds: [embed] });
 
     await SetAsync(userId, { DAILY: DailyData });
