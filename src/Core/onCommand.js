@@ -153,44 +153,6 @@ module.exports = {
         run: (i, c, m) => m.Vote(i, c),
     },
 
-    "me": {
-        data: {
-            name: "me",
-            description: "View important info",
-            options: [
-                {
-                    name: "type",
-                    description: "Type",
-                    type: 3,
-                    required: true,
-                    choices: [
-                        { name: "Delete Data", value: "delete_data" },
-                        { name: "Terms of Service", value: "tos" },
-                        { name: "Privacy Policy", value: "privacy_policy" },
-                    ]
-                }
-            ]
-        },
-
-        settings: {
-            cooldown: 5,
-            canShowCaptcha: false,
-            risk: 0,
-            tags: [ "DM_ENABLED" ]
-        },
-
-        run: (i, c, m) => {
-            const type = i.options.getString("type");
-
-            switch (type) {
-                case "delete_data": return m.DataDeletion(i, c);
-                case "tos": return i.editReply({ content: ConfigManager.raw.OTHER.TOS.TEXT });
-                case "privacy_policy": return i.editReply({ content: ConfigManager.raw.OTHER.PRIVACY_POLICY.TEXT });
-                default: return i.editReply({ content: ConfigManager.raw.CORE.MESSAGES.ACTION_UNAVAILABLE });
-            }
-        },
-    },
-
     // -- Economy -- \\
 
     "farm": {
