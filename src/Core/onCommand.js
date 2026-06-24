@@ -157,7 +157,7 @@ module.exports = {
 
     "farm": {
         data: {
-            name: 'farm', // Lvl. 0
+            name: 'farm',
             description: 'Old MacDonald Had a Farm',
         },
 
@@ -172,7 +172,7 @@ module.exports = {
     },
     "gather": {
         data: {
-            name: 'gather', // Lvl. 2
+            name: 'gather',
             description: 'Head to the woods or the water to fish and hunt for basic materials.',
         },
 
@@ -192,7 +192,7 @@ module.exports = {
     },
     "extract": {
         data: {
-            name: 'extract', // Lvl. 5
+            name: 'extract',
             description: 'Put your back into it! Mine ores and chop timber for heavy-duty resources.',
         },
 
@@ -212,7 +212,7 @@ module.exports = {
     },
     "craft": {
         data: {
-            name: 'craft', // Lvl. 10
+            name: 'craft',
             description: 'Master the heat of the forge or the stove to create high-value items.',
         },
 
@@ -318,10 +318,10 @@ module.exports = {
         }
     },
 
-    "gift": {
+    "pay": {
         data: {
-            name: 'gift',
-            description: 'Give your currency to another user',
+            name: 'pay',
+            description: 'Pay your currency to another user',
             options: [
                 { name: 'amount', type: 4, required: true, description: 'Amount' },
                 { name: 'user', type: 6, required: true, description: 'User' },
