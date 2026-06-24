@@ -14,6 +14,16 @@ module.exports = {
             GO_VOTE: "{emoji_UI_Warn} Vote before claiming your boost at: https://top.gg/bot/1494448936654475414",
         }
     },
+
+    FEEDBACK: {
+        TITLE: "💬 Feedback",
+        COLOR: [200, 100, 250],
+        MESSAGS: {
+            SHORT_MESSAGE: "Message to short, please preovide a more detailed message.",
+            SENT: "Thanks for your feedback!\nYour message has been sent 💌"
+        }
+    },
+
     TOS: {
         RAW: "https://github.com/JustYuna/Yeco/blob/main/ToS.md",
         TEXT: "Yeco's Terms of Service: https://github.com/JustYuna/Yeco/blob/main/ToS.md"

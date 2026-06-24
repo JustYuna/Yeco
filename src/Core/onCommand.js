@@ -93,21 +93,11 @@ module.exports = {
             return m.ToggleSetting(i, c, setting);
         },
     },
-    "report": {
+    "feedback": {
         data: {
-            name: 'report',
-            description: 'Send feedback or report an issue [Spamming will result in being blacklisted]',
+            name: "feedback",
+            description: "Send feedback or report an issue",
             options: [
-                {
-                    name: 'type',
-                    description: 'What do you want to send?',
-                    type: 3,
-                    required: true,
-                    choices: [
-                        { name: '🐛 Bug Report', value: 'report' },
-                        { name: '💬 Feedback', value: 'feedback' }
-                    ],
-                },
                 {
                     name: 'message',
                     description: 'Describe your issue or feedback',
@@ -128,31 +118,21 @@ module.exports = {
             const type = i.options.getString("type");
             const message = i.options.getString("message");
 
+            let msg = ConfigManager.raw.OTHER.FEEDBACK.MESSAGS.SHORT_MESSAGE
+
             // basic validation
             if (!message || message.length < 5) {
                 return i.editReply({
-                    content: "Please provide a more detailed message."
+                    content: msg
                 });
             }
 
             // send to webhook
-            m.webhook(i, message, type, {
-                title:
-                    type === "report"
-                        ? "🚨 Bug Report"
-                        : type === "abuse"
-                        ? "⚠️ Abuse Report"
-                        : "💬 Feedback",
-                color:
-                    type === "report"
-                        ? 0xff0000
-                        : type === "abuse"
-                        ? 0xffa500
-                        : 0x00b0f4
-            });
+            m.webhook(i, message, "feedback", { title: ConfigManager.raw.OTHER.FEEDBACK.TITLE, color: ConfigManager.raw.OTHER.FEEDBACK.COLOR })
 
+            msg = ConfigManager.raw.OTHER.FEEDBACK.MESSAGS.SENT
             return i.editReply({
-                content: "Thanks! Your message has been sent 💌"
+                content: msg
             });
         }
     },

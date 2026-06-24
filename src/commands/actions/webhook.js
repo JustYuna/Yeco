@@ -5,7 +5,6 @@ const Presets = require("../../../other/Yeco-Hangout/embed_presets");
 
 const webhookMap = {
     feedback: process.env.WEBHOOK_FEEDBACK,
-    report: process.env.WEBHOOK_REPORT,
     update: process.env.WEBHOOK_UPDATE,
     rules: process.env.WEBHOOK_RULES,
 };
@@ -17,10 +16,6 @@ const webhookSettings = {
     },
 
     feedback: {
-        type: "feedback",
-    },
-
-    report: {
         type: "feedback",
     },
 
