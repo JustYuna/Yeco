@@ -84,7 +84,7 @@ const client = new Client({
     })
 });
 
-// Handle bot Status + Activity
+// #region Bot Status
 client.once('clientReady', async () => {
     const colors = {
         reset: '\x1b[0m',
@@ -154,8 +154,12 @@ client.once('clientReady', async () => {
         };
     }, 10000);
 });
+// #endregion
 
-// -- Message handler
+
+
+
+// #region Message handler
 client.on('messageCreate', (message) => {
     onMessage(message, {
         client: client,
@@ -167,7 +171,12 @@ client.on('messageCreate', (message) => {
     })
 });
 
-// -- Command handler helper
+// #endregion
+
+
+
+
+// #region Command Handler
 const tiers = Object.values(GUILD_SIZE_SPEC)
     .sort((a, b) => a.COUNT - b.COUNT);
 
@@ -351,6 +360,7 @@ client.on('interactionCreate', async (interaction) => {
         }).catch(() => { });
     }
 });
+// #endregion
 
 client.login(token);
 module.exports = { client };
