@@ -57,7 +57,6 @@ async function daily(interaction, client) {
     DailyData.LAST = todayStr;
     DailyData.STREAK = streak;
     DailyData.BEST = DailyData.BEST < streak ? streak : DailyData.BEST
-    console.log(DailyData, DailyData.BEST)
 
     const isWeekend = (dayName === 'Saturday' || dayName === 'Sunday');
     if (isWeekend) reward *= REWARD.WEEKEND_MULTIPLIER;
