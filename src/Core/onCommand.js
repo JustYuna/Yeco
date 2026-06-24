@@ -9,7 +9,8 @@ module.exports = {
     // 7: Channel
     // 8: Role
 
-    // -- Base -- \\
+    // #region BASE
+
     "help": {
         data: {
             name: 'help',
@@ -153,7 +154,12 @@ module.exports = {
         run: (i, c, m) => m.Vote(i, c),
     },
 
-    // -- Economy -- \\
+    // #endregion
+
+
+
+
+    // #region ECONOMY
 
     "farm": {
         data: {
@@ -402,7 +408,13 @@ module.exports = {
         }
     },
 
-    // -- Criminal -- \\
+    //#endregion
+
+
+
+
+
+    // #region CRIMINAL
 
     "laundry": {
         data: {
@@ -494,7 +506,13 @@ module.exports = {
         }
     },
 
-    // -- Gambling -- \\
+    // #endregion
+   
+    
+    
+    
+    
+    // #region GAMBLING
 
     "coinflip": {
         data: {
@@ -590,7 +608,12 @@ module.exports = {
         }
     },
 
-    // -- Fun -- \\
+    // #endregion
+    
+
+
+
+    // #region FUN
 
     "bonk": {
         data: {
@@ -726,10 +749,11 @@ module.exports = {
         },
 
         run: async (i, c, m) => {
-            // Changed i.option to i.options
             const user = i.options.getUser("target");
             const user2 = i.options.getUser("target2");
             return m.ship(i, c, user, user2);
         }
     },
+
+    // #endregion
 };
