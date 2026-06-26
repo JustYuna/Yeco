@@ -219,5 +219,23 @@ module.exports = {
                 description: "{mainCurrency_emoji} **{mainCurrency_name}:** {main_currency} ({main_currency_total})\n{secondaryCurrency_emoji} **{secondaryCurrency_name}:** {second_currency} ({second_currency_total})\n{mainCurrency_emoji} **Bank:** {deposited}/{max_bank}",
             },
         }
+    },
+
+    PROFILE: {
+        MESSAGES: {
+            BAR_TITLE: "{experience}/{missing_xp}",
+            IS_BOT: "{emoji_UI_Warn} You cannot view the profile of a bot...",
+            PROFILE: {
+                color: [100, 150, 250],
+                title: "{username}s Profile",
+                description: `
+{mainCurrency_emoji} **Total {mainCurrency_name}:** {main_currency}
+{secondaryCurrency_emoji} **Total {secondaryCurrency_name}:** {second_currency}
+
+**Level:**
+{level}
+{level_bar}`,
+            },
+        }
     }
 }

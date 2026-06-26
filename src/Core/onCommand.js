@@ -408,6 +408,28 @@ module.exports = {
         }
     },
 
+    "profile": {
+        data: {
+            name: 'profile',
+            description: 'Check your or another user waprofilellet',
+            options: [
+                { name: 'user', type: 6, required: false, description: 'User' },
+            ]
+        },
+
+        settings: {
+            cooldown: 5,
+            canShowCaptcha: false,
+            risk: 0,
+            tags: [ "ONBOARDING" ]
+        },
+
+        run: (i, c, m) => {
+            const target = i.options.getUser('user');
+            return m.Profile(i, c, target);
+        }
+    },
+
     //#endregion
 
 
