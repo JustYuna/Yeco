@@ -231,6 +231,7 @@ module.exports = {
                 description: `
 {mainCurrency_emoji} **Total {mainCurrency_name}:** {main_currency}
 {secondaryCurrency_emoji} **Total {secondaryCurrency_name}:** {second_currency}
+{emoji_Gambled} **Gambled: {gambled}**
 
 **Level:**
 {level}

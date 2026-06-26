@@ -19,7 +19,7 @@ async function Profile(interaction, client, targetUser) {
 
     let mainBalance = await GetAsync(user.id, 'MAIN_CURRENCY') || 0;
     let secBalance = await GetAsync(user.id, 'SECOND_CURRENCY') || 0;
-    let deposited = await GetAsync(user.id, "DEPOSITED") || 0;
+    let gambled = await GetAsync(user.id, "GAMBLED") || 0;
     let totalMainEarned = await GetAsync(user.id, 'TOTAL_MAIN_CURRENCY') || 0;
     let totalSecondEarned = await GetAsync(user.id, 'TOTAL_SECOND_CURRENCY') || 0;
     let levelData = await GetAsync(user.id, "LEVEL") || { LEVEL: 1, EXPERIENCE: 0 };
@@ -27,7 +27,7 @@ async function Profile(interaction, client, targetUser) {
 
     mainBalance = await AbbreviateNumber(mainBalance);
     secBalance = await AbbreviateNumber(secBalance);
-    deposited = await AbbreviateNumber(deposited);
+    gambled = await AbbreviateNumber(gambled);
     totalMainEarned = await AbbreviateNumber(totalMainEarned);
     totalSecondEarned = await AbbreviateNumber(totalSecondEarned);
     const level = await AbbreviateNumber(levelData.LEVEL);
@@ -46,6 +46,7 @@ async function Profile(interaction, client, targetUser) {
         username: `${ user.username }`,
         main_currency: totalMainEarned,
         second_currency: totalSecondEarned,
+        gambled: gambled,
         level: level,
         level_bar: bar
     });
