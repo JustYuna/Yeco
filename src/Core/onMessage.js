@@ -132,7 +132,10 @@ const commandsMap = {
         // 📊 Bot stats from CacheMaid
         const TotalUsers = await GetTotalUserCount() || 0;
         const CommandsUsedTotal = await GetGlobalAsync("COMMANDS_USED") || 0;
-        const TotalInCirculation = await GetTotalInCirculation("MAIN_CURRENCY") || 0;
+
+        const Circulation_TotalEarned = await GetTotalInCirculation("TOTAL_MAIN_CURRENCY") || 0;
+        const Circulation_MainCurrency = await GetTotalInCirculation("MAIN_CURRENCY") || 0;
+        const Circulation_Gambled = await GetTotalInCirculation("GAMBLED") || 0;
 
         const botEntry = CacheMaid.get("bot");
         const botStats = botEntry?.map;
@@ -192,8 +195,9 @@ const commandsMap = {
                 { name: "👑 Total Commands", value: `${CommandsUsedTotal.toLocaleString()}`, inline: true },
                 { name: "⚡ Session Commands", value: `${CommandsUsedSinceUpdate}`, inline: true },
 
-                // Economy Stats (if applicable)
-                { name: "💰 In Circulation", value: `**${TotalInCirculation.toLocaleString()}**`, inline: true },
+                { name: "Total Earned", value: `**${Circulation_TotalEarned.toLocaleString()}**`, inline: true },
+                { name: "Total Money", value: `**${Circulation_MainCurrency.toLocaleString()}**`, inline: true },
+                { name: "Total Gambled", value: `**${Circulation_Gambled.toLocaleString()}**`, inline: true },
 
                 // Command Usage
                 { name: "📝 Top Commands (Session)", value: usageList || "None yet", inline: false }
