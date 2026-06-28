@@ -45,8 +45,6 @@ const defaultData = {
   VOTE_BOOST: 0,
 
   SETTING_HIDDEN_FROM_LEADERBOARD: false,
-
-  ONBOARDING_COMPLETED: false,
 };
 
 const defaultGlobalData = {

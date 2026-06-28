@@ -320,15 +320,6 @@ client.on('interactionCreate', async (interaction) => {
             }
         }
 
-        if (tags.includes("ONBOARDING")) {
-            const onboardingCompleted = await GetAsync(userId, "ONBOARDING_COMPLETED") || false;
-
-            if (!onboardingCompleted) {
-                editCooldown(interaction, commandName, 10);
-                return onboarding(interaction, client);
-            }
-        }
-
         const timeoutPromise = new Promise((_, reject) =>
             setTimeout(() => reject(new Error("Command timeout")), 10000)
         );
