@@ -1,5 +1,5 @@
 # Terms of Service - Yeco
-> Last Updated: June 14 2026
+> Last Updated: June 2814 2026
 > Support Server: [https://discord.gg/sPQFM9Rj33](https://discord.gg/sPQFM9Rj33)
 > License: GPL v3
 
@@ -53,3 +53,12 @@ Access to Yeco may be restricted or revoked at any time for users or servers tha
 
 ## 6. Changes
 These Terms of Service may be updated at any time without prior notice. Continued use of the bot constitutes acceptance of the updated terms.
+
+---
+
+## 7. Agreement
+By adding this bot to your guild or using this bot in any way, you are consenting to the policies outlined in this document.
+In addition, you (the guild manager) are agreeing to inform your members of the Terms of Services and Privacy Policy.
+If you (the guild manager) do not agree to this document, you may remove the bot from the guild.
+IF you (the guild member) dot not agree to this document, you may leave the guild/s that contains the bot.
+IF you (the service user) do not agree to this document you may revoke authorization of the application in your "Authorized Apps" menu.

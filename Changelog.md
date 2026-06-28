@@ -14,6 +14,8 @@ All notable changes to this project will be documented in this file.
 - **/heist** - Fully rewritten the heist system making rewards and fines dynamic + removing the Seek out + Difficulty
 - Work commands now have diffrent level locks, read more via **/help**
 
+- **Terms of Service / Privacy Policy** - Both have been updated and now include a "Agreement" section
+
 ### 🏦 Fixes
 
 ### 🚮 Removed
