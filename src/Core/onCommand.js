@@ -19,8 +19,6 @@ module.exports = {
 
         settings: {
             cooldown: 5,
-            canShowCaptcha: false,
-            risk: 0,
             tags: [ "DM_ENABLED" ]
         },
 
@@ -35,13 +33,25 @@ module.exports = {
 
         settings: {
             cooldown: 5,
-            canShowCaptcha: false,
-            risk: 0,
             guildSizeLockout: [ "LARGE", "HUGE", "OVERSZED" ],
             tags: [ "DM_ENABLED" ]
         },
 
         run: (i, c, m) => m.Info(i, c),
+    },
+
+    "delete-me": {
+        data: {
+            name: 'delete-me',
+            description: 'Delete your data permanenently',
+        },
+
+        settings: {
+            cooldown: 5,
+            tags: [ "DM_ENABLED" ]
+        },
+
+        run: (i, c, m) => m.DataDeletion(i, c),
     },
 
     "settings": {
@@ -63,8 +73,6 @@ module.exports = {
 
         settings: {
             cooldown: 5,
-            canShowCaptcha: false,
-            risk: 0,
             tags: ["DM_ENABLED"]
         },
 
@@ -96,8 +104,6 @@ module.exports = {
 
         settings: {
             cooldown: 300,
-            canShowCaptcha: true,
-            risk: 15,
             tags: ["DM_ENABLED"]
         },
 
@@ -132,8 +138,6 @@ module.exports = {
 
         settings: {
             cooldown: 300,
-            canShowCaptcha: false,
-            risk: 0,
             tags: [ "DM_ENABLED" ]
         },
 
@@ -155,8 +159,6 @@ module.exports = {
 
         settings: {
             cooldown: 30,
-            canShowCaptcha: true,
-            risk: 10
         },
 
         run: (i, c, m) => m.Work(i, c, "FARM"),
@@ -169,8 +171,6 @@ module.exports = {
 
         settings: {
             cooldown: 30,
-            canShowCaptcha: true,
-            risk: 10
         },
 
         run: (i, c, m) => {
@@ -188,8 +188,6 @@ module.exports = {
 
         settings: {
             cooldown: 30,
-            canShowCaptcha: true,
-            risk: 10
         },
 
         run: (i, c, m) => {
@@ -207,8 +205,6 @@ module.exports = {
 
         settings: {
             cooldown: 30,
-            canShowCaptcha: true,
-            risk: 10,
         },
 
         run: (i, c, m) => {
@@ -241,8 +237,6 @@ module.exports = {
 
         settings: {
             cooldown: 5,
-            canShowCaptcha: false,
-            risk: 0,
             tags: [ "DM_ENABLED" ]
         },
 
@@ -262,8 +256,6 @@ module.exports = {
 
         settings: {
             cooldown: 300,
-            canShowCaptcha: true,
-            risk: 10,
             tags: [ "DM_ENABLED" ]
         },
 
@@ -294,8 +286,6 @@ module.exports = {
 
         settings: {
             cooldown: 30,
-            canShowCaptcha: true,
-            risk: 10,
             guildSizeLockout: [ "LARGE", "HUGE", "OVERSZED" ]
         },
 
@@ -318,8 +308,6 @@ module.exports = {
 
         settings: {
             cooldown: 3600,
-            canShowCaptcha: true,
-            risk: 25,
             guildSizeLockout: [ "LARGE", "HUGE", "OVERSZED" ]
         },
 
@@ -354,9 +342,7 @@ module.exports = {
         },
 
         settings: {
-            cooldown: 10,
-            canShowCaptcha: false,
-            risk: 0,
+            cooldown: 10
         },
 
         run: (i, c, m) => {
@@ -376,9 +362,7 @@ module.exports = {
         },
 
         settings: {
-            cooldown: 5,
-            canShowCaptcha: false,
-            risk: 0,
+            cooldown: 5
         },
 
         run: (i, c, m) => {
@@ -397,9 +381,7 @@ module.exports = {
         },
 
         settings: {
-            cooldown: 5,
-            canShowCaptcha: false,
-            risk: 0,
+            cooldown: 5
         },
 
         run: (i, c, m) => {
@@ -436,9 +418,7 @@ module.exports = {
         },
 
         settings: {
-            cooldown: 30,
-            canShowCaptcha: true,
-            risk: 25
+            cooldown: 30
         },
 
         run: async (i, c, m) => {
@@ -458,9 +438,7 @@ module.exports = {
         },
 
         settings: {
-            cooldown: 1500,
-            canShowCaptcha: true,
-            risk: 25
+            cooldown: 1500
         },
 
         run: async (i, c, m) => {
@@ -492,8 +470,6 @@ module.exports = {
 
         settings: {
             cooldown: 1500,
-            canShowCaptcha: true,
-            risk: 25,
             guildSizeLockout: [ "MEDIUM", "LARGE", "HUGE", "OVERSZED" ]
         },
 
@@ -531,9 +507,7 @@ module.exports = {
         },
 
         settings: {
-            cooldown: 90,
-            canShowCaptcha: true,
-            risk: 10
+            cooldown: 90
         },
 
         run: (i, c, m) => {
@@ -555,8 +529,6 @@ module.exports = {
 
         settings: {
             cooldown: 90,
-            canShowCaptcha: true,
-            risk: 10,
             guildSizeLockout: [ "MEDIUM", "LARGE", "HUGE", "OVERSZED" ]
         },
 
@@ -589,8 +561,6 @@ module.exports = {
 
         settings: {
             cooldown: 30,
-            canShowCaptcha: true,
-            risk: 15,
             guildSizeLockout: ["MEDIUM", "LARGE", "HUGE", "OVERSZED" ]
         },
 
