@@ -85,7 +85,10 @@ module.exports = {
     },
 
     IS_LEVEL_LOCKED(interaction, { lockName, levelData }) {
-        const levelLock = ConfigManager.raw.PROGRESSION.LEVEL_LOCKS[lockName] || ConfigManager.raw.PROGRESSION.LEVEL_LOCKS.FALLBACK;
+        let levelLock = ConfigManager.raw.PROGRESSION.LEVEL_LOCKS[lockName];
+
+        if (isNaN(levelLock))
+            levelLock = ConfigManager.raw.PROGRESSION.LEVEL_LOCKS.FALLBACK;
 
         if (levelData.LEVEL < levelLock) {
             interaction.editReply({
