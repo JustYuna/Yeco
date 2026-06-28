@@ -6,6 +6,7 @@ All notable changes to this project will be documented in this file.
 ## [0000.00]
 
 ### ⚒️ Added
+- **/delete-me** - has been added after the removal of **/me**
 
 ### 🔄 Changes
 - **/wallet** - Now displays less information looking cleaner
@@ -19,6 +20,7 @@ All notable changes to this project will be documented in this file.
 ### 🏦 Fixes
 
 ### 🚮 Removed
+- **/onboarding**
 - **/randomvideo**
 - **/cooldowns**
 - **/build-tower**
