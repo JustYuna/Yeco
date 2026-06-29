@@ -74,12 +74,12 @@ async function Work(interaction, client, type) {
         boostMultiplier = 2;
     }
 
-    console.log(boostMultiplier, (1 + config.PROGRESSION.LEVELS.INCOME_MULTIPLIER_PER_LEVEL * levelData.LEVEL))
+    const levelMultiplier = (1 + config.PROGRESSION.LEVELS.INCOME_MULTIPLIER_PER_LEVEL * levelData.LEVEL) || 1;
     const currencyFinal = Math.round(finalAmount *
         rarityData.WORTH *
         workSettings.MULTIPLIER.CURRENCY *
         boostMultiplier *
-        (1 + config.PROGRESSION.LEVELS.INCOME_MULTIPLIER_PER_LEVEL * levelData.LEVEL)
+        levelMultiplier
     );
 
     const xpFinal = Math.round(
