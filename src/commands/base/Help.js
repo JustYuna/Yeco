@@ -30,7 +30,7 @@ async function help(interaction, client) {
             
             "━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━\n" +
             "🏦 **Banking & Wealth**\n" +
-            "`📩 /daily` • `/wallet` • `/bank` • `/gift`\n" +
+            "`📩 /daily` • `/wallet` • `/bank` • `/pay`\n" +
             "`/profile`\n\n" +
             
             "━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━\n" +
