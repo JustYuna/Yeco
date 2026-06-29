@@ -11,7 +11,6 @@ const webhookMap = {
 
 const webhookSettings = {
     update: {
-        ping: process.env.ROLEID_UPDATE,
         type: "raw",
     },
 

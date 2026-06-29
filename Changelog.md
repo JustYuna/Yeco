@@ -17,8 +17,6 @@ All notable changes to this project will be documented in this file.
 
 - **Terms of Service / Privacy Policy** - Both have been updated and now include a "Agreement" section
 
-### 🏦 Fixes
-
 ### 🚮 Removed
 - **/onboarding**
 - **/randomvideo**
@@ -31,7 +29,9 @@ All notable changes to this project will be documented in this file.
 - **change server lockout sizes**
 - **added support for seperated dev commands via configs**
 - **changed dev commands to only work on one selected dev server**
+
 ---
+
 ## [2026.06.1]
 
 ### ⚒️ Added
@@ -47,7 +47,9 @@ All notable changes to this project will be documented in this file.
 ### 🛠 Tech Yap
 - **weebhook handler** - Templates for Yecos public server embeds have moved to its own seperate folder
 - **cooldowns** - Cooldowns now automatically clear themself from the cache when finished to keep memory clean
+
 ---
+
 ## [2026.06]
 > Gambling Factory
 
@@ -68,7 +70,9 @@ All notable changes to this project will be documented in this file.
 - **Number Abbreviation** - Added number abbreviation to way more commmands
 - **Admin Commands** - I fixed up all admin commands for this update :3
 - **Version Scheme** - Ive decided to change the version scheme from GrandUpdate . FeatureDrop . Hotfix to Year . Month . Patch
+
 ---
+
 ## [2.5.1]
 > Forced Hotfix
 > 22.05.2026
@@ -76,7 +80,9 @@ All notable changes to this project will be documented in this file.
 ### :bank: Fixes
 - **/coinflip** - validation being off
 - **admin commands** - still wip
+
 ---
+
 ## [2.5]
 > Temporary Update Title
 > Released: 16.05.2026
@@ -100,7 +106,9 @@ All notable changes to this project will be documented in this file.
 ### 🛠 Tech Yap
 - **/work system rewrite** - Merged commands, Removed /passive [due to it not being user friendly]
 - **Emojis** - Expanded custom emoji usage to replace default Discord styling  
+
 ---
+
 ## [2.4] - Work Commands Overhaul  
 > Idle System Introduction + Major Economy Rework  
 > Released: 24.04.2026
@@ -126,6 +134,7 @@ All notable changes to this project will be documented in this file.
 - **Crossmix Themes** – DEFAULT resources are mixed into active theme drops.
 
 ---
+
 ## [2.3] - Theme Change + New Tech  
 > Quality of Life Update + Summer Theme ☀️  
 > Released: 22.04.2026
@@ -148,6 +157,8 @@ All notable changes to this project will be documented in this file.
 - **Memory optimizations** - Reduced runtime memory usage and improved cache handling for smoother performance on low-end hosting
 - **Server size lockouts** - Large servers are now restricted to reduce load on low-end hosting (Pi-class hardware limits). Can be disabled in self-hosted setups or lifted via contributions
 
+---
+
 ## [2.2] - QOL
 
 ### ⚒️ Added
@@ -159,6 +170,8 @@ All notable changes to this project will be documented in this file.
 ### 🛠 Tech Yap
 - **/work*** - Added more responses, Added tags [WORTHLESS, e.g.] to add special events, new added work commands now also have a higher cooldown, higher output and a level requirement
 - **Number abbreviation** - Fixed numbers like 100K being abbreviated to 0.1M
+
+---
 
 ## [2.1] - The Theme Engine Update
 
@@ -174,6 +187,7 @@ All notable changes to this project will be documented in this file.
 - **SyncUserData** – ensures missing fields are auto-added to the datastore to prevent lost values.
 - **Social cleanup** - Social commands  [`/poke`, `/hug`, `/patpat`, `/bonk`] now use a single `socialAction` function, reducing clutter in the code
 
+---
 
 ## [2.0] - The Theme Engine Update
 > **Note:** This update includes a full economy reset to support the new global theme system.
@@ -190,6 +204,8 @@ All notable changes to this project will be documented in this file.
 - **Performance:** Interaction handling is now significantly faster.
 - **Smarter Captcha:** Integrated a new "Heat System" to detect automated botting more accurately while reducing friction for real users.
 
+---
+
 ## [1.6]
 ### Reworked
 - Improved performance across multiple commands.
@@ -199,6 +215,8 @@ All notable changes to this project will be documented in this file.
 ### 🎰 Improvements
 - Global command deferring added for faster interaction handling.
 - Better timeout protection and reduced API errors (10062).
+
+---
 
 ## [1.5]
 ### ✨ New Features
@@ -215,6 +233,8 @@ All notable changes to this project will be documented in this file.
 - Corrected **/sugar-hunt** rewards (150 instead of 30).
 - Fixed false "broken" messages in sugar-hunt.
 - General security patches.
+
+---
 
 ## [1.4]
 ### ✨ New Features
