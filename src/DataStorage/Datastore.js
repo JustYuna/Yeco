@@ -210,7 +210,7 @@ async function initDB() {
 
 // ------------------ Create / Get / Set ------------------
 async function createUser(userId) {
-  await runAsync(`INSERT OR IGNORE INTO users (id, onboarding_completed, setting_hidden_from_leaderboard) VALUES (?, 0, 0)`, [userId]);
+  await runAsync(`INSERT OR IGNORE INTO users (id, setting_hidden_from_leaderboard) VALUES (?, 0, 0)`, [userId]);
 }
 
 async function GetAsync(userId, key) {
