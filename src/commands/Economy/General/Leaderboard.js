@@ -15,6 +15,9 @@ const hiddenCache = new Map();
 
 // --- cache helper for hidden setting ---
 async function isHidden(userId) {
+    if (!userId) {
+        return true
+    }
     const cached = hiddenCache.get(userId);
 
     if (cached && Date.now() - cached.time < 300000) {
@@ -69,7 +72,7 @@ async function leaderboard(interaction, client, type) {
     }
 
     // --- build leaderboard ---
-    const lines = await Promise.all(
+    let lines = await Promise.all(
         currentPull.top.map(async (user, index) => {
             const hidden = await isHidden(user.id);
 
@@ -90,19 +93,19 @@ async function leaderboard(interaction, client, type) {
 
             if (hidden) username = "🙈 Hidden";
 
-            return `**#${index + 1}**: ${username} - **${AbbreviateNumber(user.value ?? 0)}**`;
+            const abbreviated = await AbbreviateNumber(user.value ?? 0);
+            return `**#${index + 1}**: ${username} - **${abbreviated}**`;
         })
     );
 
-    const embed = new EmbedBuilder()
-        .setColor(CurrentTheme.COLORS.MAIN)
-        .setTitle(`${convertedName} Leaderboard`)
-        .setDescription(lines.join("\n"))
-        .setFooter({
-            text: `• Last refresh: ${Math.floor((now - currentPull.date) / 1000)}s ago`,
-            iconURL: client.user.displayAvatarURL()
-        })
-        .setTimestamp();
+    if (!lines.length >= 1)
+        return interaction.editReply(ConfigManager.getMsg("ECONOMY.LEADERBOARD.MESSAGES.NO_USERS"));
+
+    const embed = ConfigManager.getEmbed("ECONOMY.LEADERBOARD.MESSAGES.LEADERBOARD", {
+        name: convertedName,
+        lines: lines.join("\n"),
+        seconds: Math.floor((now - currentPull.date) / 1000)
+    });
 
     return interaction.editReply({ embeds: [embed] });
 }

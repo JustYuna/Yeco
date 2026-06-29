@@ -238,5 +238,17 @@ module.exports = {
 {level_bar}`,
             },
         }
+    },
+
+    LEADERBOARD: {
+        MESSAGES: {
+            NO_USERS: "No one is one the leaderboard, be the first now.",
+            LEADERBOARD: {
+                color: [100, 150, 250],
+                title: "Leaderboard: {name}",
+                description: "{lines}",
+                footer: "• Last refresh: {seconds}s ago"
+            }
+        }
     }
 }
