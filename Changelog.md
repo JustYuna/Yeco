@@ -3,7 +3,7 @@
 All notable changes to this project will be documented in this file.
 
 ---
-## [0000.00]
+## [2026.06.2]
 
 ### ⚒️ Added
 - **/delete-me** - has been added after the removal of **/me**
