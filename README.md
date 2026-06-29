@@ -32,10 +32,10 @@
 | Command | Level Required |
 |---------|----------------|
 | `/farm` | 0 |
-| `/gather` | 2 |
-| `/extract` | 5 |
-| `/craft` | 10 |
-| `/factory` | 12 |
+| `/gather` | 5 |
+| `/extract` | 10 |
+| `/craft` | 15 |
+| `/factory` | 20 |
 
 > Jobs unlock as you play, the more you earn, the more you can earn.
 
@@ -50,8 +50,7 @@
 ### ⚙️ Core Utilities
 - `/help` — Browse all commands
 - `/settings` — Configure your experience 
-- `/me` — Manage your data (delete, ToS, privacy)
-- `/report` — Report issues or users
+- `/feedback` — Report issues or users
 
 ---
 
