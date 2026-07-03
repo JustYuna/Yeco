@@ -21,16 +21,16 @@ module.exports = {
     LEVEL_LOCKS: {
             FARM: 0,
 
-            FISHING: 5,
-            HUNTING: 5,
+            FISHING: 2,
+            HUNTING: 2,
 
-            MINING: 10,
-            CHOP: 10,
+            MINING: 5,
+            CHOP: 5,
 
-            COOKING: 15,
-            SMITH: 15,
+            COOKING: 10,
+            SMITH: 10,
 
-            FACTORY: 20,
+            FACTORY: 15,
 
             FALLBACK: 20,
     }
