@@ -135,6 +135,7 @@ const commandsMap = {
 
         const Circulation_TotalEarned = await GetTotalInCirculation("TOTAL_MAIN_CURRENCY") || 0;
         const Circulation_MainCurrency = await GetTotalInCirculation("MAIN_CURRENCY") || 0;
+        const Circulation_Deposited = await GetTotalInCirculation("DEPOSITED") || 0;
         const Circulation_Gambled = await GetTotalInCirculation("GAMBLED") || 0;
 
         const botEntry = CacheMaid.get("bot");
@@ -197,6 +198,7 @@ const commandsMap = {
 
                 { name: "Total Earned", value: `**${Circulation_TotalEarned.toLocaleString()}**`, inline: true },
                 { name: "Total Money", value: `**${Circulation_MainCurrency.toLocaleString()}**`, inline: true },
+                { name: "Total Deposited", value: `**${Circulation_Deposited.toLocaleString()}**`, inline: true },
                 { name: "Total Gambled", value: `**${Circulation_Gambled.toLocaleString()}**`, inline: true },
 
                 // Command Usage
