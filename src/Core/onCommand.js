@@ -320,24 +320,12 @@ module.exports = {
 
     // -- Inventory -- \\
 
-    "bank": {
+    "deposite": {
         data: {
-            name: 'bank',
-            description: 'Interact with the bank',
+            name: 'deposite',
+            description: 'Deposite money into your bank',
             options: [
-                {
-                    name: 'action',
-                    description: 'Chose what you want todo',
-                    type: 3,
-                    required: true,
-                    choices: [
-                        { name: 'Deposit', value: 'deposit' },
-                        { name: 'Withdraw', value: 'withdraw' },
-                        { name: 'Upgrade', value: 'upgrade' },
-                        { name: 'View Level', value: 'view' },
-                    ],
-                },
-                { name: 'amount', type: 4, required: false, description: 'Gamble amount' },
+                { name: 'amount', type: 4, required: false, description: 'Amount' },
             ]
         },
 
@@ -347,8 +335,42 @@ module.exports = {
 
         run: (i, c, m) => {
             const amount = i.options.getInteger('amount');
-            const action = i.options.getString('action');
-            return m.Bank(i, c, { action: action, amount: amount });
+            return m.Bank(i, c, { action: "deposit", amount: amount });
+        }
+    },
+
+    "withdraw": {
+        data: {
+            name: 'withdraw',
+            description: 'Withdraw money into your bank',
+            options: [
+                { name: 'amount', type: 4, required: false, description: 'Amount' },
+            ]
+        },
+
+        settings: {
+            cooldown: 10
+        },
+
+        run: (i, c, m) => {
+            const amount = i.options.getInteger('amount');
+            return m.Bank(i, c, { action: "withdraw", amount: amount });
+        }
+    },
+
+    "upgrade-bank": {
+        data: {
+            name: 'upgrade-bank',
+            description: 'Upgrade your bank to store more money',
+            options: []
+        },
+
+        settings: {
+            cooldown: 10
+        },
+
+        run: (i, c, m) => {
+            return m.Bank(i, c, { action: "upgrade" });
         }
     },
 
