@@ -286,29 +286,6 @@ client.on('interactionCreate', async (interaction) => {
     }
 
     // ========================
-    // CAPTCHA
-    // ========================
-    if (settings.canShowCaptcha) {
-        const riskScore = settings.risk / 100 || 0;
-        const userRate = GetRate(user.id);
-        const shouldShow = (Math.random() < riskScore) || (userRate >= COMMANDS_PER_MINUTE);
-
-        if (shouldShow) {
-            try {
-                const passed = await confirmInteraction(interaction, client);
-                if (!passed) {
-                    // Penalize bots with a longer cooldown
-                    editCooldown(interaction, commandName, 30);
-                    return; // confirmInteraction usually handles the 'failed' message
-                }
-            } catch (err) {
-                console.error(`Captcha Error:`, err);
-                return interaction.editReply({ content: configManager.getMsg("CORE.MESSAGES.CAPTCHA_FAIL") });
-            }
-        }
-    }
-
-    // ========================
     // Command
     // ========================
     try {
