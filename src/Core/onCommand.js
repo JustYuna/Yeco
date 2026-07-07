@@ -25,21 +25,6 @@ module.exports = {
         run: (i, c, m) => m.Help(i, c),
     },
 
-    "info": {
-        data: {
-            name: 'info',
-            description: 'View core info about the bot',
-        },
-
-        settings: {
-            cooldown: 5,
-            guildSizeLockout: [ "LARGE", "HUGE", "OVERSZED" ],
-            tags: [ "DM_ENABLED" ]
-        },
-
-        run: (i, c, m) => m.Info(i, c),
-    },
-
     "delete-me": {
         data: {
             name: 'delete-me',
@@ -88,6 +73,7 @@ module.exports = {
             return m.ToggleSetting(i, c, setting);
         },
     },
+
     "feedback": {
         data: {
             name: "feedback",
@@ -318,7 +304,7 @@ module.exports = {
         }
     },
 
-    // -- Inventory -- \\
+    // -- Bank -- \\
 
     "deposite": {
         data: {
