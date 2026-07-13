@@ -45,7 +45,6 @@ const commandModules = loadModules('./src/Commands');
 
 const onMessage = require('./Core/onMessage');
 const onCommand = require('./Core/onCommand');
-const onboarding = require("./Commands/Base/Onboarding");
 
 let token;
 let botId;
