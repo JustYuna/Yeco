@@ -392,7 +392,7 @@ module.exports = {
                     }
                 },
                 WALLET: {
-                    TITLE: "🏖️ {username}'s Beach Bag",
+                    TITLE: "Beach Bag 🏖️",
                     THUMBNAIL: "{emoji_Shell}",
                     FIELDS: {
                         CURRENCY: "💰 Beach Funds",
@@ -659,7 +659,7 @@ module.exports = {
                     }
                 },
                 WALLET: {
-                    TITLE: "🎒 {username}'s Candy Basket",
+                    TITLE: "Candy Basket 🎒",
                     THUMBNAIL: "{emoji_PurpleToT}",
                     FIELDS: {
                         CURRENCY: "💰 Currencies",
@@ -930,7 +930,7 @@ module.exports = {
                 },
 
                 WALLET: {
-                    TITLE: "❄️ {username}'s Winter Stash",
+                    TITLE: "Winter Stash ❄️",
                     THUMBNAIL: "{emoji_Snowflake}",
                     FIELDS: {
                         CURRENCY: "🧊 Frozen Assets",
@@ -1210,7 +1210,7 @@ module.exports = {
                 },
 
                 WALLET: {
-                    TITLE: "👛 {username}'s Wallet",
+                    TITLE: " Wallet 👛",
                     THUMBNAIL: "{emoji_Coin}",
                     FIELDS: {
                         CURRENCY: "💵 Balance",

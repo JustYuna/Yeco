@@ -39,7 +39,7 @@ async function Wallet(interaction, client, targetUser) {
     const bankCapacity = await AbbreviateNumber(upgradeBank.CAPACITY);
 
     const embed = configManager.getEmbed("ECONOMY.WALLET.MESSAGES.WALLET", {
-        title: `${walletConfig.TITLE} ${ user.username }`,
+        title: `${ user.globalName }'s ${walletConfig.TITLE}`,
         main_currency: mainBalance,
         main_currency_total: totalMainEarned,
         second_currency: secBalance,
