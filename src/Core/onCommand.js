@@ -116,20 +116,6 @@ module.exports = {
         }
     },
 
-    "vote": {
-        data: {
-            name: 'vote',
-            description: 'Vote and contribute to the goal!',
-        },
-
-        settings: {
-            cooldown: 300,
-            tags: [ "DM_ENABLED" ]
-        },
-
-        run: (i, c, m) => m.Vote(i, c),
-    },
-
     // #endregion
 
 
